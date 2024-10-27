@@ -13,7 +13,18 @@ const translations = {
       label: 'English',
       collaborations: 'Collaborations',
       aboutUs: 'About Us',
-      aboutUsText: `<p>The Section Evidence-Based Medicine in Psychiatry & Psychotherapy was established at the Medical Faculty of the <b>Technical University of Munich</b> in 2019.</p><p>Under the leadership of <a href="/team/prof-stefan-leucht/">Prof. Stefan Leucht</a>, our international team is engaged in various projects in the field of evidence-based medicine in psychiatry and psychotherapy. These projects include randomized trials, registry studies, creation of smartphone apps for shared decision making, systematic reviews and meta-analyses of all kinds, up to the creation of treatment guidelines.</p><p>Thanks to our collaborative network with the best experts and institutions in the world (see <a href="/collaborations/">Collaborations</a>), we manage to produce evidence-based information according to the latest standards. In addition, we strive to improve and develop the methods of evidence-based medicine further.</p>`
+      aboutUsText: `<p>The Section Evidence-Based Medicine in Psychiatry & Psychotherapy was established at the Medical Faculty of the <b>Technical University of Munich</b> in 2019.</p><p>Under the leadership of <a href="/team/prof-stefan-leucht/">Prof. Stefan Leucht</a>, our international team is engaged in various projects in the field of evidence-based medicine in psychiatry and psychotherapy. These projects include randomized trials, registry studies, creation of smartphone apps for shared decision making, systematic reviews and meta-analyses of all kinds, up to the creation of treatment guidelines.</p><p>Thanks to our collaborative network with the best experts and institutions in the world (see <a href="/collaborations/">Collaborations</a>), we manage to produce evidence-based information according to the latest standards. In addition, we strive to improve and develop the methods of evidence-based medicine further.</p>`,
+      publicationsTitle: 'Publications',
+      recentPublications: `Recent Publications <sup><a href="https://orcid.org/0000-0002-4934-4352" target="_blank"><i class="fa-brands blue fa-orcid"></i></a></sup>`,
+      publicationInformation: `<h3>Information</h3>
+      <p>The EBMPP section has a very strong track record of publishing high-impact research articles in all major scientific journals of the field (e.g., <i>Lancet</i>, <i>JAMA Psychiatry</i>, <i>Schizophrenia Bulletin</i>).</p>
+      <p>Our section director Stefan Leucht repeatedly ranks among the <a href="https://archive.fo/Qrbgo" target="_blank">most highly cited researchers</a> in the world.</p>
+      <ul>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=leucht+s&sort=date" target="_blank">PubMed&#8599;</a></li>
+          <li><a href="https://scholar.google.de/scholar?hl=de&as_sdt=0%2C5&q=Stefan+Leucht&btnG" target="_blank">Google Scholar&#8599;</a></li>
+          <li><a href="https://www.webofscience.com/wos/author/rid/Y-2408-2019" target="_blank">Web of Science&#8599;</a></li>
+          <li><a href="https://www.researchgate.net/search.Search.html?type=publication&query=Stefan%20Leucht" target="_blank">ResearchGate&#8599;</a></li>
+      </ul>`
     },
     de: {
       greeting: "Herzlich Willkommen!",
@@ -21,7 +32,18 @@ const translations = {
       label: 'Deutsch',
       collaborations: 'Kooperationen',
       aboutUs: 'Über Uns',
-      aboutUsText: `<p>Die Sektion Evidence-Based Medicine in Psychiatry & Psychotherapy wurde 2019 an der Medizinischen Fakultät der <b>Technischen Universität München</b> eingerichtet.</p><p>Unter der Leitung von <a href="/team/prof-stefan-leucht/">Prof. Stefan Leucht</a> ist unser internationales Team in verschiedenen Projekten auf dem Gebiet der evidenzbasierten Medizin in Psychiatrie und Psychotherapie tätig. Diese Projekte umfassen randomisierte Studien, Registerstudien, die Entwicklung von Smartphone-Apps für gemeinsame Entscheidungsfindung, systematische Übersichtsarbeiten und Meta-Analysen aller Art bis hin zur Erstellung von Behandlungsleitlinien.</p><p>Dank unseres kollaborativen Netzwerks mit den besten Experten und Institutionen weltweit (siehe <a href="/collaborations/">Kooperationen</a>) gelingt es uns, evidenzbasierte Informationen nach den neuesten Standards zu erstellen. Darüber hinaus bemühen wir uns, die Methoden der evidenzbasierten Medizin weiter zu verbessern und weiterzuentwickeln.</p>`
+      aboutUsText: `<p>Die Sektion Evidence-Based Medicine in Psychiatry & Psychotherapy wurde 2019 an der Medizinischen Fakultät der <b>Technischen Universität München</b> eingerichtet.</p><p>Unter der Leitung von <a href="/team/prof-stefan-leucht/">Prof. Stefan Leucht</a> ist unser internationales Team in verschiedenen Projekten auf dem Gebiet der evidenzbasierten Medizin in Psychiatrie und Psychotherapie tätig. Diese Projekte umfassen randomisierte Studien, Registerstudien, die Entwicklung von Smartphone-Apps für gemeinsame Entscheidungsfindung, systematische Übersichtsarbeiten und Meta-Analysen aller Art bis hin zur Erstellung von Behandlungsleitlinien.</p><p>Dank unseres kollaborativen Netzwerks mit den besten Experten und Institutionen weltweit (siehe <a href="/collaborations/">Kooperationen</a>) gelingt es uns, evidenzbasierte Informationen nach den neuesten Standards zu erstellen. Darüber hinaus bemühen wir uns, die Methoden der evidenzbasierten Medizin weiter zu verbessern und weiterzuentwickeln.</p>`,
+      publicationsTitle: 'Publikationen',
+      recentPublications: `Kürzlich Publiziert <sup><a href="https://orcid.org/0000-0002-4934-4352" target="_blank"><i class="fa-brands blue fa-orcid"></i></a></sup>`,
+      publicationInformation: `<h3>Information</h3>
+      <p>Die EBMPP-Abteilung hat eine sehr starke Erfolgsbilanz bei der Veröffentlichung von Forschungsergebnissen in allen bedeutenden wissenschaftlichen Zeitschriften des Fachgebiets (z. B. <i>Lancet</i>, <i>JAMA Psychiatry</i>, <i>Schizophrenia Bulletin</i>).</p>
+      <p>Unser Abteilungsleiter Stefan Leucht gehört wiederholt zu den <a href="https://archive.fo/Qrbgo" target="_blank">weltweit meistzitierten Forschern</a>.</p>
+      <ul>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=leucht+s&sort=date" target="_blank">PubMed&#8599;</a></li>
+          <li><a href="https://scholar.google.de/scholar?hl=de&as_sdt=0%2C5&q=Stefan+Leucht&btnG" target="_blank">Google Scholar&#8599;</a></li>
+          <li><a href="https://www.webofscience.com/wos/author/rid/Y-2408-2019" target="_blank">Web of Science&#8599;</a></li>
+          <li><a href="https://www.researchgate.net/search.Search.html?type=publication&query=Stefan%20Leucht" target="_blank">ResearchGate&#8599;</a></li>
+      </ul>`
     }
   };
   

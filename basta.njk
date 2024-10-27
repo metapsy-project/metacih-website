@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>About Us</title>
+        <title>BASTA</title>
         <!-- Favicon-->
         <link rel="icon" type="image/png" href="/assets/favicon/favicon-48x48.png" sizes="48x48" />
         <link rel="icon" type="image/svg+xml" href="/assets/favicon/favicon.svg" />
@@ -43,11 +43,7 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mb-lg-0" style="margin-top: 10px;">
-                            <li class="nav-item"><a class="nav-link" href="/"><i class="fa-solid fa-home"></i></a></li>
-<li class="nav-item"><a class="nav-link" href="/about-us/">About Us</a></li>
-<li class="nav-item"><a class="nav-link" href="/team/">Team</a></li>
-<li class="nav-item"><a class="nav-link" href="/projects/">Projects</a></li>
-<li class="nav-item"><a class="nav-link" href="/collaborations/">Collaborations</a></li>
+                            {% include "navbar.njk" %}
                             <li class="nav-item">
                                 <button id="languageSwitcher" class="btn" onclick="switchLanguageBtn()" title="Switch Language">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#ffda44" d="m0 345 256.7-25.5L512 345v167H0z"/><path fill="#d80027" d="m0 167 255-23 257 23v178H0z"/><path fill="#333" d="M0 0h512v167H0z"/></g></svg>
@@ -65,11 +61,8 @@
                         <!-- Text column-->
                           <div class="col-lg-10">
                             <div class="text-center text-xl-start">
-                                <div class="hide-mobile" style="position: absolute; top: 18px; right: 32px; z-index: 10;">
-                                    <a class="btn btn-primary" href="/team/prof-stefan-leucht/"><i class="fa-solid fa-arrows-turn-right"></i> Prof. Dr. Stefan Leucht</a>
-                                </div>
-                                <h1 id="about-us" class="display-5 fw-bolder mb-2 blue signika">About Us</h1><hr>
-                                <!--<p class="lead fw-normal mb-0" style="max-width: 1000px;"></p>-->
+                                <h1 id="basta" class="display-5 fw-bolder mb-2 blue signika">BASTA</h1><hr>
+                                <p id="basta-subtitle" class="lead fw-normal mb-0" style="max-width: 1000px;">The Alliance for People with Mental Illnesses</p>
                             </div>
                           </div>
                         </div>
@@ -79,21 +72,13 @@
             <!-- Map -->
             <section class="bg-light" id="tips" style="padding-top: 0rem; padding-bottom: 6rem;">
                 <div class="container">
-                    <div class="row justify-content-center gx-5">
-                        <div class="col-lg-4">
-                            <a href="/assets/team-about.webp" target="_blank">
-                                <img class="rounded" src="/assets/team-about.webp" title="Click to Enlarge" width="100%">
-                            </a>
-                        </div>
-                        <div class="col-lg-7 nunjucks-text" id="about-us-text">
+                    <div class="row justify-content-center">
+                        <div id="basta-text" class="col-sm-8 nunjucks-text">
                             <p>
-                                The Section Evidence-Based Medicine in Psychiatry and Psychotherapy was established at the Medical Faculty of the <b>Technical University of Munich</b> in 2019.
+                                EBMPP is well-connected with multiple German psychiatric departments and it is part of the <a href="https://www.dzpg.org/en/">German Center for Mental Health</a>, in which <a href="/team/prof-stefan-leucht">Prof. Leucht</a> serves as a principal investigator and network co-leader. There are also links to the German Cochrane Center and the German Network for Evidence-Based Medicine.
                             </p>
                             <p>
-                                Under the leadership of <a href="/team/prof-stefan-leucht/">Prof. Stefan Leucht</a>, our international team is engaged in various projects in the field of evidence-based medicine in psychiatry and psychotherapy. These projects include randomized trials, registry studies, creation of smartphone apps for shared decision making, systematic reviews and meta-analyses of all kinds, up to the creation of treatment guidelines.
-                            </p>
-                            <p>
-                                Thanks to our collaborative network with the best experts and institutions in the world (see <a href="/collaborations/">Collaborations</a>), we manage to produce evidence-based information according to the latest standards. In addition, we strive to improve and develop the methods of evidence-based medicine further.
+                                The map below shows our <b>most important international collaborations</b>. We emphasize that without the collaboration of the teams around Prof. Georgia Salanti, Bern, Prof. Andrea Cipriani, Oxford, and Prof. Toshi Furukawa, Kyoto, many projects would not be possible.
                             </p>
                         </div>
                     </div>
@@ -130,8 +115,7 @@
             function switchLanguage(lang) {
                 
                 // Update text content
-                document.getElementById('about-us').textContent = translations[lang].aboutUs;
-                document.getElementById('about-us-text').innerHTML = translations[lang].aboutUsText;
+                document.getElementById('collaborations').textContent = translations[lang].collaborations;
             
                 // Update flag
                 iconSwitcher(lang);
