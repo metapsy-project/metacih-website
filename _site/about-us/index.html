@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>About Us</title>
+        <title id="head-title">About Us</title>
         <!-- Favicon-->
         <link rel="icon" type="image/png" href="/assets/favicon/favicon-48x48.png" sizes="48x48" />
         <link rel="icon" type="image/svg+xml" href="/assets/favicon/favicon.svg" />
@@ -43,11 +43,11 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mb-lg-0" style="margin-top: 10px;">
-                            <li class="nav-item"><a class="nav-link" href="/"><i class="fa-solid fa-home"></i></a></li>
-<li class="nav-item"><a class="nav-link" href="/about-us/">About Us</a></li>
-<li class="nav-item"><a class="nav-link" href="/team/">Team</a></li>
-<li class="nav-item"><a class="nav-link" href="/projects/">Projects</a></li>
-<li class="nav-item"><a class="nav-link" href="/collaborations/">Collaborations</a></li>
+                            <li id="navbar-home"           class="nav-item"><a class="nav-link" href="/"><i class="fa-solid fa-home"></i></a></li>
+<li id="navbar-about-us"       class="nav-item"><a class="nav-link" href="/about-us/">About Us</a></li>
+<li id="navbar-team"           class="nav-item"><a class="nav-link" href="/team/">Team</a></li>
+<li id="navbar-projects"       class="nav-item"><a class="nav-link" href="/projects/">Projects</a></li>
+<li id="navbar-collaborations" class="nav-item"><a class="nav-link" href="/collaborations/">Collaborations</a></li>
                             <li class="nav-item">
                                 <button id="languageSwitcher" class="btn" onclick="switchLanguageBtn()" title="Switch Language">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#ffda44" d="m0 345 256.7-25.5L512 345v167H0z"/><path fill="#d80027" d="m0 167 255-23 257 23v178H0z"/><path fill="#333" d="M0 0h512v167H0z"/></g></svg>
@@ -110,7 +110,7 @@
                     </script>
                 </div>
                     <div class="col-auto">
-                        <a class="link-light small" href="/imprint.html">Imprint</a>
+                        <a class="link-light small" href="/imprint/">Imprint</a>
                         <span class="text-white mx-1">&middot;</span>
                         <a href="https://www.tum.de"><img src="/assets/tum_white.png" height="20px" alt=""></a>
                         <span class="text-white mx-1">&middot;</span>
@@ -131,6 +131,7 @@
                 
                 // Update text content
                 document.getElementById('about-us').textContent = translations[lang].aboutUs;
+                document.getElementById('head-title').textContent = translations[lang].aboutUs;
                 document.getElementById('about-us-text').innerHTML = translations[lang].aboutUsText;
             
                 // Update flag

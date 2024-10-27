@@ -60,6 +60,9 @@
                         <div class="row col-xl bg-blue-fade rounded mx-3 my-1" style="padding: 2rem; position: relative;">
                         <!-- Text column-->
                           <div class="col-lg-10">
+                            <div class="hide-mobile" style="position: absolute; bottom: 0px; right: 5px;">
+                                <img src="/assets/basta/basta-logo.gif" width="200px">
+                            </div>
                             <div class="text-center text-xl-start">
                                 <h1 id="basta" class="display-5 fw-bolder mb-2 blue signika">BASTA</h1><hr>
                                 <p id="basta-subtitle" class="lead fw-normal mb-0" style="max-width: 1000px;">The Alliance for People with Mental Illnesses</p>
@@ -74,12 +77,11 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div id="basta-text" class="col-sm-8 nunjucks-text">
-                            <p>
-                                EBMPP is well-connected with multiple German psychiatric departments and it is part of the <a href="https://www.dzpg.org/en/">German Center for Mental Health</a>, in which <a href="/team/prof-stefan-leucht">Prof. Leucht</a> serves as a principal investigator and network co-leader. There are also links to the German Cochrane Center and the German Network for Evidence-Based Medicine.
-                            </p>
-                            <p>
-                                The map below shows our <b>most important international collaborations</b>. We emphasize that without the collaboration of the teams around Prof. Georgia Salanti, Bern, Prof. Andrea Cipriani, Oxford, and Prof. Toshi Furukawa, Kyoto, many projects would not be possible.
-                            </p>
+                            <p>BASTA is an <b>anti-stigma campaign</b> with the aim of working against discrimination and stigmatisation of people with mental illness.</p>
+                            <p>BASTA has been organising <b>nationwide awareness-raising seminars</b> for pupils and police officers, cultural events and through press work since 2001.</p>
+                            <p>BASTA is trialogically staffed, i.e. affected persons, relatives and psychiatry professionals work together.</p>
+                            <p>The office is located in Munich at the Department of Psychiatry and Psychotherapy of the Technical University of Munich.</p>
+                            <p>Further information can be found on the (German) <a href="https://www.bastagegenstigma.de/" target="_blank">BASTA Website&#8599;</a>.</p>
                         </div>
                     </div>
                 </div>
@@ -95,7 +97,7 @@
                     </script>
                 </div>
                     <div class="col-auto">
-                        <a class="link-light small" href="/imprint.html">Imprint</a>
+                        <a class="link-light small" href="/imprint/">Imprint</a>
                         <span class="text-white mx-1">&middot;</span>
                         <a href="https://www.tum.de"><img src="/assets/tum_white.png" height="20px" alt=""></a>
                         <span class="text-white mx-1">&middot;</span>
@@ -115,7 +117,8 @@
             function switchLanguage(lang) {
                 
                 // Update text content
-                document.getElementById('collaborations').textContent = translations[lang].collaborations;
+                document.getElementById('basta-subtitle').textContent = translations[lang].bastaSubtitle;
+                document.getElementById('basta-text').innerHTML = translations[lang].bastaText;
             
                 // Update flag
                 iconSwitcher(lang);

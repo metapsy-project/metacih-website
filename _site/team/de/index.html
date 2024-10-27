@@ -37,11 +37,11 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mb-lg-0" style="margin-top: 10px;">
-                            <li class="nav-item"><a class="nav-link" href="/"><i class="fa-solid fa-home"></i></a></li>
-<li class="nav-item"><a class="nav-link" href="/about-us/">Über Uns</a></li>
-<li class="nav-item"><a class="nav-link" href="/team/de/">Team</a></li>
-<li class="nav-item"><a class="nav-link" href="/projects/de/">Projekte</a></li>
-<li class="nav-item"><a class="nav-link" href="/collaborations/">Kollaborationen</a></li>
+                            <li id="navbar-home"           class="nav-item"><a class="nav-link" href="/"><i class="fa-solid fa-home"></i></a></li>
+<li id="navbar-about-us"       class="nav-item"><a class="nav-link" href="/about-us/">Über Uns</a></li>
+<li id="navbar-team"           class="nav-item"><a class="nav-link" href="/team/de/">Team</a></li>
+<li id="navbar-projects"       class="nav-item"><a class="nav-link" href="/projects/de/">Projekte</a></li>
+<li id="navbar-collaborations" class="nav-item"><a class="nav-link" href="/collaborations/">Kollaborationen</a></li>
                             <li class="nav-item">
                                 <button id="languageSwitcher" class="btn" onclick="switchLanguageBtn()" title="Switch Language">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#ffda44" d="m0 345 256.7-25.5L512 345v167H0z"/><path fill="#d80027" d="m0 167 255-23 257 23v178H0z"/><path fill="#333" d="M0 0h512v167H0z"/></g></svg>
@@ -73,7 +73,7 @@
                             <div class="row  row-cols-1 row-cols-md-5">
                                 
 
-<div class="col mb-5 h-100">
+<div class="col mb-4 h-100">
     <div class="bg-blue-fade rounded" style="padding: 1rem; min-height: 338px;">
         <div class="mb-3">
             <a href="/team/de/prof-stefan-leucht/"><img src="/assets/members/stefan-leucht.jpg" alt="Prof. Dr. med. Dr. h.c. Stefan Leucht" style="width: 100%; box-shadow: gray 3px 3px 1px;" class="rounded"></a>
@@ -84,7 +84,7 @@
     </div>
 </div>
 
-<div class="col mb-5 h-100">
+<div class="col mb-4 h-100">
     <div class="bg-blue-fade rounded" style="padding: 1rem; min-height: 338px;">
         <div class="mb-3">
             <a href="/team/de/alessandro-rodolico/"><img src="/assets/members/alessandro-rodolico.jpg" alt="Dr. med. Alessandro Rodolico" style="width: 100%; box-shadow: gray 3px 3px 1px;" class="rounded"></a>
@@ -92,6 +92,72 @@
         <a class="lead mb-0 signika fw-semibold" style="line-height: 1.15;" href=/team/de/alessandro-rodolico/>Dr. med. Alessandro Rodolico</a>
         <p class="mb-0" style="font-size: 12px;">Wissenschaftlicher Mitarbeiter</p>
         <p class="mb-0" style="font-size: 12px;"><a href="mailto:alessandro.rodolico@tum.de">alessandro.rodolico@tum.de</a></p>
+    </div>
+</div>
+
+<div class="col mb-4 h-100">
+    <div class="bg-blue-fade rounded" style="padding: 1rem; min-height: 338px;">
+        <div class="mb-3">
+            <a href="/team/de/johannes-schneider-thoma/"><img src="/assets/members/johannes-schneider.webp" alt="Dr. med. Johannes Schneider-Thoma" style="width: 100%; box-shadow: gray 3px 3px 1px;" class="rounded"></a>
+        </div>
+        <a class="lead mb-0 signika fw-semibold" style="line-height: 1.15;" href=/team/de/johannes-schneider-thoma/>Dr. med. Johannes Schneider-Thoma</a>
+        <p class="mb-0" style="font-size: 12px;">Wissenschaftlicher Mitarbeiter</p>
+        <p class="mb-0" style="font-size: 12px;"><a href="mailto:joh.schneider@tum.de">joh.schneider@tum.de</a></p>
+    </div>
+</div>
+
+<div class="col mb-4 h-100">
+    <div class="bg-blue-fade rounded" style="padding: 1rem; min-height: 338px;">
+        <div class="mb-3">
+            <a href="/team/de/irene-bighelli/"><img src="/assets/members/irene-bighelli.jpg" alt="Priv.-Doz. Dr. Irene Bighelli" style="width: 100%; box-shadow: gray 3px 3px 1px;" class="rounded"></a>
+        </div>
+        <a class="lead mb-0 signika fw-semibold" style="line-height: 1.15;" href=/team/de/irene-bighelli/>Priv.-Doz. Dr. Irene Bighelli</a>
+        <p class="mb-0" style="font-size: 12px;">Wissenschaftliche Mitarbeiterin</p>
+        <p class="mb-0" style="font-size: 12px;"><a href="mailto:irene.bighelli@tum.de">irene.bighelli@tum.de</a></p>
+    </div>
+</div>
+
+<div class="col mb-4 h-100">
+    <div class="bg-blue-fade rounded" style="padding: 1rem; min-height: 338px;">
+        <div class="mb-3">
+            <a href="/team/de/spyridon-siafis/"><img src="/assets/members/spyridon-siafis.jpg" alt="Dr. med. Spyridon Siafis" style="width: 100%; box-shadow: gray 3px 3px 1px;" class="rounded"></a>
+        </div>
+        <a class="lead mb-0 signika fw-semibold" style="line-height: 1.15;" href=/team/de/spyridon-siafis/>Dr. med. Spyridon Siafis</a>
+        <p class="mb-0" style="font-size: 12px;">Wissenschaftlicher Mitarbeiter</p>
+        <p class="mb-0" style="font-size: 12px;"><a href="mailto:spyridon.siafis@tum.de">spyridon.siafis@tum.de</a></p>
+    </div>
+</div>
+
+<div class="col mb-4 h-100">
+    <div class="bg-blue-fade rounded" style="padding: 1rem; min-height: 338px;">
+        <div class="mb-3">
+            <a href="/team/de/nobuyuki-nomura/"><img src="/assets/members/nobuyuki-nomura.jpg" alt="Dr. med. Nobuyuki Nomura" style="width: 100%; box-shadow: gray 3px 3px 1px;" class="rounded"></a>
+        </div>
+        <a class="lead mb-0 signika fw-semibold" style="line-height: 1.15;" href=/team/de/nobuyuki-nomura/>Dr. med. Nobuyuki Nomura</a>
+        <p class="mb-0" style="font-size: 12px;">Wissenschaftlicher Mitarbeiter</p>
+        <p class="mb-0" style="font-size: 12px;"><a href="mailto:nobuyuki.nomura@tum.de">nobuyuki.nomura@tum.de</a></p>
+    </div>
+</div>
+
+<div class="col mb-4 h-100">
+    <div class="bg-blue-fade rounded" style="padding: 1rem; min-height: 338px;">
+        <div class="mb-3">
+            <a href="/team/de/lena-feber/"><img src="/assets/members/lena-feber.webp" alt="Dr. rer. biol. hum. Lena Feber" style="width: 100%; box-shadow: gray 3px 3px 1px;" class="rounded"></a>
+        </div>
+        <a class="lead mb-0 signika fw-semibold" style="line-height: 1.15;" href=/team/de/lena-feber/>Dr. rer. biol. hum. Lena Feber</a>
+        <p class="mb-0" style="font-size: 12px;">Wissenschaftliche Mitarbeiterin</p>
+        <p class="mb-0" style="font-size: 12px;"><a href="mailto:lena.feber@tum.de">lena.feber@tum.de</a></p>
+    </div>
+</div>
+
+<div class="col mb-4 h-100">
+    <div class="bg-blue-fade rounded" style="padding: 1rem; min-height: 338px;">
+        <div class="mb-3">
+            <a href="/team/de/carolin-lorenz/"><img src="/assets/members/carolin-lorenz.png" alt="Dr. med. Carolin Lorenz" style="width: 100%; box-shadow: gray 3px 3px 1px;" class="rounded"></a>
+        </div>
+        <a class="lead mb-0 signika fw-semibold" style="line-height: 1.15;" href=/team/de/carolin-lorenz/>Dr. med. Carolin Lorenz</a>
+        <p class="mb-0" style="font-size: 12px;">Wissenschaftliche Mitarbeiterin</p>
+        <p class="mb-0" style="font-size: 12px;"><a href="mailto:carolin.lorenz@tum.de">carolin.lorenz@tum.de</a></p>
     </div>
 </div>
 
@@ -111,7 +177,7 @@
                     </script>
                 </div>
                     <div class="col-auto">
-                        <a class="link-light small" href="/imprint.html">Imprint</a>
+                        <a class="link-light small" href="/imprint/">Imprint</a>
                         <span class="text-white mx-1">&middot;</span>
                         <a href="https://www.tum.de"><img src="/assets/tum_white.png" height="20px" alt=""></a>
                         <span class="text-white mx-1">&middot;</span>

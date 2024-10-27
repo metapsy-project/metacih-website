@@ -54,15 +54,15 @@
                         <div class="col-lg-7 bg-team rounded mx-3 my-1 fade-in-super-short" style="padding: 2rem; position: relative;">
                             <div class="text-center text-xl-start" style="min-height: 300px;">
                                 <h1 class="display-5 fw-bolder mb-2 blue signika" id="greeting">Welcome!</h1>
-                                <p class="lead fw-normal mb-4">This is the homepage of the Section for Evidence-Based Medicine<br> in Psychiatry and Psychotherapy (EBMPP).
+                                <p id="index-subtitle" class="lead fw-normal mb-4">This is the homepage of the Section for Evidence-Based Medicine<br> in Psychiatry and Psychotherapy (EBMPP).
                                 </p>
                             </div>
-                            <a class="btn btn-primary btn-lg px-4" style="float: right;" href="/about-us/">About Us</a>
+                            <a class="btn btn-primary btn-lg px-4" style="float: right;" href="/about-us/" id="about-us-btn">About Us</a>
                         </div>
                         <!-- Second column-->
                         <div class="col-lg-4 bg-blue-fade rounded mx-3 my-1 fade-in-short" style="padding: 2rem; position: relative">
                             <div class="text-center text-xl-start" style="min-height: 300px;">
-                                <h2 class="fw-bolder mb-2 signika blue">Director</h2>
+                                <h2 id="director" class="fw-bolder mb-2 signika blue">Director</h2>
                                 <div style="position: absolute; top: 32px; right: 32px; font-size: 0.8rem;">
                                     <p class="mb-0"><i class="fa-solid fa-phone"></i> 089 4140-4249</p>
                                     <p><i class="fa-solid fa-envelope"></i> <a href="mailto:stefan.leucht@tum.de">stefan.leucht[at]tum.de</a></p>
@@ -71,7 +71,7 @@
                                     <img src="assets/leucht.webp" style="width: 100%; border: 1px solid lightgrey;" class="rounded" alt="Image of Prof. Dr. Stefan Leucht">
                                 </div>
                                 </div>
-                            <a style="position: absolute; bottom: 32px; right: 32px" class="btn btn-primary btn-lg px-4" href="/team/prof-stefan-leucht/">Prof. Dr. med. Stefan Leucht</a>
+                            <a id="director-btn" style="position: absolute; bottom: 32px; right: 32px" class="btn btn-primary btn-lg px-4" href="/team/prof-stefan-leucht/">Prof. Stefan Leucht, MD, PhD</a>
                         </div>
                 </div>
             </header>
@@ -107,8 +107,12 @@
                                     </p>
                                 </div>
                                 <div class="col mb-5 h-100">
-                                    <div class="feature bg-blue-fade bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-circle-notch blue"></i></div>
-                                    <h2 class="h5">Cochrane Schizophrenia</h2>
+                                    <a href="/cochrane-schizophrenia-group/">
+                                        <div class="feature bg-blue-fade bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-circle-notch blue"></i></div>
+                                    </a>
+                                    <a href="/cochrane-schizophrenia-group/">
+                                        <h2 class="h5">Cochrane Schizophrenia</h2>
+                                    </a>
                                     <p class="mb-0">Sowie weiterer Unterstützungsangebote im Bereich der Evidenzsynthese und Meta-Analyse</p>
                                 </div>
                                 <div class="col mb-5 h-100">
@@ -117,8 +121,10 @@
                                     <p class="mb-0">Zu einschlägigen und aktuellen Themen innerhalb der meta-analytischen Psychotherapieforschung.</p>
                                 </div>
                                 <div class="col mb-5 h-100">
-                                    <div class="feature bg-green-fade bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-briefcase green"></i></div>
-                                    <a href="">
+                                    <a href="/work-with-us/">
+                                        <div class="feature bg-green-fade bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-briefcase green"></i></div>
+                                    </a>
+                                    <a href="/work-with-us/">
                                         <h2 class="h5">Work With Us</h2>
                                     </a>
                                     <p class="mb-0">Zu einschlägigen und aktuellen Themen innerhalb der meta-analytischen Psychotherapieforschung.</p>
@@ -139,7 +145,7 @@
                     </script>
                 </div>
                     <div class="col-auto">
-                        <a class="link-light small" href="../imprint.html">Impressum</a>
+                        <a class="link-light small" href="/imprint/">Imprint</a>
                         <span class="text-white mx-1">&middot;</span>
                         <a href="https://www.tum.de"><img src="assets/tum_white.png" height="20px" alt=""></a>
                         <span class="text-white mx-1">&middot;</span>
@@ -159,6 +165,10 @@
                 
                 // Update text content
                 document.getElementById('greeting').textContent = translations[lang].greeting;
+                document.getElementById('director').innerHTML = translations[lang].director;
+                document.getElementById('index-subtitle').innerHTML = translations[lang].indexSubtitle;
+                document.getElementById('about-us-btn').innerHTML = translations[lang].aboutUsBtn;
+                document.getElementById('director-btn').innerHTML = translations[lang].directorBtn;
             
                 // Update flag
                 iconSwitcher(lang);

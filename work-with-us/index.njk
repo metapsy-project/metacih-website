@@ -1,0 +1,16 @@
+---
+layout: "layout-work-with-us-overview.njk"
+title: "Work With Us"
+permalink: "/work-with-us/"
+---
+
+{% for element in collections.workWithUs %}
+<div class="col-lg-4 mb-5 h-100">
+    <div class="bg-blue-fade rounded" style="padding: 1rem; min-height: 238px;">
+        <div class="mb-3 image-container-projects">
+            <a href="{{element.url}}"><img src="{{element.data.photo}}" alt="{{element.data.element}}" style="width: 100%;" class="rounded"></a>
+        </div>
+        <a class="lead mb-0 signika fw-semibold no-underline" style="line-height: 1.15;" href={{element.url}}>{{element.data.title}}</a>
+    </div>
+</div>
+{% endfor %}

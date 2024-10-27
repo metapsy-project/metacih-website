@@ -36,11 +36,11 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mb-lg-0" style="margin-top: 10px;">
-                            <li class="nav-item"><a class="nav-link" href="/"><i class="fa-solid fa-home"></i></a></li>
-<li class="nav-item"><a class="nav-link" href="/about-us/">About Us</a></li>
-<li class="nav-item"><a class="nav-link" href="/team/">Team</a></li>
-<li class="nav-item"><a class="nav-link" href="/projects/">Projects</a></li>
-<li class="nav-item"><a class="nav-link" href="/collaborations/">Collaborations</a></li>
+                            <li id="navbar-home"           class="nav-item"><a class="nav-link" href="/"><i class="fa-solid fa-home"></i></a></li>
+<li id="navbar-about-us"       class="nav-item"><a class="nav-link" href="/about-us/">About Us</a></li>
+<li id="navbar-team"           class="nav-item"><a class="nav-link" href="/team/">Team</a></li>
+<li id="navbar-projects"       class="nav-item"><a class="nav-link" href="/projects/">Projects</a></li>
+<li id="navbar-collaborations" class="nav-item"><a class="nav-link" href="/collaborations/">Collaborations</a></li>
                             <li class="nav-item">
                                 <button id="languageSwitcher" class="btn" onclick="switchLanguageBtn()" title="Switch Language">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#eee" d="m0 0 8 22-8 23v23l32 54-32 54v32l32 48-32 48v32l32 54-32 54v68l22-8 23 8h23l54-32 54 32h32l48-32 48 32h32l54-32 54 32h68l-8-22 8-23v-23l-32-54 32-54v-32l-32-48 32-48v-32l-32-54 32-54V0l-22 8-23-8h-23l-54 32-54-32h-32l-48 32-48-32h-32l-54 32L68 0H0z"/><path fill="#0052b4" d="M336 0v108L444 0Zm176 68L404 176h108zM0 176h108L0 68ZM68 0l108 108V0Zm108 512V404L68 512ZM0 444l108-108H0Zm512-108H404l108 108Zm-68 176L336 404v108z"/><path fill="#d80027" d="M0 0v45l131 131h45L0 0zm208 0v208H0v96h208v208h96V304h208v-96H304V0h-96zm259 0L336 131v45L512 0h-45zM176 336 0 512h45l131-131v-45zm160 0 176 176v-45L381 336h-45z"/></g></svg>
@@ -58,15 +58,15 @@
                         <div class="col-lg-7 bg-team rounded mx-3 my-1 fade-in-super-short" style="padding: 2rem; position: relative;">
                             <div class="text-center text-xl-start" style="min-height: 300px;">
                                 <h1 class="display-5 fw-bolder mb-2 blue signika" id="greeting">Welcome!</h1>
-                                <p class="lead fw-normal mb-4">This is the homepage of the Section for Evidence-Based Medicine<br> in Psychiatry and Psychotherapy (EBMPP).
+                                <p id="index-subtitle" class="lead fw-normal mb-4">This is the homepage of the Section for Evidence-Based Medicine<br> in Psychiatry and Psychotherapy (EBMPP).
                                 </p>
                             </div>
-                            <a class="btn btn-primary btn-lg px-4" style="float: right;" href="/about-us/">About Us</a>
+                            <a class="btn btn-primary btn-lg px-4" style="float: right;" href="/about-us/" id="about-us-btn">About Us</a>
                         </div>
                         <!-- Second column-->
                         <div class="col-lg-4 bg-blue-fade rounded mx-3 my-1 fade-in-short" style="padding: 2rem; position: relative">
                             <div class="text-center text-xl-start" style="min-height: 300px;">
-                                <h2 class="fw-bolder mb-2 signika blue">Director</h2>
+                                <h2 id="director" class="fw-bolder mb-2 signika blue">Director</h2>
                                 <div style="position: absolute; top: 32px; right: 32px; font-size: 0.8rem;">
                                     <p class="mb-0"><i class="fa-solid fa-phone"></i> 089 4140-4249</p>
                                     <p><i class="fa-solid fa-envelope"></i> <a href="mailto:stefan.leucht@tum.de">stefan.leucht[at]tum.de</a></p>
@@ -75,7 +75,7 @@
                                     <img src="assets/leucht.webp" style="width: 100%; border: 1px solid lightgrey;" class="rounded" alt="Image of Prof. Dr. Stefan Leucht">
                                 </div>
                                 </div>
-                            <a style="position: absolute; bottom: 32px; right: 32px" class="btn btn-primary btn-lg px-4" href="/team/prof-stefan-leucht/">Prof. Dr. med. Stefan Leucht</a>
+                            <a id="director-btn" style="position: absolute; bottom: 32px; right: 32px" class="btn btn-primary btn-lg px-4" href="/team/prof-stefan-leucht/">Prof. Stefan Leucht, MD, PhD</a>
                         </div>
                 </div>
             </header>
@@ -111,8 +111,12 @@
                                     </p>
                                 </div>
                                 <div class="col mb-5 h-100">
-                                    <div class="feature bg-blue-fade bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-circle-notch blue"></i></div>
-                                    <h2 class="h5">Cochrane Schizophrenia</h2>
+                                    <a href="/cochrane-schizophrenia-group/">
+                                        <div class="feature bg-blue-fade bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-circle-notch blue"></i></div>
+                                    </a>
+                                    <a href="/cochrane-schizophrenia-group/">
+                                        <h2 class="h5">Cochrane Schizophrenia</h2>
+                                    </a>
                                     <p class="mb-0">Sowie weiterer Unterstützungsangebote im Bereich der Evidenzsynthese und Meta-Analyse</p>
                                 </div>
                                 <div class="col mb-5 h-100">
@@ -121,8 +125,10 @@
                                     <p class="mb-0">Zu einschlägigen und aktuellen Themen innerhalb der meta-analytischen Psychotherapieforschung.</p>
                                 </div>
                                 <div class="col mb-5 h-100">
-                                    <div class="feature bg-green-fade bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-briefcase green"></i></div>
-                                    <a href="">
+                                    <a href="/work-with-us/">
+                                        <div class="feature bg-green-fade bg-gradient text-white rounded-3 mb-3"><i class="fa-solid fa-briefcase green"></i></div>
+                                    </a>
+                                    <a href="/work-with-us/">
                                         <h2 class="h5">Work With Us</h2>
                                     </a>
                                     <p class="mb-0">Zu einschlägigen und aktuellen Themen innerhalb der meta-analytischen Psychotherapieforschung.</p>
@@ -143,7 +149,7 @@
                     </script>
                 </div>
                     <div class="col-auto">
-                        <a class="link-light small" href="../imprint.html">Impressum</a>
+                        <a class="link-light small" href="/imprint/">Imprint</a>
                         <span class="text-white mx-1">&middot;</span>
                         <a href="https://www.tum.de"><img src="assets/tum_white.png" height="20px" alt=""></a>
                         <span class="text-white mx-1">&middot;</span>
@@ -163,6 +169,10 @@
                 
                 // Update text content
                 document.getElementById('greeting').textContent = translations[lang].greeting;
+                document.getElementById('director').innerHTML = translations[lang].director;
+                document.getElementById('index-subtitle').innerHTML = translations[lang].indexSubtitle;
+                document.getElementById('about-us-btn').innerHTML = translations[lang].aboutUsBtn;
+                document.getElementById('director-btn').innerHTML = translations[lang].directorBtn;
             
                 // Update flag
                 iconSwitcher(lang);

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Collaborations</title>
+        <title id="head-title">Collaborations</title>
         <!-- Favicon-->
         <link rel="icon" type="image/png" href="/assets/favicon/favicon-48x48.png" sizes="48x48" />
         <link rel="icon" type="image/svg+xml" href="/assets/favicon/favicon.svg" />
@@ -73,13 +73,15 @@
             <section class="bg-light" id="tips" style="padding-top: 0rem; padding-bottom: 6rem;">
                 <div class="container">
                     <div class="row justify-content-center">
-                        <div class="col-sm-8 nunjucks-text">
-                            <p>
-                                EBMPP is well-connected with multiple German psychiatric departments and it is part of the <a href="https://www.dzpg.org/en/">German Center for Mental Health</a>, in which <a href="/team/prof-stefan-leucht">Prof. Leucht</a> serves as a principal investigator and network co-leader. There are also links to the German Cochrane Center and the German Network for Evidence-Based Medicine.
-                            </p>
-                            <p>
-                                The map below shows our <b>most important international collaborations</b>. We emphasize that without the collaboration of the teams around Prof. Georgia Salanti, Bern, Prof. Andrea Cipriani, Oxford, and Prof. Toshi Furukawa, Kyoto, many projects would not be possible.
-                            </p><br>
+                        <div class="col-sm-8">
+                            <div id="collaboration-text" class="nunjucks-text">
+                                <p>
+                                    EBMPP is well-connected with multiple German psychiatric departments and it is part of the <a href="https://www.dzpg.org/en/">German Center for Mental Health</a>, in which <a href="/team/prof-stefan-leucht">Prof. Leucht</a> serves as a principal investigator and network co-leader. There are also links to the German Cochrane Center and the German Network for Evidence-Based Medicine.
+                                </p>
+                                <p>
+                                    The map below shows our <b>most important international collaborations</b>. We emphasize that without the collaboration of the teams around Prof. Georgia Salanti, Bern, Prof. Andrea Cipriani, Oxford, and Prof. Toshi Furukawa, Kyoto, many projects would not be possible.
+                                </p><br>
+                            </div>
                             <div id="map" class="rounded" style="height: 500px; width: 100%;"></div>
                         </div>
                     </div>
@@ -96,7 +98,7 @@
                     </script>
                 </div>
                     <div class="col-auto">
-                        <a class="link-light small" href="/imprint.html">Imprint</a>
+                        <a class="link-light small" href="/imprint/">Imprint</a>
                         <span class="text-white mx-1">&middot;</span>
                         <a href="https://www.tum.de"><img src="/assets/tum_white.png" height="20px" alt=""></a>
                         <span class="text-white mx-1">&middot;</span>
@@ -117,6 +119,8 @@
                 
                 // Update text content
                 document.getElementById('collaborations').textContent = translations[lang].collaborations;
+                document.getElementById('head-title').innerHTML = translations[lang].collaborations;
+                document.getElementById('collaboration-text').innerHTML = translations[lang].collaborationText;
             
                 // Update flag
                 iconSwitcher(lang);

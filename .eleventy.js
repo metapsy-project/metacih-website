@@ -16,6 +16,14 @@ module.exports = function(eleventyConfig) {
     return collectionApi.getFilteredByGlob("./projects/de/*.md");
   });
 
+  eleventyConfig.addCollection("workWithUs", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("./work-with-us/en/*.md");
+  });
+
+  eleventyConfig.addCollection("workWithUsDe", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("./work-with-us/de/*.md");
+  });
+
   eleventyConfig.addPassthroughCopy("assets");
   eleventyConfig.addPassthroughCopy("css");
   eleventyConfig.addPassthroughCopy("js");

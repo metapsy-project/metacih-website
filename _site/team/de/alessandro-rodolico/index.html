@@ -37,11 +37,11 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ms-auto mb-lg-0" style="margin-top: 10px;">
-                            <li class="nav-item"><a class="nav-link" href="/"><i class="fa-solid fa-home"></i></a></li>
-<li class="nav-item"><a class="nav-link" href="/about-us/">Über Uns</a></li>
-<li class="nav-item"><a class="nav-link" href="/team/de/">Team</a></li>
-<li class="nav-item"><a class="nav-link" href="/projects/de/">Projekte</a></li>
-<li class="nav-item"><a class="nav-link" href="/collaborations/">Kollaborationen</a></li>
+                            <li id="navbar-home"           class="nav-item"><a class="nav-link" href="/"><i class="fa-solid fa-home"></i></a></li>
+<li id="navbar-about-us"       class="nav-item"><a class="nav-link" href="/about-us/">Über Uns</a></li>
+<li id="navbar-team"           class="nav-item"><a class="nav-link" href="/team/de/">Team</a></li>
+<li id="navbar-projects"       class="nav-item"><a class="nav-link" href="/projects/de/">Projekte</a></li>
+<li id="navbar-collaborations" class="nav-item"><a class="nav-link" href="/collaborations/">Kollaborationen</a></li>
                             <li class="nav-item">
                                 <button id="languageSwitcher" class="btn" onclick="switchLanguageBtn()" title="Switch Language">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#ffda44" d="m0 345 256.7-25.5L512 345v167H0z"/><path fill="#d80027" d="m0 167 255-23 257 23v178H0z"/><path fill="#333" d="M0 0h512v167H0z"/></g></svg>
@@ -59,14 +59,16 @@
                             <a class="btn btn-primary" href="/team/de/">Team <i class="fa-solid fa-arrow-rotate-left"></i></a>
                         </div>
                         <div class="hide-mobile" style="position: absolute; bottom: 18px; right: 40px; z-index: 10;">
+                             <a class="fs-3 p-1" href="https://orcid.org/0000-0003-2196-0601" title="ORCiD" target="_blank"><i class="fa-brands fa-orcid"></i></a> 
+                             <a class="fs-3 p-1" href="https://scholar.google.com/citations?user=0uWbyjEAAAAJ" title="Google Scholar" target="_blank"><i class="fa-brands fa-google-scholar"></i></a> 
+                             <a class="fs-3 p-1" href="https://www.researchgate.net/profile/Alessandro-Rodolico-2" title="ResearchGate" target="_blank"><i class="fa-brands fa-researchgate"></i></a> 
                             
-                            
-                            
+                             <a class="fs-3 p-1" href="https://x.com/Roseofwolf" title="Twitter" target="_blank"><i class="fa-brands fa-x-twitter"></i></a> 
                           </div>
                         <div class="row col-flex bg-blue-fade rounded mx-3 my-1" style="padding: 2rem; position: relative;">
                           <!-- image column -->
                           <div class="col-auto hide-mobile" style="padding-right: 1rem;">
-                                <img class="rounded" src="/assets/members/alessandro-rodolico.jpg" alt="Dr. med. Alessandro Rodolico" style="box-shadow: gray 3px 3px 1px;">
+                                <img class="rounded" src="/assets/members/alessandro-rodolico.jpg" alt="Dr. med. Alessandro Rodolico" style="box-shadow: gray 3px 3px 1px;" width="140px">
                           </div>
                         <!-- Text column-->
                           <div class="col-lg-10">
@@ -85,7 +87,19 @@
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-sm-8 nunjucks-text">
-                            
+                            <p>Alessandro ist Psychiater und Psychotherapeut. Während seiner psychiatrischen Ausbildung studierte er an der Abteilung für Evidenzbasierte Psychiatrie und Psychotherapie der Technischen Universität München unter der Leitung von Professor Stefan Leucht und Irene Bighelli. Derzeit ist er Doktorand in Neurowissenschaften an der Universität Catania, Italien, mit klinischer Tätigkeit am Universitätsklinikum „G. Rodolico“ in Catania. Sein Forschungsschwerpunkt liegt auf systematischen Übersichtsarbeiten, Meta-Analysen und Netzwerk-Metaanalysen zur Schizophreniebehandlung.</p>
+<p>Seit Oktober 2020 ist er Associate Editor der <a href="https://schizophrenia.cochrane.org/">Cochrane Schizophrenia Group</a>.</p>
+<br>
+<h3>Publikationen</h3>
+<hr>
+<ul>
+<li><a href="https://pubmed.ncbi.nlm.nih.gov/?term=Rodolico+Alessandro&amp;sort=date">Pubmed</a></li>
+<li><a href="https://orcid.org/0000-0003-2196-0601">ORCID</a></li>
+<li><a href="https://www.researchgate.net/profile/Alessandro-Rodolico-2">ResearchGate</a></li>
+<li><a href="https://publons.com/researcher/3083432/alessandro-rodolico/">Publons</a></li>
+<li><a href="https://scholar.google.com/citations?user=0uWbyjEAAAAJ&amp;hl=it">Google Scholar</a></li>
+</ul>
+
                         </div>
                     </div>
                 </div>
@@ -101,7 +115,7 @@
                     </script>
                 </div>
                     <div class="col-auto">
-                        <a class="link-light small" href="/imprint.html">Imprint</a>
+                        <a class="link-light small" href="/imprint/">Imprint</a>
                         <span class="text-white mx-1">&middot;</span>
                         <a href="https://www.tum.de"><img src="/assets/tum_white.png" height="20px" alt=""></a>
                         <span class="text-white mx-1">&middot;</span>

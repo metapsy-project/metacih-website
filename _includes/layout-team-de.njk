@@ -58,11 +58,13 @@
                             {% if orcidLink is defined %} <a class="fs-3 p-1" href="{{orcidLink}}" title="ORCiD" target="_blank"><i class="fa-brands fa-orcid"></i></a> {% endif %}
                             {% if scholarLink is defined %} <a class="fs-3 p-1" href="{{scholarLink}}" title="Google Scholar" target="_blank"><i class="fa-brands fa-google-scholar"></i></a> {% endif %}
                             {% if rgLink is defined %} <a class="fs-3 p-1" href="{{rgLink}}" title="ResearchGate" target="_blank"><i class="fa-brands fa-researchgate"></i></a> {% endif %}
+                            {% if linkedinLink is defined %} <a class="fs-3 p-1" href="{{linkedinLink}}" title="LinkedIn" target="_blank"><i class="fa-brands fa-linkedin"></i></a> {% endif %}
+                            {% if xLink is defined %} <a class="fs-3 p-1" href="{{xLink}}" title="Twitter" target="_blank"><i class="fa-brands fa-x-twitter"></i></a> {% endif %}
                           </div>
                         <div class="row col-flex bg-blue-fade rounded mx-3 my-1" style="padding: 2rem; position: relative;">
                           <!-- image column -->
                           <div class="col-auto hide-mobile" style="padding-right: 1rem;">
-                                <img class="rounded" src="{{photo}}" alt="{{member}}" style="box-shadow: gray 3px 3px 1px;">
+                                <img class="rounded" src="{{photo}}" alt="{{member}}" style="box-shadow: gray 3px 3px 1px;" width="140px">
                           </div>
                         <!-- Text column-->
                           <div class="col-lg-10">
@@ -97,7 +99,7 @@
                     </script>
                 </div>
                     <div class="col-auto">
-                        <a class="link-light small" href="/imprint.html">Imprint</a>
+                        <a class="link-light small" href="/imprint/">Imprint</a>
                         <span class="text-white mx-1">&middot;</span>
                         <a href="https://www.tum.de"><img src="/assets/tum_white.png" height="20px" alt=""></a>
                         <span class="text-white mx-1">&middot;</span>
