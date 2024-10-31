@@ -125,3 +125,5 @@ switchNavbarLanguageDe = function() {
   document.getElementById("navbar-projects").firstChild.innerHTML = 'Projekte';
   document.getElementById("navbar-collaborations").firstChild.innerHTML = 'Kooperationen';
 }
+
+
