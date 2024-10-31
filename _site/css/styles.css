@@ -7787,6 +7787,10 @@ textarea.form-control-lg {
   margin-bottom: 3rem !important;
 }
 
+.mb-10 {
+  margin-bottom: 6rem !important;
+}
+
 .mb-auto {
   margin-bottom: auto !important;
 }
@@ -7817,6 +7821,16 @@ textarea.form-control-lg {
 
 .ms-auto {
   margin-left: auto !important;
+}
+
+blockquote {
+    background-color: var(--dgps-blue-fade);
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+blockquote > p {
+    margin-bottom: 0rem;
 }
 
 .p-0 {

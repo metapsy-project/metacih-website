@@ -1,6 +1,6 @@
 ---
 layout: layout-team.njk
-member: Prof. Stefan Leucht, MD, PhD
+member: Prof. Stefan Leucht, MD
 title: Section Head, EBMPP
 mail: stefan.leucht@tum.de
 photo: "/assets/members/stefan-leucht.jpg"

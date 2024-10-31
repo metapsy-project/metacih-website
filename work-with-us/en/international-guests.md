@@ -1,7 +1,7 @@
 ---
 layout: layout-work-with-us.njk
 title: "International Guests"
-photo: "/assets/projects/smartphone.webp"
+photo: "/assets/work-with-us/international-guests.webp"
 externalLink: "/"
 permalink: "/work-with-us/international-guests/"
 ---

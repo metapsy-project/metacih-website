@@ -1,6 +1,7 @@
 ---
 layout: layout-project.njk
 title: "Development of smartphone-based self-rating scales for schizophrenia and depression"
+type: Methodology
 photo: "/assets/projects/smartphone.webp"
 externalLink: "/"
 permalink: "/projects/smartphone-based-rating-scales/"

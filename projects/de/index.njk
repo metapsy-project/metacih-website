@@ -6,12 +6,12 @@ permalink: "/projects/de/"
 ---
 
 {% for project in collections.projectsDe %}
-<div class="col-lg-4 mb-5 h-100">
-    <div class="bg-blue-fade rounded" style="padding: 1rem; min-height: 238px;">
-        <div class="mb-3 image-container-projects">
-            <a href="{{project.url}}"><img src="{{project.data.photo}}" alt="{{project.data.project}}" style="width: 100%;" class="rounded"></a>
+<div class="project-entry col-lg-4 mb-4 h-100 {{project.data.type}}">
+    <a class="lead mb-0 fw-semibold no-underline" style="line-height: 1.15;" href={{project.url}}>
+        <div class="rounded" style="padding: 1rem; min-height: 170px; border: 1px solid lightgray;">
+            <span class="badge badge-light bg-green-fade lead mb-2" style="font-weight: 400; font-size: 12px; border: 1px solid lightgray; color: gray;">{{project.data.type}}</span>
+            <div style="color: black">{{project.data.title}}</div>
         </div>
-        <a class="lead mb-0 signika fw-semibold no-underline" style="line-height: 1.15;" href={{project.url}}>{{project.data.title}}</a>
-    </div>
+    </a>
 </div>
 {% endfor %}
