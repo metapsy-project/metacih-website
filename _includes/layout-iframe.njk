@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        /* Remove margins and paddings from the body */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Make the iframe cover the entire page */
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none; /* Optional: removes the border around the iframe */
+        }
+    </style>
+</head>
+<body>
+    <iframe src="{{iframe}}"></iframe>
+</body>
+</html>
