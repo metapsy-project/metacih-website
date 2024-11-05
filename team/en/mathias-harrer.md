@@ -1,7 +1,7 @@
 ---
 layout: layout-team.njk
 member: Mathias Harrer, MSc
-title: Research Associate
+title: Scientific Staff
 mail: mathias.harrer@tum.de
 photo: "/assets/members/mathias-harrer.png"
 orcidLink: "https://orcid.org/0000-0001-7016-2687"

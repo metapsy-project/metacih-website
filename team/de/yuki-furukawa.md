@@ -17,7 +17,7 @@ Yukis Arbeit fokussiert auf Forschungsprojekte mit fortschrittlichen meta-analyt
 
 <br>
 
-### Publications
+### Veröffentlichungen
 ---
 
 - [Pubmed](https://pubmed.ncbi.nlm.nih.gov/?term=furukawa+yuki&sort=date)

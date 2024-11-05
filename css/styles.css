@@ -81,6 +81,7 @@
   --dgps-green: #08a2a5;
   --dgps-blue: #025682;
   --dgps-blue-fade: rgb(2, 86, 130, 0.25);
+  --dgps-blue-fade-opaque: #c0d1dc;
   --dgps-green-fade: rgb(8, 162, 165, 0.25);
 }
 
@@ -114,10 +115,10 @@
 
 .bg-team {
   background-color: var(--dgps-blue-fade);
-  background-image: url(/assets/team.webp);
-  background-size: cover;
+  background-image: url(/assets/team-wide.png);
+  background-size: 100%;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: bottom;
   
 }
 

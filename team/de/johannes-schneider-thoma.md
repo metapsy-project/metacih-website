@@ -9,7 +9,7 @@ scholarLink: "https://scholar.google.de/scholar?hl=de&as_sdt=0%2C5&q=Johannes+Sc
 rgLink: "https://www.researchgate.net/profile/Johannes-Schneider-Thoma"
 ---
 
-Johannes hat Medizin an den Universitäten des Saarlandes/Deutschland, Rennes/Frankreich und Regensburg/Deutschland studiert. Er promovierte zum Dr. med an der Universität des Saarlandes und arbeitete als Psychiater in Weiterbildung am Bezirkskrankenhaus Landsberg am Lech /Deutschland. Seit 2015 ist er wissenschaftlicher Mitarbeiter der Sektion für evidenzbasierte Psychiatrie und Psychotherapie der Technischen Universität München. Seit 2020 zudem Mitherausgeber der Cochrane Schizophrenie Gruppe.
+Johannes hat Medizin an den Universitäten des Saarlandes/Deutschland, Rennes/Frankreich und Regensburg/Deutschland studiert. Er promovierte zum Dr. med an der Universität des Saarlandes und arbeitete als Psychiater in Weiterbildung am Bezirkskrankenhaus Landsberg am Lech /Deutschland. Seit 2015 ist er wissenschaftlicher Mitarbeiter der Sektion für evidenzbasierte Psychiatrie und Psychotherapie der Technischen Universität München. 
 
 <br>
 
