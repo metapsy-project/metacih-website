@@ -7,8 +7,8 @@ photo: "/assets/members/lena-feber.webp"
 permalink: "/team/lena-feber/"
 ---
 
-Lena is a psychologist and licensed psychotherapist. As part of her training, she worked clinically on a locked acute and admission ward and on a ward for mental illness in old age.
+Lena is a psychologist and a psychotherapist. She received her Doctorate in Human Biology in 2024, with her dissertation focusing on the effects of antipsychotics on cognitive symptoms in schizophrenia, which were examined through a network meta-analysis. 
 
-Since September 2021, she has been working as a research associate in Prof. Leucht's team. Her research interests include the treatment of mental illness, especially schizophrenia.
+Lena has been working in the Section for Evidence-Based Medicine in Psychiatry and Psychotherapy since 2021. Her research interests primarily include systematic reviews and network meta-analyses with a focus on treatment options for schizophrenia. Since 2024, she is also working in the psychiatric outpatient clinic of the hospital.
 
-<br></br>
+<br>
