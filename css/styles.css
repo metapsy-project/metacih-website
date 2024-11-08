@@ -767,6 +767,10 @@ progress {
     padding-top: 3rem !important;
   }
 
+  #about-us-text {
+    padding-top: 2rem !important;
+  }
+
   #pagination {
     overflow: scroll !important;
   }
