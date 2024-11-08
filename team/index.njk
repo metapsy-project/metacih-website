@@ -7,8 +7,8 @@ permalink: "/team/"
 
 {% for member in collections.allTeamMembers %}
 <div class="col mb-4 h-100">
-    <div class="bg-blue-fade rounded" style="padding: 1rem; min-height: 338px;">
-        <div class="mb-3">
+    <div class="bg-blue-fade rounded person-div" style="padding: 1rem;">
+        <div class="mb-3 hide-mobile">
             <a href="{{member.url}}"><img src="{{member.data.photo}}" alt="{{member.data.member}}" style="width: 100%; border: 1px solid lightgray;" class="rounded"></a>
         </div>
         <a class="lead mb-0 signika fw-semibold" style="line-height: 1.15;" href={{member.url}}>{{member.data.member}}</a>

@@ -727,7 +727,82 @@ progress {
     max-width: 1320px;
   }
 }
+
+#start-header {
+  padding-top: 5rem !important;
+}
+
+.person-div {
+  min-height: 338px;
+}
+
 @media (max-width: 992px) {
+
+  #start-header {
+    padding-bottom: 0px !important;
+    padding-top: 3.8rem !important;
+  }
+
+  .person-div {
+    min-height: 0px;
+  }
+
+  .row {
+    border: 1px solid rgba(var(--bs-light-rgb)) !important;
+  }
+
+  footer .row {
+    border: 0px solid white !important;
+  }
+
+  #mitglieder {
+    padding-top: 10rem !important;
+  }
+
+  .row > * {
+    flex-shrink: revert !important;
+  }
+
+  #pub-information {
+    padding-top: 3rem !important;
+  }
+
+  #pagination {
+    overflow: scroll !important;
+  }
+
+  .gx-5 {
+    --bs-gutter-x: 0rem !important;
+  }
+
+  #start-first-column {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    border-radius: 0px !important;
+  }
+
+  #start-first-column > div {
+    min-height: 250px !important;
+  }
+
+  #start-second-column {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    border-radius: 0px !important;
+  }
+
+  #start-second-column > div {
+    min-height: 100px !important;
+  }
+
+  #director-btn {
+    right: revert !important;
+  }
+
+  #about-us-btn {
+    float: left !important;
+  }
+
   #forest-col {
     display: none;
   }
