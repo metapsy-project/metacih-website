@@ -11,15 +11,13 @@ xLink: "https://x.com/IBighelli"
 ---
 
 
-Irene is a psychologist and psychotherapist. She earned her PhD in Psychological and Psychiatric Sciences from the University of Verona. During her research training, she spent time in the WHO Department of Mental Health and Substance Abuse in Geneva, where she contributed to updating the mhGAP guidelines.
+Irene ist Psychologin und Psychotherapeutin. Sie promovierte in Psychological and Psychiatric Sciences an der Universität Verona. Während ihrer Forschungsausbildung verbrachte sie einen Aufenthalt in der WHO-Abteilung Department of Mental Health and Substance Abuse, Genf, wo sie an der Aktualisierung der mhGAP-Richtlinien mitarbeitete.
 
-Since 2016, she has been working in the Section for Evidence-Based Psychiatry and Psychotherapy. Her research interests include evidence synthesis in the form of systematic reviews, meta-analyses, and network meta-analyses, with a particular focus on psychological interventions for schizophrenia, as well as the development and implementation of clinical guidelines.
-
-Since August 2020, she has served as the Deputy Coordinating Editor of the [Cochrane Schizophrenia Group](https://schizophrenia.cochrane.org/).
+Seit 2016 arbeitet sie in der Sektion für Evidenzbasierte Psychiatrie und Psychotherapie. Ihre Forschungsinteressen umfassen die Evidenzsynthese in Form von systematischen Übersichten, Metaanalysen und Netzwerkmetaanalysen, insbesondere mit dem Fokus auf psychologische Interventionen bei Schizophrenie; Entwicklung und Umsetzung klinischer Leitlinien.
 
 <br>
 
-### Publications
+### Veröffentlichungen
 ---
 
 - [Pubmed](https://pubmed.ncbi.nlm.nih.gov/?term=bighelli+i&sort=date)
