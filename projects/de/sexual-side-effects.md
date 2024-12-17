@@ -1,5 +1,5 @@
 ---
-layout: layout-project.njk
+layout: layout-project-de.njk
 title: "Sexuelle Nebenwirkungen von Antipsychotika bei Schizophrenie"
 type: Systematic Review
 photo: "/assets/projects/systematic-review.webp"
