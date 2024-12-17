@@ -4,7 +4,6 @@ title: "Sexuelle Nebenwirkungen von Antipsychotika bei Schizophrenie"
 type: Systematic Review
 photo: "/assets/projects/systematic-review.webp"
 externalLink: "/"
-permalink: "/projects/sexual-side-effects/"
 ---
 
 <br>
