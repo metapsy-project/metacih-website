@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="120.705" height="47.494" viewBox="0 0 120.705 47.494">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1" y1="0.565" x2="0" y2="0.563" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#0093d5"/>
+      <stop offset="1" stop-color="#0064ba"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="1" y1="0.254" x2="0" y2="0.254" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#002060"/>
+      <stop offset="1" stop-color="#103d96"/>
+    </linearGradient>
+  </defs>
+  <g id="Gruppe_1470" data-name="Gruppe 1470" transform="translate(-48.295 -41.033)">
+    <g id="Gruppe_1412" data-name="Gruppe 1412" transform="translate(19.26 -60.973)">
+      <path id="Pfad_687" data-name="Pfad 687" d="M.022,56.12V46.039a5.089,5.089,0,0,1,10.178,0V56.12Z" transform="translate(29.019 69.318)" fill="url(#linear-gradient)"/>
+      <path id="Pfad_688" data-name="Pfad 688" d="M112.8,43.819v-14.6a5.089,5.089,0,0,1,10.178,0v14.6Z" transform="translate(-53.227 87.726)" fill="url(#linear-gradient-2)"/>
+      <path id="Pfad_690" data-name="Pfad 690" d="M75.221,24.77V5.052a5.089,5.089,0,0,1,10.178,0V24.77Z" transform="translate(-25.823 102.008)" fill="url(#linear-gradient)"/>
+      <path id="Pfad_691" data-name="Pfad 691" d="M10.178,97.294v5.47a5.089,5.089,0,0,1-10.178,0v-5.47Z" transform="translate(29.035 28.145)" fill="url(#linear-gradient-2)"/>
+      <path id="Pfad_692" data-name="Pfad 692" d="M47.766,97.294v19.688a5.089,5.089,0,0,1-10.178,0V97.294Z" transform="translate(1.623 27.465)" fill="url(#linear-gradient)"/>
+      <path id="Pfad_695" data-name="Pfad 695" d="M47.766,113.595v8.627a5.089,5.089,0,0,1-10.178,0v-8.627Z" transform="translate(21.986 11.844)" fill="url(#linear-gradient)"/>
+      <path id="Pfad_693" data-name="Pfad 693" d="M85.377,94.531v13.621a5.089,5.089,0,0,1-10.178,0V94.531Z" transform="translate(-25.807 30.907)" fill="url(#linear-gradient-2)"/>
+      <path id="Pfad_686" data-name="Pfad 686" d="M37.6,71.2v-4.54a5.089,5.089,0,0,1,10.178,0V71.2Z" transform="translate(1.615 54.242)" fill="url(#linear-gradient-2)"/>
+    </g>
+    <text id="SDMA" transform="translate(96 72.79)" fill="#002060" font-size="25" font-family="Helvetica"><tspan x="0" y="0">SDMA</tspan></text>
+  </g>
+</svg>

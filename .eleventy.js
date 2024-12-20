@@ -28,6 +28,7 @@ module.exports = function(eleventyConfig) {
     return collectionApi.getFilteredByGlob("./helpful-tools/*.md");
   });
 
+  eleventyConfig.addPassthroughCopy("tools");
   eleventyConfig.addPassthroughCopy("assets");
   eleventyConfig.addPassthroughCopy("css");
   eleventyConfig.addPassthroughCopy("js");
