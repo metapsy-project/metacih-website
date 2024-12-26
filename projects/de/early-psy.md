@@ -4,11 +4,14 @@ title: "Psychologische Interventionen in der Frühphase der Schizophrenie"
 type: Systematic Review
 photo: "/assets/projects/systematic-review.webp"
 externalLink: "/"
+redirect_from: "/de/projekte/systematische-reviews/psychologische-interventionen-in-fruehphase-einer-schizophrenie"
 ---
 
 <br>
 
 **Psychologische Interventionen in der Frühphase der Schizophrenie: Eine systematische Übersichtsarbeit und Netzwerk-Metaanalyse.**
+
+<img src="/assets/projects/earlypsy.webp" alt="therapy session" class="image-right rounded">
 
 Das Projekt wird vom Bundesministerium für Bildung und Forschung (BMBF) finanziert (Förderkennzeichen: 01KG2314).
 
@@ -19,4 +22,14 @@ Das Projekt soll den Einfluss verschiedener psychologischer Interventionen, welc
 
 **Supervision:** Prof. Stefan Leucht & PD Irene Bighelli
 
+<style>
+  .text-container {
+    overflow: auto; /* Clears float for other content */
+  }
+  .image-right {
+    float: right;
+    margin-left: 20px; /* Adds space between text and image */
+    width: 250px; /* Sets image width */
+  }
+</style>
 

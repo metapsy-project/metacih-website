@@ -5,11 +5,14 @@ type: Systematic Review
 photo: "/assets/projects/systematic-review.webp"
 externalLink: "/"
 permalink: "/projects/early-psy/"
+redirect_from: "/projects/systematic-reviews/psychological-interventions-in-early-phase-of-schizophrenia"
 ---
 
 <br>
 
-**Psychological interventions for early-phase schizophrenia: A systematic review and network meta-analysis.**
+**Psychological interventions for early-phase schizophrenia: A systematic review and network meta-analysis.** 
+
+<img src="/assets/projects/earlypsy.webp" alt="therapy session" class="image-right rounded">
 
 The project is funded by the Federal Ministry of Education and Research (BMBF) (01KG2314). 
 
@@ -19,4 +22,13 @@ The aim of the project is to comparatively investigate the influence of various 
 
 **Supervision:** Prof. Stefan Leucht & PD Irene Bighelli
 
-
+<style>
+  .text-container {
+    overflow: auto; /* Clears float for other content */
+  }
+  .image-right {
+    float: right;
+    margin-left: 20px; /* Adds space between text and image */
+    width: 250px; /* Sets image width */
+  }
+</style>

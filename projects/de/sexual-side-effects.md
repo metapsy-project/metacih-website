@@ -4,9 +4,12 @@ title: "Sexuelle Nebenwirkungen von Antipsychotika bei Schizophrenie"
 type: Systematic Review
 photo: "/assets/projects/systematic-review.webp"
 externalLink: "/"
+redirect_from: "/de/projekte/systematische-reviews/sexuelle-nebenwirkungen-von-antipsychotika-bei-schizophrenie"
 ---
 
 <br>
+
+<img src="/assets/projects/sexse.webp" class="image-right rounded">
 
 **Sexuelle Nebenwirkungen von Antipsychotika bei Schizophrenie: eine systematische Übersicht mit Single-Arm-, Paarvergleichs- und Netzwerk-Metaanalysen von randomisierten kontrollierten Studien und nicht-randomisierten Studien**
 
@@ -22,3 +25,13 @@ Das Protokoll des Projekts wurde in [F1000](https://f1000research.com/articles/1
 
 **Betreuer:** [Prof. Dr. Stefan Leucht](/team/prof-stefan-leucht/)
 
+<style>
+  .text-container {
+    overflow: auto; /* Clears float for other content */
+  }
+  .image-right {
+    float: right;
+    margin-left: 20px; /* Adds space between text and image */
+    width: 300px; /* Sets image width */
+  }
+</style>

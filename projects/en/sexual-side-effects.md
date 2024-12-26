@@ -5,12 +5,14 @@ type: Systematic Review
 photo: "/assets/projects/systematic-review.webp"
 externalLink: "/"
 permalink: "/projects/sexual-side-effects/"
+redirect_from: "/projects/systematic-reviews/sexual-side-effects-of-antipsychotic-drugs-in-schizophrenia"
 ---
 
 <br>
 
-**Sexual side effects of antipsychotic drugs in schizophrenia: a systematic review with single-arm, pairwise, and network meta-analyses of randomized controlled trials and non-randomized studies**
+<img src="/assets/projects/sexse.webp" class="image-right rounded">
 
+**Sexual side effects of antipsychotic drugs in schizophrenia: a systematic review with single-arm, pairwise, and network meta-analyses of randomized controlled trials and non-randomized studies**
 
 Sexual side effects of antipsychotics are common yet underreported among patients with schizophrenia, affecting 30–80% of treated individuals. These side effects are related to the three phases of the sexual response cycle (i.e., desire, arousal, and orgasm), which include decreased libido, erectile dysfunction, and anorgasmia. Sometimes side effects related to breast and menstrual disorders (e.g., galactorrhea and amenorrhea) are also considered sexual side effects of antipsychotics. Nevertheless, they can severely impact treatment adherence and social interactions in individuals with schizophrenia, but comprehensive comparative evidence characterizing the risk profiles of different antipsychotics is lacking. 
 
@@ -24,3 +26,13 @@ The protocol of the project was published in [F1000](https://f1000research.com/a
 
 **Supervisor:** [Prof. Dr. Stefan Leucht](/team/prof-stefan-leucht/)
 
+<style>
+  .text-container {
+    overflow: auto; /* Clears float for other content */
+  }
+  .image-right {
+    float: right;
+    margin-left: 20px; /* Adds space between text and image */
+    width: 300px; /* Sets image width */
+  }
+</style>
