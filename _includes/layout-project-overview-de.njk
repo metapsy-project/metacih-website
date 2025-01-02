@@ -143,8 +143,7 @@
         <script>
             window.onload = function() {
               if(sessionStorage.getItem('language')===null) {
-                const newPath = `/projects/`;
-                window.location.assign(newPath);
+                sessionStorage.setItem('language', 'de')
               } else if (sessionStorage.getItem('language')==='en') {
                 const newPath = `/projects/`;
                 window.location.assign(newPath);
