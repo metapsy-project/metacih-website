@@ -17,7 +17,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="/assets/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="/assets/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/assets/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
@@ -34,6 +34,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&family=Orbitron&family=Signika:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <!-- Cookie alert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css" />
     <!-- fontawesome icons-->
     <script src="https://kit.fontawesome.com/51da9bb012.js" crossorigin="anonymous"></script>
 </head>
@@ -41,32 +43,9 @@
 <body class="d-flex flex-column h-100 bg-boreal">
     <main class="flex-shrink-0">
         <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-boreal shadow" style="position: relative; border-bottom: 0.5px solid var(--dgps-boreal-dark);">
-            <div class="row w-100 align-items-center">
-                <div class="col-auto" style="padding-left: 10%;">
-                    <a class="signika text-white no-underline" href="/">
-                        <img src="/assets/metacih-logo-white.svg" alt="" width="200px">
-                    </a>
-                </div>
-                <div class="col-auto ms-auto" style="width: 60%; padding-right: 5%;">
-                    <div class="d-flex py-2 text-white">
-                        <div class="ms-auto"><img src="assets/brown.png" alt="" height="25px">&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-                        <img src="assets/uw-madison.png" alt="" height="25px">&nbsp;&nbsp;&middot;&nbsp;&nbsp;
-                        <img src="assets/metapsy.png" alt="" height="15px">
-                        </div>
-                    </div>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation"><span
-                            class="navbar-toggler-icon"></span></button>
-                    <div class="collapse navbar-collapse bg-boreal-dark" id="navbarSupportedContent">
-                        <ul class="navbar-nav mb-lg-0 text-white">
-                            <li class="nav-item"><a class="nav-link" href="index.html#ziele">About MetaCIH</a></li>
-                            <li class="nav-item"><a class="nav-link" href="hilfe.html">Databases</a></li>
-                            <li class="nav-item"><a class="nav-link" href="mitglieder.html">Software</a></li>
-                        </ul>
-                    </div>
-                </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-boreal shadow"
+            style="position: relative; border-bottom: 0.5px solid var(--dgps-boreal-dark);">
+            <div id="navbar-inner" class="row w-100 align-items-center">
             </div>
         </nav>
         <!-- Header-->
@@ -77,32 +56,37 @@
                     <div class="col-lg-6 bg-boreal-fade border-boreal mx-3 my-1 fade-in-super-short"
                         style="padding: 2rem; position: relative; z-index: 2;">
                         <div class="text-center text-xl-start" style="min-height: 300px;">
-                            <h1 class="display-4 fw-bolder mb-2 boreal signika">Complementary & Comprehensive</h1>
-                            <p class="lead fw-normal mb-4">Wir möchten dazu beitragen, meta-analytische
-                                Psychotherapieforschung zu fördern und den Austausch zwischen Fachleuten zu erleichtern.
+                            <h1 class="display-5 fw-bolder mb-2 boreal signika">Complementary & Comprehensive</h1>
+                            <p class="lead fw-normal mb-4">In eu dolor labore qui occaecat commodo est est aliqua est
+                                sunt proident. Aliquip sint exercitation est sunt ex dolore elit sunt exercitation
+                                occaecat ullamco irure occaecat. Ullamco cupidatat cillum duis minim Lorem eu laboris
+                                ut.
                             </p>
                         </div>
-                        <a class="btn btn-primary btn-lg px-4 no-underline" style="float: right;" href="#ziele">Start Analyzing&nbsp;&nbsp;<i class="fa-solid fa-arrow-right-long"></i></a>
+                        <a class="btn btn-primary btn-lg px-4 no-underline" style="float: right;" href="#ziele">Start
+                            Analyzing&nbsp;&nbsp;<i class="fa-solid fa-arrow-right-long"></i></a>
+                        <a class="btn btn-primary btn-lg px-4 no-underline" style="float: right; margin-right: 1rem;"
+                            href="#ziele">Learn More</i></a>
                     </div>
                 </div>
             </div>
-            <img src="/assets/head-v5.svg" alt="head" class="no-select" style="position: absolute; bottom: 0px; right: 0px; height: 100%; z-index: 0;">
+            <img src="/assets/head-v5.svg" alt="head" class="no-select"
+                style="position: absolute; bottom: -1px; right: 0px; height: 100%; z-index: 0;">
         </header>
         <!-- Features section-->
         <section class="bg-sand-fade" id="ziele" style="padding-top: 5rem; padding-bottom: 5rem;">
             <div class="container">
                 <div class="row" id="cont-features">
                     <div class="col-sm-5 mb-5 mb-lg-0" style="padding-right: 6.5rem;" id="cont-features-text">
-                        <h2 class="fw-semibold signika boreal">Hintergrund & Ziele</h2>
-                        <p class="lead fw-semibold">Systematische Reviews und Meta-Analysen gelten als Eckpfeiler
-                            evidenzbasierter Psychotherapieforschung. </p>
-                        <p>Sie leisten einen integralen Beitrag zur umfassenden Beurteilung bestehender
-                            Forschungserkenntnisse und liefern den höchsten Evidenzgrad aller Studiendesigns.
-                            Systematische Reviews und Meta-Analysen haben weitreichende Implikationen auf die
-                            klinisch-psychologische Forschung und Praxis. Es bedarf daher besonderer fachspezifischer
-                            Expertise, um eine sachgerechte Planung, Durchführung und Auswertung sicherzustellen. Hier
-                            sehen Sie einige der Ziele und Aktivitäten der Interessengruppe "Meta-Analytische
-                            Psychotherapieforschung und Evidenzsynthese".</p>
+                        <h2 class="fw-semibold signika boreal">About MetaCIH</h2>
+                        <p class="lead fw-semibold">Excepteur quis do consequat incididunt ipsum excepteur id culpa
+                            incididunt.</p>
+                        <p>Labore adipisicing duis sunt elit consequat labore reprehenderit do ut qui aute deserunt ex
+                            ullamco. Ad officia veniam elit labore dolore officia Lorem ipsum ea irure est adipisicing.
+                            Fugiat cillum deserunt exercitation exercitation pariatur non nisi. Incididunt labore elit
+                            proident adipisicing. Lorem dolor ut esse dolor reprehenderit deserunt Lorem occaecat. Ut
+                            exercitation ad eiusmod ullamco nulla est est amet do nostrud est ullamco. Occaecat nisi
+                            aliquip laboris minim ea nisi anim fugiat magna mollit dolor fugiat pariatur cillum.</p>
                         <p><a class="h5" href="/mitglieder.html">Mitglieder &#8599;</a></p>
                     </div>
                     <div class="col">
@@ -110,32 +94,35 @@
                             <div class="col mb-5 h-100">
                                 <div class="feature bg-boreal-fade bg-gradient text-white mb-3"><i
                                         class="fa-solid fa-book boreal"></i></div>
-                                <h2 class="h5">Dissemination innovativer meta-analytischer Forschung und
-                                    Forschungsergebnisse</h2>
-                                <p class="mb-0">Im Rahmen der klinischen Psychologie und Psychotherapie, sowie der
-                                    darauf basierenden Forschungsmethodik.</p>
+                                <h2 class="h5">Anim ullamco pariatur nulla et esse quis duis consequat exercitation
+                                    pariatur pariatur.</h2>
+                                <p class="mb-0">Consectetur dolore duis minim labore ullamco proident proident eu
+                                    adipisicing aliqua ad deserunt est.</p>
                             </div>
                             <div class="col mb-5 h-100">
                                 <div class="feature bg-boreal-fade bg-gradient text-white mb-3"><i
                                         class="fa-solid fa-circle-nodes boreal"></i></div>
-                                <h2 class="h5">Vernetzung von (Jung-)Wissenschaftler:innen</h2>
-                                <p class="mb-0">Und Fachexpert:innen mit meta-analytischen Forschungsinteressen
-                                    innerhalb der Fachgruppe Klinische Psychologie und Psychotherapie.
+                                <h2 class="h5">Anim ullamco pariatur nulla et esse quis duis consequat exercitation
+                                    pariatur.</h2>
+                                <p class="mb-0">Consectetur dolore duis minim labore ullamco proident proident eu
+                                    adipisicing aliqua ad deserunt est.
                                 </p>
                             </div>
                             <div class="col mb-5 h-100">
                                 <div class="feature bg-boreal-fade bg-gradient text-white mb-3"><i
                                         class="fa-solid fa-brain boreal"></i></div>
-                                <h2 class="h5">Bereitstellung forschungsmethodologischer Expertise</h2>
-                                <p class="mb-0">Sowie weiterer Unterstützungsangebote im Bereich der Evidenzsynthese und
-                                    Meta-Analyse</p>
+                                <h2 class="h5">Anim ullamco pariatur nulla et esse quis duis consequat exercitation
+                                    pariatur.</h2>
+                                <p class="mb-0">Consectetur dolore duis minim labore ullamco proident proident eu
+                                    adipisicing aliqua.</p>
                             </div>
                             <div class="col mb-5 h-100">
                                 <div class="feature bg-boreal-fade bg-gradient text-white mb-3"><i
                                         class="fa-solid fa-bullhorn boreal"></i></div>
-                                <h2 class="h5">Veranstaltung von Symposia und Digital-Events</h2>
-                                <p class="mb-0">Zu einschlägigen und aktuellen Themen innerhalb der meta-analytischen
-                                    Psychotherapieforschung.</p>
+                                <h2 class="h5">Anim ullamco pariatur nulla et esse quis duis consequat exercitation
+                                    pariatur.</h2>
+                                <p class="mb-0">Consectetur dolore duis minim labore ullamco proident proident eu
+                                    adipisicing aliqua.</p>
                             </div>
                         </div>
                     </div>
@@ -143,29 +130,37 @@
             </div>
         </section>
     </main>
-    <!-- Footer-->
-    <footer class="bg-boreal py-4" style="border-top: 0.5px solid var(--dgps-boreal-dark);">
-        <div class="container">
-            <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                <div class="col-auto">
-                    <div class="small m-0 text-white">&copy; <span id="insert-year"></span> Interessengruppe
-                        Meta-Analytische Psychotherapieforschung und Evidenzsynthese (META-SYN)</div>
-                    <script>
-                        document.getElementById('insert-year').innerHTML = new Date().getFullYear();
-                    </script>
-                </div>
-                <div class="col-auto">
-                    <a class="link-light small" href="../impressum.html">Impressum</a>
-                    <span class="text-white mx-1">&middot;</span>
-                    <a href="https://www.nih.gov/"><img src="assets/nih.png" height="20px" alt=""></a>
-                </div>
+    <!-- Disclaimer -->
+    <section class="bg-white disclaimer disclaimer-db \*slide-in*\" style="border-top: 0.5px solid var(--dgps-boreal);">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-left justify-content-left text-muted" style="
+              font-size: 13px;
+              padding-top: 10px;
+              padding-bottom: 10px;
+              padding-left: 28px;
+            ">
+                This website is intended for healthcare professionals.
             </div>
         </div>
+    </section>
+    <!-- Footer-->
+    <footer id="footer" class="bg-boreal py-5 mt-auto footer-db">
     </footer>
+    <!-- Bootstrap-Cookie-Alert -->
+    <div class="alert text-center cookiealert" role="alert">
+        <i class="fa-solid fa-cookie-bite"></i>&nbsp; We use <b>cookies</b> to ensure you get the best experience on our
+        website.
+        <a href="/privacy.html" target="_blank">Learn more</a>
+        <button type="button" class="btn btn-primary btn-sm acceptcookies">
+            I agree
+        </button>
+    </div>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
+    <!-- Cookie alert-->
+    <script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js" defer></script>
 </body>
 
 </html>

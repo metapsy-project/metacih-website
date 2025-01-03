@@ -43,8 +43,8 @@
   --bs-danger: #dc3545;
   --bs-light: #f8f9fa;
   --bs-dark: #212529;
-  --bs-primary-rgb: 13, 110, 253;
-  --bs-secondary-rgb: 108, 117, 125;
+  --bs-primary-rgb: 0, 134, 112;
+  --bs-secondary-rgb: 204, 156, 0;
   --bs-success-rgb: 25, 135, 84;
   --bs-info-rgb: 13, 202, 240;
   --bs-warning-rgb: 255, 193, 7;
@@ -3355,7 +3355,7 @@ textarea.form-control-lg {
   --bs-dropdown-color: #212529;
   --bs-dropdown-bg: #fff;
   --bs-dropdown-border-color: var(--bs-border-color-translucent);
-  --bs-dropdown-border-radius: 0.375rem;
+  --bs-dropdown-border-radius: 0rem;
   --bs-dropdown-border-width: 1px;
   --bs-dropdown-inner-border-radius: calc(0.375rem - 1px);
   --bs-dropdown-divider-bg: var(--bs-border-color-translucent);
@@ -3367,8 +3367,8 @@ textarea.form-control-lg {
   --bs-dropdown-link-active-color: #fff;
   --bs-dropdown-link-active-bg: #0d6efd;
   --bs-dropdown-link-disabled-color: #adb5bd;
-  --bs-dropdown-item-padding-x: 1rem;
-  --bs-dropdown-item-padding-y: 0.25rem;
+  --bs-dropdown-item-padding-x: 1.25rem;
+  --bs-dropdown-item-padding-y: 0.5rem;
   --bs-dropdown-header-color: #6c757d;
   --bs-dropdown-header-padding-x: 1rem;
   --bs-dropdown-header-padding-y: 0.5rem;
@@ -4466,25 +4466,31 @@ textarea.form-control-lg {
   --bs-accordion-color: #212529;
   --bs-accordion-bg: #fff;
   --bs-accordion-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
-  --bs-accordion-border-color: var(--bs-border-color);
-  --bs-accordion-border-width: 1px;
-  --bs-accordion-border-radius: 0.375rem;
-  --bs-accordion-inner-border-radius: calc(0.375rem - 1px);
+  --bs-accordion-border-color: var(--dgps-boreal);
+  --bs-accordion-border-width: 0.5px;
+  --bs-accordion-border-radius: 0rem;
+  --bs-accordion-inner-border-radius: 0rem;
   --bs-accordion-btn-padding-x: 1.25rem;
   --bs-accordion-btn-padding-y: 1rem;
   --bs-accordion-btn-color: #212529;
   --bs-accordion-btn-bg: var(--bs-accordion-bg);
-  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-icon: url('/assets/down-arrow-sand.svg');
   --bs-accordion-btn-icon-width: 1.25rem;
   --bs-accordion-btn-icon-transform: rotate(-180deg);
   --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
-  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-  --bs-accordion-btn-focus-border-color: #86b7fe;
-  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  --bs-accordion-btn-active-icon: url('/assets/down-arrow.svg');
+  --bs-accordion-btn-focus-border-color: var(--dgps-boreal);
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0rem rgba(13, 110, 253, 0.25);
   --bs-accordion-body-padding-x: 1.25rem;
   --bs-accordion-body-padding-y: 1rem;
-  --bs-accordion-active-color: #0c63e4;
-  --bs-accordion-active-bg: #e7f1ff;
+  --bs-accordion-active-color: var(--dgps-boreal);
+  --bs-accordion-active-bg: var(--dgps-boreal-fade);
+  padding-left: 0rem;
+  padding-right: 0rem;
+}
+
+button[aria-expanded="true"] .feature {
+  display: none;
 }
 
 .accordion-button {
@@ -4493,14 +4499,15 @@ textarea.form-control-lg {
   align-items: center;
   width: 100%;
   padding: var(--bs-accordion-btn-padding-y) var(--bs-accordion-btn-padding-x);
-  font-size: 1rem;
-  color: var(--bs-accordion-btn-color);
+  font-size: 1.75rem;
+  color: #6c757d;
   text-align: left;
   background-color: var(--bs-accordion-btn-bg);
   border: 0;
   border-radius: 0;
   overflow-anchor: none;
   transition: var(--bs-accordion-transition);
+  height: 80px;
 }
 @media (prefers-reduced-motion: reduce) {
   .accordion-button {
@@ -11008,4 +11015,82 @@ html {
 
 .rounded {
   border-radius: 0.5rem;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-toggle .fa-chevron-down {
+  margin-left: 0em; /* Add spacing */
+  transition: transform 0.3s ease;
+}
+
+.dropdown:hover .fa-chevron-down {
+  transition: transform 0.3s ease;
+  transform: rotate(180deg);
+}
+
+.dropdown:hover .dropdown-toggle::after {
+  transform: rotate(180deg);
+}
+
+/* Submenu arrow */
+.dropdown-submenu > .fa-chevron-down {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-submenu > a::after {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-submenu:hover > a::after {
+  transform: rotate(180deg);
+}
+
+.dropdown-submenu:hover > .fa-chevron-down {
+  transform: rotate(180deg);
+}
+
+
+/* */
+.dropdown-menu {
+  animation: rollDown 0.4s ease-out;
+  transform-origin: top center;
+  display: none;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+@keyframes rollDown {
+  from {
+    opacity: 0;
+    transform: rotateX(-90deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotateX(0);
+  }
+}
+
+ul.list {
+  list-style: none; /* Remove default bullets */
+  padding-left: 25px; /* Add padding for the marker */
+}
+ul.list li {
+  position: relative; /* Allows positioning the square */
+  padding-left: 25px; /* Space for the marker */
+  text-indent: 0; /* Ensure no text indentation */
+}
+ul.list li::before {
+  content: '';
+  position: absolute; /* Position the square */
+  left: 0; /* Align square to the start of the `<li>` */
+  top: 0.5em; /* Adjust vertically for alignment */
+  width: 10px; /* Size of the square */
+  height: 10px;
+  border: 1px solid var(--dgps-sand);
+  background-color: var(--dgps-sand-fade); /* Square color */
 }
