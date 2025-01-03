@@ -5,7 +5,7 @@ function populateTeam(data) {
 
     data.forEach(person => {
       const personHTML = `
-        <div class="col mb-5 h-100">
+        <div class="col h-100">
           <div class="bg-blue-fade" style="padding: 0rem; min-height: 338px;">
             <div class="mb-3">
               <img src="${person.image}" alt="${person.name}" style="width: 100%; border: 0.5px solid var(--dgps-boreal); background-color: var(--dgps-sand-fade);" class="">
