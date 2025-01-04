@@ -3293,6 +3293,7 @@ textarea.form-control-lg {
   --bs-btn-border-radius: 0rem;
 }
 
+
 .btn-sm, .btn-group-sm > .btn {
   --bs-btn-padding-y: 0.25rem;
   --bs-btn-padding-x: 0.5rem;
@@ -11301,4 +11302,30 @@ ul.list li::before {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+}
+
+.square-img {
+  width: 200px; /* Set desired square size */
+  height: 200px;
+  border: 0.5px solid var(--dgps-boreal);
+  object-fit: cover; /* Ensures the image covers the square area */
+}
+
+.btn-start {
+  font-size: 1.1rem;
+  width: 200px;
+  border-bottom: 0.5px solid var(--dgps-boreal);
+  border-left: 0.5px solid var(--dgps-boreal);
+  border-right: 0.5px solid var(--dgps-boreal);
+  border-top: 0;
+  background-color: var(--dgps-sand-fade);
+  border-radius: 0;
+  color: var(--dgps-sand)
+}
+
+.btn-start:hover {
+  border-bottom: 0.5px solid var(--dgps-boreal);
+  border-left: 0.5px solid var(--dgps-boreal);
+  border-right: 0.5px solid var(--dgps-boreal);
+  border-top: 0;
 }

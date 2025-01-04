@@ -1,0 +1,10 @@
+[
+    {
+        "id": "mbct",
+        "image": "/assets/images/selfguided-header.webp",
+        "link": "/databases/mbct.html",
+        "title": "Mindfulness-Based Cognitive Therapy (MBCT)",
+        "subtitle": "Meta-Analytic Database of Randomized Controlled Trials",
+        "description": "<p>Mindfulness-Based Cognitive Therapy (MBCT) is an approach that uses mindfulness meditation with cognitive behavioral therapy to treat individuals with depression and help them manage stress, anxiety, and other emotional challenges.</p><p class='mb-0'>This online meta-analysis tool allows you to explore a simplified version of the <i>Mindfulness-Based Cognitive Therapy (MBCT)</i> dataset.</p>"
+    }
+]
