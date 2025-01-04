@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Investigative Team | MetaCIH Collaborative Network</title>
+    <title>Metapsy API | MetaCIH Collaborative Network</title>
     <!-- Favicon-->
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/favicon/favicon.ico">
     <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon/apple-icon-60x60.png">
@@ -29,6 +29,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet" />
+    <!-- Code chunks CSS -->
+    <link href="css/codechunks.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -40,6 +42,8 @@
     <script src="https://kit.fontawesome.com/51da9bb012.js" crossorigin="anonymous"></script>
     <!-- navbar footer script -->
     <script src="/js/renderNavFooter.min.js" defer></script>
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="css/dracula.min.css" />
 </head>
 
 <body class="d-flex flex-column h-100 bg-boreal">
@@ -51,32 +55,77 @@
             </div>
         </nav>
         <!-- Header-->
-        <header class="bg-white" style="padding: 5rem 0 2rem 0rem; position: relative">
-            <div class="container" style="position: relative">
-                <div class="row">
-                    <div class="col bg-boreal-fade border-boreal my-1 fade-in-super-short"
-                        style="padding: 2rem; position: relative; z-index: 2;">
-                        <div class="text-center text-xl-start">
-                            <h1 class="display-5 fw-bolder mb-2 boreal signika no-select">Investigative Team
+        <header id="header-api" class="py-5 bg-white" style="z-index: 1;">
+            <div class="container px-5">
+                <div class="row align-items-top justify-content-center" style="margin-bottom: 50px;">
+                    <div class="col-lg-6">
+                        <div class="justify-content-center" style="margin-top: 50px">
+                            <h1 class="boreal signika mb-4">
+                                The Metapsy API
                             </h1>
+                            <div class="lead fw-normal mb-4">
+                                <p>
+                                    It is possible to access the Metapsy databases via a
+                                    simple Application Programming Interface (API).
+                                </p>
+                                <p>
+                                    Two GET requests are defined. The <code class="sand">list_data</code> request
+                                    allows to retrieve a summary of all available databases.
+                                    The <code class="sand">get_data</code> request retrieves raw data and metadata of a
+                                    specific database (current or in the past).
+                                </p>
+                                <p>
+                                    All response bodies are JSON encoded. No authentication is required to use the API.
+                                    The API has a rate limit, and we kindly ask users to restrict requests
+                                    to once per minute, if possible.
+                                </p>
+                            </div>
+                            <a class="btn btn-primary btn-lg no-underline" style="margin-top: 10px"
+                                href="#api-docs">Documentation <img class="fa-chevron-down mb-1" src="/assets/icons/down-arrow.svg" alt="" height="22px"></a>
                         </div>
+                    </div>
+                    <div class="col-lg-2 hide-mobile" style="margin: 100px; margin-top: 0px;">
+                        <div id="spinner" style="margin-top: -150px !important; z-index: 1;"></div>
+                        <img id="spinner-img-2" src="assets/logos/api-logo.png" alt="logo" height="100px" />
                     </div>
                 </div>
             </div>
         </header>
-        <!-- Section 1-->
-        <!-- Testimonial section-->
-        <div class="bg-white" id="mitglieder" style="padding-bottom: 4rem;">
-            <div class="container">
-                <div class="row">
-                    <!-- Weitere Gmitglieder-->
-                    <div class="col" style="padding: 0;">
-                        <div id="teamDiv" class="row row-cols-1 row-cols-md-6" style="padding: 0;">
-                        </div>
+        <section class="py-5 bg-sand-fade" id="api-docs" style="border-top: 0.5px solid var(--dgps-boreal);">
+            <div class="container px-5 my-5" style="margin: auto; max-width: 1000px">
+                <div class="row align-items-top justify-content-center" style="margin-top: -50px">
+                    <div class="col-lg-9">
+                        <h2 class="signika boreal" style="margin-top: 10px">
+                            Documentation
+                        </h2>
+                    </div>
+                    <div class="col-lg-3">
+                        <a class="btn btn-primary btn-lg no-underline" style="margin-top: 10px; z-index: 99999; position: absolute;"
+                            href="https://app.swaggerhub.com/apis-docs/t38169/metapsy/1.0.0" target="_blank">View Live
+                            Demo &#8599;</a>
                     </div>
                 </div>
             </div>
-        </div>
+            <div id="api-docs-content" class="container px-5 my-5">
+                <div class="add-shadow" style="
+              margin: auto;
+              max-width: 1000px;
+              padding: 10px;
+              border-radius: 0px;
+              background-color: white;
+              border: 0.5px solid var(--dgps-boreal);
+            ">
+                    <iframe src="/html/api-docs.html" frameborder="0" seamless="seamless" style="
+                overflow: hidden;
+                height: 1700px;
+                width: 100%;
+                border-style: none;
+                padding: 0;
+                border: 0;
+              "></iframe>
+                </div>
+            </div>
+        </section>
     </main>
     <!-- Disclaimer -->
     <section class="bg-white disclaimer disclaimer-db \*slide-in*\" style="border-top: 0.5px solid var(--dgps-boreal);">
@@ -107,8 +156,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="/js/scripts.js"></script>
-    <!-- Render team JS-->
-    <script src="/js/renderTeam.js"></script>
+    <!-- Metapsy JS-->
+    <script src="/js/metapsy.min.js"></script>
     <!-- Cookie alert-->
     <script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js" defer></script>
 </body>

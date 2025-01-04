@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Metapsy Packages | MetaCIH Collaborative Network</title>
+    <!-- Favicon-->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/favicon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <!-- Code chunks CSS -->
+    <link href="css/codechunks.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&family=Orbitron&family=Signika:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Cookie alert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.css" />
+    <!-- fontawesome icons-->
+    <script src="https://kit.fontawesome.com/51da9bb012.js" crossorigin="anonymous"></script>
+    <!-- navbar footer script -->
+    <script src="/js/renderNavFooter.min.js" defer></script>
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="css/dracula.min.css" />
+</head>
+
+<body class="d-flex flex-column h-100 bg-boreal">
+    <main class="flex-shrink-0">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-boreal shadow"
+            style="position: relative; border-bottom: 0.5px solid var(--dgps-boreal-dark);">
+            <div id="navbar-inner" class="row w-100 align-items-center">
+            </div>
+        </nav>
+        <!-- Header-->
+        <header id="header-r" class="py-5 bg-white">
+            <div class="container px-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xxl-8">
+                        <div class="text-center my-5">
+                            <div class="my-3" style="padding-top: 40px; padding-bottom: 30px">
+                                <div id="spinner"></div>
+                                <img id="spinner-img-2" src="/assets/logos/metapsyr.png" alt="logo" height="180px" />
+                            </div>
+                            <h1 id="r-title" class="mb-3 signika boreal">
+                                Access & Analyze the MetaCIH Databases Directly From Your R
+                                Environment.
+                            </h1>
+                            <p class="lead fw-normal mb-4">
+                                Databases maintained by the MetaCIH Collaborative Network are integrated into <a href="https://www.metapsy.org/">Metapsy</a>.
+                            </p>
+                            <p class="lead fw-normal mb-4" style="margin-top: -20px">
+                                This means that all Metapsy <i class="fa-brands fa-r-project"></i> packages and meta-analysis software are available for our databases as well.
+                            </p>
+                            <a class="btn btn-primary btn-lg px-4 no-underline" id="arrow-down-r" href="#metapsy-data">Learn More <img class="fa-chevron-down mb-1" src="/assets/icons/down-arrow.svg" alt="" height="22px"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- About section one-->
+        <section class="py-6 bg-sand-fade py-5" id="metapsy-data" style="border-top: 0.5px solid var(--dgps-boreal); border-bottom: 0.5px solid var(--dgps-boreal);">
+            <div class="container px-5 py-5">
+                <div class="row gx-5 align-items-center">
+                    <div class="col-lg-6">
+                        <div class="container-code" style="width: 90%">
+                            <div class="code-wrapper">
+                                <pre id="codeblock">
+                                    <code id="code" class="r">remotes::install_github(
+        "metapsy-project/metapsyData")
+    
+data <- metapsyData::getData(
+          "depression-inpatients")
+print(data, 3)
+#>              study   .g .g_se year
+#> 1    Aagaard, 2017 0.00  0.23 2017 
+#> 2       Abas, 2018 0.71  0.38 2018    
+#> 3 Ahmadpanah, 2016 1.57  0.41 2016</code>
+</pre>
+                                <button id="copy-button" class="btn-primary">Copy</button>
+                                <span id="copy-success">Code copied!</span>
+                            </div>
+                        </div>
+                        <script
+                            src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js"></script>
+                    </div>
+                    <div class="col-lg-6">
+                        <h2 class="signika boreal">metapsyData</h2>
+                        <p class="lead fw-normal mb-0">
+                            The <code class="sand">metapsyData</code> package can be
+                            installed from GitHub (for example using the
+                            <code class="sand">remotes</code> package).
+                        </p>
+                        <p class="lead fw-normal mb-0" style="margin: 15px 0">
+                            The package allows to access the Metapsy meta-analytic
+                            psychotherapy databases directly in your R environment. Once
+                            installed, simply use the
+                            <a id="contact-link" href="https://data.metapsy.org/reference/getdata"
+                                target="_blank"><code>getData()</code></a>
+                            function to save specific databases and database versions
+                            locally.
+                        </p>
+                        <p class="lead fw-normal mb-0" style="margin: 15px 0">
+                            Once new databases or database updates are released, they
+                            automatically become available in
+                            <code class="sand">metapsyData</code>.
+                        </p>
+                        <p class="lead fw-normal text-muted mb-0" style="margin: 30px 0">
+                            <a class="btn btn-primary btn-lg no-underline" href="https://data.metapsy.org" target="_blank">Open
+                                Documentation &#8599;</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- About section two-->
+        <section class="py-6 bg-white py-5" id="metapsy-tools">
+            <div class="container px-5 py-5">
+                <div class="row gx-5 align-items-center">
+                    <div class="col-lg-6 order-first order-lg-last">
+                        <div class="container-code" style="width: 90%">
+                            <div class="code-wrapper">
+                                <pre class="bg-dark" id="codeblock">
+                                    <code id="code2" class="r">remotes::install_github(
+        "metapsy-project/metapsyTools")
+    
+    library(<span class="hljs-meta">metapsyTools</span>)                      
+    data("depressionPsyCtr")
+    
+    depressionPsyCtr %>%
+        <span class="hljs-keyword">calculateEffectSizes</span>() %>%
+        <span class="hljs-keyword">runMetaAnalysis</span>() %>%
+        <span class="hljs-keyword">correctPublicationBias</span>()
+    
+    #> Model results -------------------------</code>
+    </pre>
+                                <button id="copy-button2" class="btn-primary">Copy</button>
+                                <span id="copy-success2">Code copied!</span>
+                            </div>
+                        </div>
+                        <script
+                            src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js"></script>
+                    </div>
+                    <div class="col-lg-6">
+                        <h2 class="signika boreal">metapsyTools</h2>
+                        <p class="lead fw-normal mb-0">
+                            The <code class="sand">metapsyTools</code> package can be
+                            installed from GitHub. For Metapsy databases (and datasets in
+                            the
+                            <a class="text-primary" id="contact-link"
+                                href="https://docs.metapsy.org/data-preparation/format/" target="_blank">same
+                                format</a>), the package provides integrated tools for the entire
+                            meta-analysis workflow, for example:
+                        </p>
+                        <ul class="lead fw-normal mb-0">
+                            <li style="padding-top: 10px">
+                                Automatized effect size calculation
+                            </li>
+                            <li>Advanced database filtering</li>
+                            <li>
+                                Effect size pooling using standard and multilevel
+                                meta-analysis, robust variance estimation
+                            </li>
+                            <li>Correction for publication bias and small-study effects</li>
+                            <li>Meta-regression and subgroup analyses</li>
+                            <li style="padding-bottom: 10px">
+                                Automatized table generation for your meta-analysis report.
+                            </li>
+                        </ul>
+                        <p class="lead fw-normal text-muted mb-0" style="margin: 30px 0">
+                            <a class="btn btn-primary btn-lg no-underline" href="https://tools.metapsy.org" target="_blank">Open
+                                Documentation &#8599;</a>
+                        </p>
+                        <p style="height: 200%"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Disclaimer -->
+    <section class="bg-white disclaimer disclaimer-db \*slide-in*\" style="border-top: 0.5px solid var(--dgps-boreal);">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-left justify-content-left text-muted" style="
+              font-size: 13px;
+              padding-top: 10px;
+              padding-bottom: 10px;
+              padding-left: 28px;
+            ">
+                This website is intended for healthcare professionals.
+            </div>
+        </div>
+    </section>
+    <!-- Footer-->
+    <footer id="footer" class="bg-boreal py-5 mt-auto footer-db">
+    </footer>
+    <!-- Bootstrap-Cookie-Alert -->
+    <div class="alert text-center cookiealert" role="alert">
+        <i class="fa-solid fa-cookie-bite"></i>&nbsp; We use <b>cookies</b> to ensure you get the best experience on our
+        website.
+        <a href="/privacy.html" target="_blank">Learn more</a>
+        <button type="button" class="btn btn-primary btn-sm acceptcookies">
+            I agree
+        </button>
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="/js/scripts.js"></script>
+    <!-- Metapsy JS-->
+    <script src="/js/metapsy.min.js"></script>
+    <!-- Cookie alert-->
+    <script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js" defer></script>
+</body>
+
+</html>

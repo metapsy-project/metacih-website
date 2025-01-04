@@ -5,14 +5,13 @@ function populateTeam(data) {
 
     data.forEach(person => {
       const personHTML = `
-        <div class="col h-100">
+        <div class="col h-100 mb-3">
           <div class="bg-blue-fade" style="padding: 0rem; min-height: 338px;">
             <div class="mb-3">
               <img src="${person.image}" alt="${person.name}" style="width: 100%; border: 0.5px solid var(--dgps-boreal); background-color: var(--dgps-sand-fade);" class="no-select">
             </div>
             <p class="lead mb-0 signika fw-semibold boreal" style="line-height: 1.5;"><a href="${person.url}">${person.name}</a></p>
             <p class="mb-0" style="font-size: 12px;">${person.affiliation}</p>
-            <p class="mb-0 sand" style="font-size: 12px;">${person.position}</p>
           </div>
         </div>
       `;
@@ -24,7 +23,7 @@ function populateTeam(data) {
 };
 
 // Fetch the JSON file and populate the team
-fetch('/assets/team/team.json')
+fetch('/assets/advisory-board/advisory-board.json')
 .then(response => {
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
