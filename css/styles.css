@@ -79,8 +79,8 @@
   --bs-code-color: #d63384;
   --bs-highlight-bg: #fff3cd;
   --dgps-boreal-dark: #196759;
-  --dgps-boreal: #008670;
-  --dgps-sand: #cc9c00;
+  --dgps-boreal: #00856f;
+  --dgps-sand: rgb(204, 156, 0);
   --dgps-boreal-fade: rgba(0, 134, 112, 0.25);
   --dgps-sand-fade: rgba(254, 240, 191, 0.251);
 }
@@ -763,6 +763,10 @@ progress {
 @media (max-width: 992px) {
   #forest-col {
     display: none;
+  }
+  .disclaimer.app > div > div > p > span > .footer-link {
+    display: none !important;
+    display: none !important;
   }
   #mitglieder-text {
     padding-right: 0rem !important;
@@ -11288,3 +11292,13 @@ ul.list li::before {
   100% { transform: rotate(360deg); }
 }
 
+.disclaimer {
+  box-shadow: 0px 0px 10px .5px rgba(49,63,69,0.15) !important;
+}
+
+.lexend-tera {
+  font-family: "Lexend Tera", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
