@@ -54,10 +54,10 @@
         "image": "/assets/advisory-board/cohen.webp"
     },
     {
-        "name": "Richard Davidson",
-        "affiliation": "",
-        "url": "#",
-        "image": "/assets/advisory-board/blank.webp"
+        "name": "Richard Davidson, PhD",
+        "affiliation": "Director, Center for Healthy Minds, University of Wisconsin-Madison",
+        "url": "https://psych.wisc.edu/staff/davidson-richard/",
+        "image": "/assets/advisory-board/davidson.webp"
     },
     {
         "name": "Romy Lauche",
@@ -66,15 +66,15 @@
         "image": "/assets/advisory-board/lauche.webp"
     },
     {
-        "name": "Suzanne Stinson",
-        "affiliation": "",
+        "name": "Suzanne Stinson, MBA",
+        "affiliation": "Vice President of Budget, Financial Management, and Business Development, UMass Memorial Medical Center",
         "url": "#",
-        "image": "/assets/advisory-board/blank.webp"
+        "image": "/assets/advisory-board/stinson.webp"
     },
     {
-        "name": "Tami Ireland",
-        "affiliation": "",
+        "name": "Tami Ireland, MPH, CHIE",
+        "affiliation": "Director of Health Engagement, Point32Health",
         "url": "#",
-        "image": "/assets/advisory-board/blank.webp"
+        "image": "/assets/advisory-board/ireland.webp"
     }
 ]

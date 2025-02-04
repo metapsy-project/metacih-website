@@ -59,42 +59,42 @@
         "name": "Nikole Giovannone",
         "affiliation": "Brown University",
         "position": "Project Manager",
-        "url": "#",
+        "url": "https://sites.brown.edu/mheal/team/#nikole ",
         "image": "/assets/team/nikole.webp"
     },
     {
         "name": "Vedhalakshmi Rajasankar",
         "affiliation": "Brown University",
         "position": "Research Assistant",
-        "url": "#",
+        "url": "https://sites.brown.edu/mheal/team/#vedha",
         "image": "/assets/team/vedha.webp"
     },
     {
         "name": "Chloe Chen",
         "affiliation": "Brown University",
         "position": "Research Assistant",
-        "url": "#",
+        "url": "https://sites.brown.edu/mheal/team/#chloe",
         "image": "/assets/team/chloe.webp"
     },
     {
         "name": "Wendy Lau",
-        "affiliation": "Brown University",
+        "affiliation": "University of Wisconsin-Madison",
         "position": "Research Assistant",
-        "url": "#",
+        "url": "https://www.centerhealthyminds.org/about/people/wendy-lau",
         "image": "/assets/team/wendy.webp"
     },
     {
         "name": "Caroline Swords",
-        "affiliation": "Brown University",
+        "affiliation": "University of Wisconsin-Madison",
         "position": "Research Assistant",
-        "url": "#",
+        "url": "https://centerhealthyminds.org/about/people/caroline-swords",
         "image": "/assets/team/caroline.webp"
     },
     {
         "name": "Qiang Xie",
-        "affiliation": "Brown University",
+        "affiliation": "University of Wisconsin-Madison",
         "position": "Research Assistant",
-        "url": "#",
+        "url": "https://centerhealthyminds.org/about/people/qiang-xie",
         "image": "/assets/team/qiang.webp"
     }
 ]
