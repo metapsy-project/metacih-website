@@ -54,46 +54,50 @@
         <!-- Section 1-->
         <section id="contact" class="py-5 bg-white">
             <div id="contact-box" class="container px-5">
-                <!-- Contact form-->
+                <!-- Contact form -->
                 <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
                     <div class="text-center mb-5">
-                        <!-- <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>-->
                         <h1 class="fw-normal text-serif">Contact</h1>
-                        <div class="container fluid" style="max-width: 600px;">
-                        <p class="lead fw-normal text-muted mb-0">If you have any questions, problems or requests concerning the MetaCIH databases, feel free to send us a message.</p>
-                        </div>
-                          <br></br><br></br>
-                    </div>
-                    <div id="contact-info-box" class="row gx-5">
-                        <div class="col-xl-6">
-                          <div id="contact-img" class="d-flex align-items-end justify-content-end">
-                          <img  class="rounded-circle me-3 add-shadow" src="assets/team/shufang.webp" width="190px" alt="..." />
-                        </div>
-                        </div>
-                        <div class="col-xl-6">
-                          <div id="contact-text" class="d-flex align-items-start justify-content-start">
-                          <div><h2 class = "text-primary">
-                              <strong class="text-serif fw-normal">Shufang Sun</strong></h2>
-                              <p><strong>Associate Professor of Behavioral and Social Sciences</strong><br>
-                                <strong>Associate Professor of Psychiatry and Human Behavior</strong><br>
-                                <strong>Associate Director of the Mindfulness Center</strong></p>                                
-                                Brown University<br>
-                                121 South Main Street<br>
-                                Providence, RI 02912 <br>
-                                United States of America<br>
-                              </p>
-                              <p class="text-muted">shufang_sun@brown.edu</p>
-                              <a class="fs-4 px-1 link-muted" target = "_blank" href="https://vivo.brown.edu/display/ssun33"><i class="bi-globe"></i></a>
-                          </div>
-                          </div>
+                        <div class="container fluid" style="max-width: 700px;">
+                            <p class="lead fw-normal text-muted mb-0">If you have questions, problems, or requests concerning the MetaCIH databases, send us a message using the form below.</p>
                         </div>
                     </div>
                     <div class="row gx-5 justify-content-center">
+                        <div class="col-lg-8">
+                            <div id="contact-alert" class="alert alert-success d-none" role="alert"></div>
+                             <form id="contactForm" action="#" method="POST" novalidate>
+                                <!-- Disable captcha challenge on FormSubmit -->
+                                <input type="hidden" name="_captcha" value="false">
+                                <!-- Subject line for the email you receive -->
+                                <input type="hidden" name="_subject" value="MetaCIH Contact Form Submission">
+                                <!-- Honeypot anti-spam field (should stay empty; bots often fill it) -->
+                                <input type="text" name="_honey" style="display:none">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input class="form-control" id="name" name="name" type="text" placeholder="Your name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="subject" class="form-label">Subject</label>
+                                    <input class="form-control" id="subject" name="subject" type="text" placeholder="Subject" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea class="form-control" id="message" name="message" rows="6" placeholder="Type your message here..." required></textarea>
+                                </div>
+                                <div class="d-grid">
+                                    <button class="btn btn-primary btn-lg" id="submitButton" type="submit">Send message</button>
+                                </div>
+            
+                            </form>
+                        </div>
                     </div>
-                    <br></br>
                 </div>
             </div>
-        </section>   
+        </section>
 
     </main>
     <!-- Disclaimer -->
@@ -129,6 +133,73 @@
     <script src="/js/renderTeam.js"></script>
     <!-- Cookie alert-->
     <script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js" defer></script>
+    <script>
+      /*
+       * Contact form submission (JSON + fetch)
+       * - Prevents navigation away from the page (no redirects)
+       * - Shows success or error status in the on-page alert box
+       * - Disables the submit button during the request to avoid double submits
+       */
+      // Contact form submission via AJAX to keep the user on this page and
+      // show a success/error message without redirects.
+      (function () {
+        // Grab references to the form, the submit button, and the alert box
+        var form = document.getElementById('contactForm');
+        var submitBtn = document.getElementById('submitButton');
+        var alertBox = document.getElementById('contact-alert');
+        if (!form) return;
+
+        // Intercept the native submit and send the data with fetch as JSON
+        form.addEventListener('submit', async function (ev) {
+          ev.preventDefault();
+          // Prevent double submissions
+          if (submitBtn) submitBtn.disabled = true;
+          if (alertBox) {
+            // Reset and hide any previous alert
+            alertBox.classList.add('d-none');
+            alertBox.classList.remove('alert-danger');
+            alertBox.classList.add('alert-success');
+          }
+
+          try {
+            // Build request payload from visible form fields as JSON
+            const fd = new FormData(form);
+            const payload = Object.fromEntries(fd.entries());
+            // Send JSON to FormSubmit AJAX endpoint for your email address
+            // Note: FormSubmit requires Accept: application/json; we also send
+            // Content-Type: application/json because we're posting JSON (not FormData)
+            const res = await fetch('https://formsubmit.co/ajax/paula.r.kuper@gmail.com', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            // If FormSubmit returns an error, surface their message to the user
+            if (!res.ok) throw new Error(data && (data.message || data.error) || 'Request failed');
+            if (alertBox) {
+              alertBox.textContent = 'Thank you! Your message has been sent successfully. We will get back to you shortly.';
+              alertBox.classList.remove('d-none');
+            }
+            form.reset();
+          } catch (e) {
+            if (alertBox) {
+              // Switch to a danger alert and display the error text
+              alertBox.classList.remove('d-none');
+              alertBox.classList.remove('alert-success');
+              alertBox.classList.add('alert-danger');
+              alertBox.textContent = 'Error: ' + (e && e.message ? e.message : 'There was a problem sending your message. Please try again later.');
+            }
+          } finally {
+            // Re-enable the submit button either way
+            if (submitBtn) submitBtn.disabled = false;
+          }
+        });
+      })();
+    </script>
+ 
 </body>
 
 </html>

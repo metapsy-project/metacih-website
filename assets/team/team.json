@@ -2,21 +2,21 @@
     {
         "name": "Shufang Sun",
         "affiliation": "Brown University",
-        "position": "Lead Investigator",
+        "position": "Principal Investigator",
         "url": "https://vivo.brown.edu/display/ssun33",
         "image": "/assets/team/shufang.webp"
     },
     {
         "name": "Simon Goldberg",
         "affiliation": "University of Wisconsin-Madison",
-        "position": "Lead Investigator",
+        "position": "Principal Investigator",
         "url": "https://counselingpsych.education.wisc.edu/fac-staff/goldberg-simon/",
         "image": "/assets/team/simon.webp"
     },
     {
         "name": "Eric Loucks",
         "affiliation": "Brown University",
-        "position": "Lead Investigator",
+        "position": "Principal Investigator",
         "url": "https://vivo.brown.edu/display/eloucks",
         "image": "/assets/team/eric.webp"
     },
@@ -54,6 +54,13 @@
         "position": "Consultant",
         "url": "https://research.vu.nl/en/persons/annemieke-van-straten",
         "image": "/assets/team/annemieke.webp"
+    },
+    {
+        "name": "Paula Kuper",
+        "affiliation": "Otto von Guericke University Magdeburg",
+        "position": "Consultant",
+        "url": "https://ismg.med.ovgu.de/en/Institute/Team/Kuper",
+        "image": "/assets/team/paula.webp"
     },
     {
         "name": "Nikole Giovannone",
