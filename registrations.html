@@ -67,6 +67,49 @@
                 </div>
             </div>
         </header>
+        <!-- Search and Filter Section -->
+        <section class="bg-white" style="padding: 2rem 0;">
+            <div class="container" style="position: relative; max-width: 1000px;">
+                <div class="row">
+                    <div class="col">
+                        <div class="search-filter-container" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <div class="search-box">
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-white border-end-0" style="border-radius: 25px 0 0 25px;">
+                                                <i class="fa-solid fa-search text-muted"></i>
+                                            </span>
+                                            <input type="text" id="searchInput" class="form-control border-start-0" 
+                                                   placeholder="Search registrations by title, authors, or ID..." 
+                                                   style="border-radius: 0 25px 25px 0; font-size: 0.95rem;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-3 mt-md-0">
+                                    <select id="statusFilter" class="form-select" style="border-radius: 25px; font-size: 0.95rem;">
+                                        <option value="">All Statuses</option>
+                                        <option value="ongoing">Ongoing</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span id="resultCount" class="text-muted small">Loading registrations...</span>
+                                        <button id="clearFilters" class="btn btn-outline-secondary btn-sm" style="display: none;">
+                                            <i class="fa-solid fa-times me-1"></i>Clear Filters
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
         <!-- Section 1-->
         <section id="registrations" class="bg-white" id="beratung" style="padding-bottom: 6rem;">
         </section>
