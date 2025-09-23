@@ -140,8 +140,7 @@
        * - Shows success or error status in the on-page alert box
        * - Disables the submit button during the request to avoid double submits
        */
-      // Contact form submission via AJAX to keep the user on this page and
-      // show a success/error message without redirects.
+     
       (function () {
         // Grab references to the form, the submit button, and the alert box
         var form = document.getElementById('contactForm');
@@ -168,7 +167,7 @@
             // Send JSON to FormSubmit AJAX endpoint for your email address
             // Note: FormSubmit requires Accept: application/json; we also send
             // Content-Type: application/json because we're posting JSON (not FormData)
-            const res = await fetch('https://formsubmit.co/ajax/paula.r.kuper@gmail.com', {
+            const res = await fetch('https://formsubmit.co/ajax/nikole_giovannone@brown.edu', {
               method: 'POST',
               headers: {
                 'Accept': 'application/json',
