@@ -21,6 +21,7 @@ function populateDatabases(data) {
                         ${database.title}
                     </h2>
                     <p class="text-muted" style="max-width: 750px;">${database.subtitle}</p>
+                    ${database.hasDisclaimer ? `<div style="background:#d1e7dd;border:1px solid #0f5132;border-radius:4px;padding:10px 15px;margin:10px 0 15px;display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#0f5132;"><i class="fa-solid fa-circle-info" style="font-size:1rem;flex-shrink:0;"></i><span>${database.disclaimerText || 'This database serves as a template database.'}</span></div>` : ''}
                     <hr>
                     <div class="collapseText">
                       ${database.description}
