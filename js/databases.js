@@ -11,7 +11,10 @@ function populateDatabases(data) {
         style="padding: 2rem; position: relative; z-index: 2;">
         <div class="row">
             <div class="col-lg-3">
-                <img src="${database.image}" alt="Description" class="square-img no-select">
+                <div style="position: relative; display: inline-block;">
+                    <img src="${database.image}" alt="Description" class="square-img no-select">
+                    <div style="position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0, 133, 111, 0.06), rgba(0, 133, 111, 0.36)); pointer-events: none;" aria-hidden="true"></div>
+                </div>
                 <a class="btn btn-primary px-4 no-underline btn-start" href="${database.link}">Start
                     Analyzing&nbsp;&nbsp;<i class="fa-solid fa-arrow-right-long"></i></a>
             </div>
@@ -20,8 +23,8 @@ function populateDatabases(data) {
                     <h2 class="fw-semibold mb-2 signika no-select" style="font-size: 1.75rem;">
                         ${database.title}
                     </h2>
-                    <p class="text-muted" style="max-width: 750px;">${database.subtitle}</p>
-                    ${database.hasDisclaimer ? `<div style="background:#d1e7dd;border:1px solid #0f5132;border-radius:4px;padding:10px 15px;margin:10px 0 15px;display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#0f5132;"><i class="fa-solid fa-circle-info" style="font-size:1rem;flex-shrink:0;"></i><span>${database.disclaimerText || 'This database serves as a template database.'}</span></div>` : ''}
+                    <p class="text-muted mb-0" style="max-width: 750px;">${database.subtitle}</p>
+                    ${database.hasDisclaimer ? `<div class="disclaimer-toast" role="alert" style="background:#d1e7dd;border:1px solid #0f5132;border-radius:6px;padding:10px 15px;margin:10px 0 15px;display:inline-flex;align-items:center;gap:10px;font-size:0.875rem;color:#0f5132;"><i class="fa-solid fa-circle-info" style="font-size:1rem;flex-shrink:0;"></i><span>${database.disclaimerText || 'This database serves as a template database.'}</span></div>` : ''}
                     <hr>
                     <div class="collapseText">
                       ${database.description}

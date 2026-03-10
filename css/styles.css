@@ -4506,8 +4506,8 @@ textarea.form-control-lg {
   --bs-accordion-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
   --bs-accordion-border-color: var(--dgps-boreal);
   --bs-accordion-border-width: 0.5px;
-  --bs-accordion-border-radius: 0rem;
-  --bs-accordion-inner-border-radius: 0rem;
+  --bs-accordion-border-radius: var(--bs-border-radius);
+  --bs-accordion-inner-border-radius: var(--bs-border-radius);
   --bs-accordion-btn-padding-x: 1.25rem;
   --bs-accordion-btn-padding-y: 1rem;
   --bs-accordion-btn-color: #212529;
@@ -11024,6 +11024,7 @@ html {
   height: 3rem;
   width: 3rem;
   font-size: 1.5rem;
+  border-radius: var(--bs-border-radius);
 }
 
 .feature-sm {
@@ -11033,6 +11034,7 @@ html {
   height: 1.8rem;
   width: 1.8rem;
   font-size: 0.9rem;
+  border-radius: var(--bs-border-radius);
 }
 
 .btn-show-more {
