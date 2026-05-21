@@ -11540,3 +11540,23 @@ ul.list li::before {
   border-right: 0.5px solid var(--dgps-boreal);
   border-top: 0;
 }
+
+.dropdown-menu > li.dropdown-documentation-entry {
+  background-color: var(--dgps-boreal);
+  margin-bottom: calc(-1 * var(--bs-dropdown-padding-y, 0.5rem));
+  list-style: none;
+}
+
+.dropdown-menu > li.dropdown-documentation-entry > .dropdown-item.dropdown-item-documentation {
+  background-color: var(--dgps-boreal) !important;
+  color: #fff !important;
+  border-top: 1px solid var(--dgps-boreal-dark);
+  border-radius: 0;
+}
+
+.dropdown-menu > li.dropdown-documentation-entry > .dropdown-item.dropdown-item-documentation:hover,
+.dropdown-menu > li.dropdown-documentation-entry > .dropdown-item.dropdown-item-documentation:focus,
+.dropdown-menu > li.dropdown-documentation-entry > .dropdown-item.dropdown-item-documentation:active {
+  background-color: var(--dgps-boreal-dark) !important;
+  color: #fff !important;
+}
