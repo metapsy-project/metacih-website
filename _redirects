@@ -1,0 +1,3 @@
+/databases/index.html /evidence/index.html 301
+/databases/mbi.html /evidence/mbi.html 301
+/databases/* /evidence/:splat 301
