@@ -15,6 +15,7 @@ function populateTeam(data) {
             <p class="lead mb-0 signika fw-semibold boreal" style="line-height: 1.5;"><a href="${person.url}">${person.name}</a></p>
             <p class="mb-0" style="font-size: 12px;">${person.affiliation}</p>
             <p class="mb-0 sand" style="font-size: 12px;">${person.position}</p>
+            ${person.email ? `<p class="mb-0" style="font-size: 12px;"><a href="mailto:${person.email}">${person.email}</a></p>` : ''}
           </div>
         </div>
       `;

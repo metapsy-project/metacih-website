@@ -2,21 +2,22 @@
     {
         "name": "Shufang Sun",
         "affiliation": "Brown University",
-        "position": "Principal Investigator",
+        "position": "Contact PI & Project Leader",
+        "email": "shufang_sun@brown.edu",
         "url": "https://vivo.brown.edu/display/ssun33",
         "image": "/assets/team/shufang.webp"
     },
     {
         "name": "Simon Goldberg",
         "affiliation": "University of Wisconsin-Madison",
-        "position": "Principal Investigator",
+        "position": "MPI",
         "url": "https://counselingpsych.education.wisc.edu/fac-staff/goldberg-simon/",
         "image": "/assets/team/simon.webp"
     },
     {
         "name": "Eric Loucks",
         "affiliation": "Brown University",
-        "position": "Principal Investigator",
+        "position": "MPI",
         "url": "https://vivo.brown.edu/display/eloucks",
         "image": "/assets/team/eric.webp"
     },
