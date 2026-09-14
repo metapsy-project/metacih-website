@@ -3143,19 +3143,19 @@ textarea.form-control-lg {
 }
 
 .btn-outline-primary {
-  --bs-btn-color: #0d6efd;
-  --bs-btn-border-color: #0d6efd;
+  --bs-btn-color: var(--dgps-boreal);
+  --bs-btn-border-color: var(--dgps-boreal);
   --bs-btn-hover-color: #fff;
-  --bs-btn-hover-bg: #0d6efd;
-  --bs-btn-hover-border-color: #0d6efd;
-  --bs-btn-focus-shadow-rgb: 13, 110, 253;
+  --bs-btn-hover-bg: var(--dgps-boreal);
+  --bs-btn-hover-border-color: var(--dgps-boreal);
+  --bs-btn-focus-shadow-rgb: 0, 133, 111;
   --bs-btn-active-color: #fff;
-  --bs-btn-active-bg: #0d6efd;
-  --bs-btn-active-border-color: #0d6efd;
+  --bs-btn-active-bg: var(--dgps-boreal-dark);
+  --bs-btn-active-border-color: var(--dgps-boreal-dark);
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-  --bs-btn-disabled-color: #0d6efd;
+  --bs-btn-disabled-color: var(--dgps-boreal);
   --bs-btn-disabled-bg: transparent;
-  --bs-btn-disabled-border-color: #0d6efd;
+  --bs-btn-disabled-border-color: var(--dgps-boreal);
   --bs-gradient: none;
 }
 
@@ -11247,6 +11247,294 @@ html {
   color: var(--dgps-boreal-dark);
 }
 
+/* Evidence search year histogram + slider */
+.year-filter-controls {
+  max-width: 36%;
+}
+
+.year-histogram {
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  height: 88px;
+  padding: 0 9px;
+  user-select: none;
+  touch-action: none;
+  cursor: col-resize;
+}
+
+.year-histogram.is-dragging {
+  cursor: col-resize;
+}
+
+.year-histogram-bar {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 2px 2px 0 0;
+  background: #c5d4d0;
+  align-self: flex-end;
+  cursor: pointer;
+}
+
+.year-histogram-bar.is-empty {
+  background: #e9ecef;
+}
+
+.year-histogram-bar.is-selected {
+  background: var(--dgps-boreal);
+}
+
+.year-histogram-bar.is-empty.is-selected {
+  background: rgba(13, 134, 112, 0.35);
+}
+
+.year-histogram-bar:hover {
+  background: #8fb8b0;
+}
+
+.year-histogram-bar.is-selected:hover {
+  background: var(--dgps-boreal-dark, #0a6b5a);
+}
+
+.year-histogram-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.15rem;
+  padding: 0 9px;
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.year-range-wrapper {
+  padding: 0.15rem 0.5rem 0.5rem;
+}
+
+.year-range-slider {
+  position: relative;
+  height: 36px;
+}
+
+.year-range-rail,
+.year-range-track {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  border-radius: 999px;
+}
+
+.year-range-rail {
+  left: 0;
+  right: 0;
+  background: #dee2e6;
+}
+
+.year-range-track {
+  background: var(--dgps-boreal);
+  z-index: 1;
+}
+
+.year-range-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 36px;
+  margin: 0;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+  z-index: 2;
+}
+
+.year-range-input:last-of-type {
+  z-index: 3;
+}
+
+.year-range-input:focus {
+  z-index: 4;
+}
+
+.year-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--dgps-boreal);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.year-range-input::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--dgps-boreal);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.year-range-input::-webkit-slider-runnable-track,
+.year-range-input::-moz-range-track {
+  background: transparent;
+  border: none;
+}
+
+@media (max-width: 767px) {
+  .year-filter-controls {
+    max-width: 100%;
+  }
+}
+
+#columnSelect:focus {
+  border-color: var(--dgps-boreal);
+  box-shadow: 0 0 0 0.2rem rgba(13, 134, 112, 0.25);
+}
+
+#columnSelect optgroup {
+  font-weight: 600;
+  font-style: normal;
+  color: var(--dgps-boreal);
+}
+
+#columnSelect option {
+  font-weight: 400;
+  color: #212529;
+  padding-left: 0.5rem;
+}
+
+/* PubMed-style evidence search builder */
+.pubmed-builder-block {
+  margin-bottom: 1.25rem;
+}
+
+.pubmed-section-label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #212529;
+  margin-bottom: 0.5rem;
+}
+
+.pubmed-field-select,
+.pubmed-term-input,
+.pubmed-query-box {
+  border-radius: 4px !important;
+  border-color: #adb5bd;
+  font-size: 0.95rem;
+}
+
+.pubmed-term-input,
+.pubmed-query-box {
+  padding-right: 2rem;
+}
+
+.pubmed-input-clear-wrap {
+  position: relative;
+}
+
+.pubmed-clear-btn {
+  position: absolute;
+  top: 50%;
+  right: 0.55rem;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: #6c757d;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.pubmed-clear-btn-query {
+  top: 0.65rem;
+  transform: none;
+}
+
+.pubmed-clear-btn:hover {
+  color: #212529;
+}
+
+.pubmed-search-btn {
+  border-radius: 4px;
+  font-weight: 600;
+  min-height: 100%;
+  font-size: 1rem;
+}
+
+.pubmed-query-box {
+  resize: vertical;
+  min-height: 110px;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.pubmed-query-wrap .pubmed-query-box {
+  padding-right: 2rem;
+}
+
+@media (max-width: 767px) {
+  .pubmed-search-btn {
+    min-height: 42px;
+  }
+}
+
+/* Evidence search results */
+.evidence-results-toggle {
+  border-radius: 4px;
+  text-align: left;
+  font-size: 0.95rem;
+  padding: 0.6rem 0.85rem;
+}
+
+.evidence-results-dropdown-menu {
+  border-radius: 4px;
+  border-color: #adb5bd;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  margin-top: 0.35rem !important;
+  overflow: hidden;
+}
+
+.evidence-results-scroll {
+  max-height: 420px;
+  overflow-y: auto;
+  padding: 0.75rem;
+}
+
+.evidence-result-card {
+  padding: 1rem 0.25rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.evidence-result-card:last-of-type {
+  border-bottom: none;
+}
+
+.evidence-result-card .search-highlight {
+  background: #ffe066;
+  color: inherit;
+  padding: 0.05rem 0.15rem;
+  border-radius: 2px;
+  font-weight: inherit;
+}
+
+.evidence-results-footer-stripe {
+  height: 4px;
+  background: var(--dgps-boreal);
+  margin-top: 0.5rem;
+}
+
 .bg-featured-blog {
   height: 100%;
   width: 100%;
@@ -11513,6 +11801,13 @@ ul.list li::before {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+}
+
+.faq-external-arrow {
+  display: inline-block;
+  margin-left: 0.2em;
+  transform: rotate(-45deg);
+  color: inherit;
 }
 
 .square-img {

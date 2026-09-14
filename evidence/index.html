@@ -68,66 +68,121 @@
                 </div>
             </div>
         </header>
-        <!-- Section 1-->
-        <section id="databases" class="bg-white" style="padding-bottom: 6rem;">
+        <!-- Search Section -->
+        <section id="evidence-search" class="bg-white" style="padding: 2rem 0;">
             <div class="container" style="position: relative; max-width: 1000px;">
-                <div id="id" class="row">
-                    <div class="col rounded my-1 fade-in-super-short mt-3"
-                        style="padding: 2rem; position: relative; z-index: 2;">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <img src="/assets/images/selfguided-header.webp" alt="Description" class="square-img no-select">
-                                <a class="btn btn-primary px-4 no-underline btn-start" href="/evidence/mbi.html">Start
-                                    Analyzing&nbsp;&nbsp;<i class="fa-solid fa-arrow-right-long"></i></a>
-                            </div>
-                            <div class="col">
-                                <div class="text-center text-xl-start">
-                                    <h2 class="fw-semibold mb-2 signika no-select" style="font-size: 1.75rem;">
-                                        Mindfulness-Based Interventions (MBI)
-                                    </h2>
-                                    <p class="text-muted" style="max-width: 750px;">Meta-Analytic Evidence Collection of Randomized
-                                        Controlled Trials</p>
-                                    <hr>
-                                    <div class="collapseText">
-                                        <p>Mindfulness-Based Interventions (MBI) have mindfulness meditation as a core component with home 
-                                            meditation practice as a treatment ingredient. We also incuded interventions combining 
-                                            mindfulness with other modalities (e.g., mindfulness and cognitive techniques as in Mindfulness-
-                                            Based Cognitive Therapy (MBCT); Segal, Williams, & Teasdale, 2002).</p>
-                                        <p class="mb-0">This online meta-analysis tool allows you to explore a
-                                            simplified version of the <i>Mindfulness-Based Interventions (MBI)</i>
-                                            dataset.</p>
+                <div class="row">
+                    <div class="col">
+                        <div class="search-filter-container" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h2 class="fw-semibold mb-3 signika" style="font-size: 1.35rem;">Search Studies</h2>
+
+                            <!-- PubMed-style: Add terms -->
+                            <div class="pubmed-builder-block mb-4">
+                                <label class="pubmed-section-label">Add terms to the query box</label>
+                                <div class="row g-2 align-items-stretch pubmed-add-row">
+                                    <div class="col-md-3">
+                                        <select id="columnSelect" class="form-select pubmed-field-select" aria-label="Column">
+                                            <option value="">Loading columns...</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="pubmed-input-clear-wrap">
+                                            <input type="text" id="queryInput" class="form-control pubmed-term-input"
+                                                   placeholder="Enter a search term" aria-label="Search term">
+                                            <button type="button" id="clearTermInput" class="pubmed-clear-btn" aria-label="Clear search term" title="Clear">&times;</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="dropdown w-100">
+                                            <button class="btn btn-outline-primary dropdown-toggle w-100" type="button" id="addQueryDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="border-radius: 25px;">
+                                                ADD
+                                            </button>
+                                            <ul class="dropdown-menu w-100" aria-labelledby="addQueryDropdown">
+                                                <li><button type="button" class="dropdown-item add-query-option" data-operator="AND">ADD with AND</button></li>
+                                                <li><button type="button" class="dropdown-item add-query-option" data-operator="OR">ADD with OR</button></li>
+                                                <li><button type="button" class="dropdown-item add-query-option" data-operator="NOT">ADD with NOT</button></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="id" class="row">
-                    <div class="col rounded my-1 fade-in-super-short mt-3"
-                        style="padding: 2rem; position: relative; z-index: 2;">
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <img src="/assets/images/selfguided-header.webp" alt="Description" class="square-img">
-                                <a class="btn btn-primary px-4 no-underline btn-start" href="/evidence/mbi.html">Start
-                                    Analyzing&nbsp;&nbsp;<i class="fa-solid fa-arrow-right-long"></i></a>
+
+                            <!-- PubMed-style: Query box + Search -->
+                            <div class="pubmed-builder-block mb-4">
+                                <label for="queryBox" class="pubmed-section-label">Query box</label>
+                                <div class="row g-2 align-items-stretch pubmed-query-row">
+                                    <div class="col-md-10">
+                                        <div class="pubmed-input-clear-wrap pubmed-query-wrap">
+                                            <textarea id="queryBox" class="form-control pubmed-query-box" rows="4"
+                                                      placeholder=""></textarea>
+                                            <button type="button" id="clearQueryBox" class="pubmed-clear-btn pubmed-clear-btn-query" aria-label="Clear query box" title="Clear">&times;</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 d-grid">
+                                        <button id="searchBtn" class="btn btn-primary pubmed-search-btn" type="button">Search</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col">
-                                <div class="text-center text-xl-start">
-                                    <h2 class="fw-semibold mb-2 signika no-select" style="font-size: 1.75rem;">
-                                        Mindfulness-Based Interventions (MBI)
-                                    </h2>
-                                    
-                                    <p class="text-muted" style="max-width: 750px;">Meta-Analytic Evidence Collection of Randomized
-                                        Controlled Trials</p>
-                                    <hr>
-                                    <div class="collapseText">
-                                        <p>Mindfulness-Based Interventions (MBI) have mindfulness meditation as a core component with home 
-                                            meditation practice as a treatment ingredient. We also incuded interventions combining 
-                                            mindfulness with other modalities (e.g., mindfulness and cognitive techniques as in Mindfulness-
-                                            Based Cognitive Therapy (MBCT); Segal, Williams, & Teasdale, 2002).</p>
-                                        <p class="mb-0">This online meta-analysis tool allows you to explore a
-                                            simplified version of the <i>Mindfulness-Based Interventions (MBI)</i>
-                                            dataset.</p>
+
+                            <!-- Year filter -->
+                            <div class="pubmed-builder-block mb-3" id="yearRangeContainer">
+                                <label class="pubmed-section-label">Publication year</label>
+                                <div class="year-filter-controls">
+                                    <div class="year-range-values mb-2">
+                                        <span class="badge bg-white text-dark border"><span id="yearMinLabel">—</span></span>
+                                        <span class="text-muted mx-2">to</span>
+                                        <span class="badge bg-white text-dark border"><span id="yearMaxLabel">—</span></span>
+                                    </div>
+                                    <div id="yearHistogram" class="year-histogram" role="img" aria-label="Publication year histogram"></div>
+                                    <div class="year-histogram-axis">
+                                        <span id="yearAxisMin">—</span>
+                                        <span id="yearAxisMax">—</span>
+                                    </div>
+                                    <div class="year-range-wrapper">
+                                        <div class="year-range-slider">
+                                            <div class="year-range-rail"></div>
+                                            <div id="yearRangeTrack" class="year-range-track"></div>
+                                            <input type="range" id="yearMin" class="year-range-input" aria-label="Minimum year">
+                                            <input type="range" id="yearMax" class="year-range-input" aria-label="Maximum year">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Search results dropdown -->
+                            <div class="pubmed-builder-block mb-3" id="searchResultsDropdownWrap" style="display: none;">
+                                <label class="pubmed-section-label">Search results</label>
+                                <div class="dropdown w-100">
+                                    <button class="btn btn-outline-secondary w-100 d-flex justify-content-between align-items-center evidence-results-toggle"
+                                            type="button" id="searchResultsToggle" data-bs-toggle="dropdown"
+                                            data-bs-auto-close="outside" aria-expanded="false">
+                                        <span id="searchResultsToggleText">View search results</span>
+                                        <i class="fa-solid fa-chevron-down"></i>
+                                    </button>
+                                    <div class="dropdown-menu w-100 evidence-results-dropdown-menu">
+                                        <div id="searchResults" class="evidence-results-scroll"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        <span id="resultCount" class="text-muted small">Loading studies...</span>
+                                        <div class="d-flex gap-2">
+                                            <div class="dropdown" id="downloadReportDropdown" style="display: none;">
+                                                <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa-solid fa-download me-1"></i>Download Report
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li><button type="button" class="dropdown-item" id="downloadReportPdfBtn">PDF (.pdf)</button></li>
+                                                    <li><button type="button" class="dropdown-item" id="downloadReportCsvBtn">CSV (.csv)</button></li>
+                                                </ul>
+                                            </div>
+                                            <button id="clearFilters" class="btn btn-outline-secondary btn-sm" style="display: none;">
+                                                <i class="fa-solid fa-times me-1"></i>Clear Filters
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -135,6 +190,13 @@
                     </div>
                 </div>
             </div>
+        </section>
+        <!-- Evidence Collections -->
+        <section class="bg-white" style="padding-bottom: 6rem; padding-top: 1rem;">
+            <div class="container" style="position: relative; max-width: 1000px;">
+                <h2 class="fw-semibold mb-4 signika" style="font-size: 1.35rem;">Available Collections</h2>
+            </div>
+            <div id="databases"></div>
         </section>
     </main>
     <!-- Disclaimer -->
@@ -166,7 +228,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="/js/scripts.js"></script>
-    <!-- Registrations JS-->
+    <!-- jsPDF for report export -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+    <!-- Evidence search JS-->
+    <script src="/js/evidenceSearch.js"></script>
+    <!-- Databases JS-->
     <script src="/js/databases.js"></script>
     <!-- Cookie alert-->
     <script src="https://cdn.jsdelivr.net/gh/Wruczek/Bootstrap-Cookie-Alert@gh-pages/cookiealert.js" defer></script>
