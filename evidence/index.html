@@ -74,7 +74,13 @@
                 <div class="row">
                     <div class="col">
                         <div class="search-filter-container" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                            <h2 class="fw-semibold mb-3 signika" style="font-size: 1.35rem;">Search Studies</h2>
+                            <div class="search-studies-heading">
+                                <h2 class="fw-semibold mb-0 signika" style="font-size: 1.35rem;">Search Studies</h2>
+                                <a class="search-collections-link" href="#available-evidence-collections">
+                                    <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                                    Available Evidence Collections
+                                </a>
+                            </div>
 
                             <!-- PubMed-style: Add terms -->
                             <div class="pubmed-builder-block mb-4">
@@ -124,29 +130,233 @@
                                 </div>
                             </div>
 
-                            <!-- Year filter -->
-                            <div class="pubmed-builder-block mb-3" id="yearRangeContainer">
-                                <label class="pubmed-section-label">Publication year</label>
-                                <div class="year-filter-controls">
-                                    <div class="year-range-values mb-2">
-                                        <span class="badge bg-white text-dark border"><span id="yearMinLabel">—</span></span>
-                                        <span class="text-muted mx-2">to</span>
-                                        <span class="badge bg-white text-dark border"><span id="yearMaxLabel">—</span></span>
+                            <div class="evidence-map-row mb-3">
+                                <div class="evidence-map-main">
+                                    <div class="evidence-view-tabs" role="tablist" aria-label="Study views">
+                                        <button type="button" class="evidence-view-tab is-active" id="mapTab" role="tab" aria-selected="true" aria-controls="mapPanel">World map</button>
+                                        <button type="button" class="evidence-view-tab" id="beeswarmTab" role="tab" aria-selected="false" aria-controls="beeswarmPanel" tabindex="-1">Studies by year</button>
                                     </div>
-                                    <div id="yearHistogram" class="year-histogram" role="img" aria-label="Publication year histogram"></div>
-                                    <div class="year-histogram-axis">
-                                        <span id="yearAxisMin">—</span>
-                                        <span id="yearAxisMax">—</span>
-                                    </div>
-                                    <div class="year-range-wrapper">
-                                        <div class="year-range-slider">
-                                            <div class="year-range-rail"></div>
-                                            <div id="yearRangeTrack" class="year-range-track"></div>
-                                            <input type="range" id="yearMin" class="year-range-input" aria-label="Minimum year">
-                                            <input type="range" id="yearMax" class="year-range-input" aria-label="Maximum year">
+                                    <div id="mapPanel" class="evidence-view-panel" role="tabpanel" aria-labelledby="mapTab">
+                                        <div class="country-map-layout">
+                                            <svg id="countryMap" class="country-map" role="group" aria-label="Equal Earth world map. Countries with studies are shaded green. Darker green means more studies."></svg>
+                                            <div class="country-map-legend" id="countryMapLegend">
+                                                <div class="country-legend-caption">Studies</div>
+                                                <div class="country-legend-row">
+                                                    <span class="country-legend-swatch is-empty"></span>
+                                                    <span>None</span>
+                                                </div>
+                                                <div class="country-legend-scale">
+                                                    <div class="country-legend-bar"></div>
+                                                    <div class="country-legend-ticks">
+                                                        <span>1</span>
+                                                        <span id="countryLegendMax">—</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <p id="countryMapFallback" class="text-muted small mb-0" hidden>The world map could not be loaded. Country filtering is still available in the list.</p>
+                                    </div>
+                                    <div id="beeswarmPanel" class="evidence-view-panel" role="tabpanel" aria-labelledby="beeswarmTab" hidden>
+                                        <svg id="yearBeeswarm" class="year-beeswarm" role="img" aria-label="Beeswarm plot of studies by publication year. Hover a point to see the authors."></svg>
+                                        <p id="yearBeeswarmNote" class="text-muted small mb-0 mt-2" hidden>Note: 1 study with no reported publication year is omitted.</p>
+                                        <div id="beeswarmTooltip" class="beeswarm-tooltip" role="tooltip" hidden></div>
                                     </div>
                                 </div>
+
+                                <aside class="evidence-filter-rail" aria-label="Filter studies">
+                                    <h3 class="filter-rail-title"><i class="fa-solid fa-filter" aria-hidden="true"></i>Filter studies</h3>
+                                    <div class="filter-accordion" id="sampleSizeContainer">
+                                        <button type="button" class="filter-accordion-toggle" aria-expanded="false" aria-controls="sampleSizePanel">
+                                            <span>Sample size</span>
+                                            <span id="sampleAccordionSummary" class="filter-accordion-summary"></span>
+                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div id="sampleSizePanel" class="filter-accordion-panel" hidden>
+                                            <div class="year-filter-controls">
+                                                <div id="sampleHistogram" class="year-histogram" role="img" aria-label="Sample size histogram"></div>
+                                                <div class="year-range-wrapper">
+                                                    <div class="year-range-slider">
+                                                        <div class="year-range-rail"></div>
+                                                        <div id="sampleRangeTrack" class="year-range-track"></div>
+                                                        <input type="range" id="sampleMin" class="year-range-input" aria-label="Minimum sample size">
+                                                        <input type="range" id="sampleMax" class="year-range-input" aria-label="Maximum sample size">
+                                                    </div>
+                                                    <div class="year-thumb-labels">
+                                                        <span id="sampleMinLabel" class="year-thumb-label"></span>
+                                                        <span id="sampleMaxLabel" class="year-thumb-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <label class="filter-include-option">
+                                                <input type="checkbox" id="sampleNotReported" checked>
+                                                <em>not reported</em>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="filter-accordion" id="yearRangeContainer">
+                                        <button type="button" class="filter-accordion-toggle" aria-expanded="false" aria-controls="yearRangePanel">
+                                            <span>Publication year</span>
+                                            <span id="yearAccordionSummary" class="filter-accordion-summary"></span>
+                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div id="yearRangePanel" class="filter-accordion-panel" hidden>
+                                            <div class="year-filter-controls">
+                                                <div id="yearHistogram" class="year-histogram" role="img" aria-label="Publication year histogram"></div>
+                                                <div class="year-range-wrapper">
+                                                    <div class="year-range-slider">
+                                                        <div class="year-range-rail"></div>
+                                                        <div id="yearRangeTrack" class="year-range-track"></div>
+                                                        <input type="range" id="yearMin" class="year-range-input" aria-label="Minimum year">
+                                                        <input type="range" id="yearMax" class="year-range-input" aria-label="Maximum year">
+                                                    </div>
+                                                    <div class="year-thumb-labels">
+                                                        <span id="yearMinLabel" class="year-thumb-label"></span>
+                                                        <span id="yearMaxLabel" class="year-thumb-label"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <label class="filter-include-option">
+                                                <input type="checkbox" id="yearNotReported" checked>
+                                                <em>not reported</em>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="filter-accordion" id="confidenceFilter">
+                                        <button type="button" class="filter-accordion-toggle" aria-expanded="false" aria-controls="confidencePanel">
+                                            <span>Confidence</span>
+                                            <span id="confidenceSummary" class="filter-accordion-summary">All</span>
+                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div id="confidencePanel" class="filter-accordion-panel" hidden>
+                                            <div class="filter-check-menu" id="confidenceMenu" data-summary="confidenceSummary"></div>
+                                            <label class="filter-include-option">
+                                                <input type="checkbox" id="confidenceNotReported" checked>
+                                                <em>not reported</em>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <h4 class="filter-pico-heading"><i class="fa-solid fa-users" aria-hidden="true"></i>Population</h4>
+                                    <div class="filter-accordion" id="countryFilterContainer">
+                                        <button type="button" class="filter-accordion-toggle" aria-expanded="false" aria-controls="countryPanel">
+                                            <span>Country</span>
+                                            <span id="countrySummary" class="filter-accordion-summary">All</span>
+                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div id="countryPanel" class="filter-accordion-panel" hidden>
+                                            <div class="filter-check-menu" id="countryMenu" data-summary="countrySummary"></div>
+                                            <label class="filter-include-option">
+                                                <input type="checkbox" id="countryNotReported" checked>
+                                                <em>not reported</em>
+                                            </label>
+                                            <label class="filter-include-option">
+                                                <input type="checkbox" id="countryInferred" checked>
+                                                <em>inferred country</em>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="filter-accordion" id="ageGroupFilter">
+                                        <button type="button" class="filter-accordion-toggle" aria-expanded="false" aria-controls="ageGroupPanel">
+                                            <span>Age group</span>
+                                            <span id="ageGroupSummary" class="filter-accordion-summary">All</span>
+                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div id="ageGroupPanel" class="filter-accordion-panel" hidden>
+                                            <div class="filter-check-menu" id="ageGroupMenu" data-summary="ageGroupSummary"></div>
+                                            <label class="filter-include-option">
+                                                <input type="checkbox" id="ageGroupNotReported" checked>
+                                                <em>not reported</em>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="filter-accordion" id="vulnerableFilter">
+                                        <button type="button" class="filter-accordion-toggle" aria-expanded="false" aria-controls="vulnerablePanel">
+                                            <span>Vulnerable population</span>
+                                            <span id="vulnerableSummary" class="filter-accordion-summary">All</span>
+                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div id="vulnerablePanel" class="filter-accordion-panel" hidden>
+                                            <div class="filter-check-menu" id="vulnerableMenu" data-summary="vulnerableSummary"></div>
+                                            <label class="filter-include-option">
+                                                <input type="checkbox" id="vulnerableNotReported" checked>
+                                                <em>not reported</em>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <h4 class="filter-pico-heading"><i class="fa-solid fa-spa" aria-hidden="true"></i>Intervention</h4>
+                                    <div class="filter-accordion" id="interventionFilter">
+                                        <button type="button" class="filter-accordion-toggle" aria-expanded="false" aria-controls="interventionPanel">
+                                            <span>Intervention type</span>
+                                            <span id="interventionSummary" class="filter-accordion-summary">All</span>
+                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div id="interventionPanel" class="filter-accordion-panel" hidden>
+                                            <div class="filter-check-menu" id="interventionMenu" data-summary="interventionSummary"></div>
+                                            <label class="filter-include-option">
+                                                <input type="checkbox" id="interventionNotReported" checked>
+                                                <em>not reported</em>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="filter-accordion" id="deliveryFilter">
+                                        <button type="button" class="filter-accordion-toggle" aria-expanded="false" aria-controls="deliveryPanel">
+                                            <span>Intervention delivery</span>
+                                            <span id="deliverySummary" class="filter-accordion-summary">All</span>
+                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div id="deliveryPanel" class="filter-accordion-panel" hidden>
+                                            <div class="filter-check-menu" id="deliveryMenu" data-summary="deliverySummary"></div>
+                                            <label class="filter-include-option">
+                                                <input type="checkbox" id="deliveryNotReported" checked>
+                                                <em>not reported</em>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="filter-accordion" id="settingFilter">
+                                        <button type="button" class="filter-accordion-toggle" aria-expanded="false" aria-controls="settingPanel">
+                                            <span>Setting</span>
+                                            <span id="settingSummary" class="filter-accordion-summary">All</span>
+                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div id="settingPanel" class="filter-accordion-panel" hidden>
+                                            <div class="filter-check-menu" id="settingMenu" data-summary="settingSummary"></div>
+                                            <label class="filter-include-option">
+                                                <input type="checkbox" id="settingNotReported" checked>
+                                                <em>not reported</em>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <h4 class="filter-pico-heading"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>Comparator</h4>
+                                    <div class="filter-accordion" id="controlFilter">
+                                        <button type="button" class="filter-accordion-toggle" aria-expanded="false" aria-controls="controlPanel">
+                                            <span>Control group</span>
+                                            <span id="controlSummary" class="filter-accordion-summary">All</span>
+                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div id="controlPanel" class="filter-accordion-panel" hidden>
+                                            <div class="filter-check-menu" id="controlMenu" data-summary="controlSummary"></div>
+                                            <label class="filter-include-option">
+                                                <input type="checkbox" id="controlNotReported" checked>
+                                                <em>not reported</em>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <h4 class="filter-pico-heading"><i class="fa-solid fa-bullseye" aria-hidden="true"></i>Outcomes</h4>
+                                    <div class="filter-accordion" id="outcomesFilter">
+                                        <button type="button" class="filter-accordion-toggle" aria-expanded="false" aria-controls="outcomesPanel">
+                                            <span>Outcomes</span>
+                                            <span id="outcomesSummary" class="filter-accordion-summary">All</span>
+                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                        </button>
+                                        <div id="outcomesPanel" class="filter-accordion-panel" hidden>
+                                            <div class="filter-check-menu" id="outcomesMenu" data-summary="outcomesSummary"></div>
+                                            <label class="filter-include-option">
+                                                <input type="checkbox" id="outcomesNotReported" checked>
+                                                <em>not reported</em>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <button type="button" id="applyFiltersBtn" class="btn btn-primary btn-sm w-100 filter-apply-btn"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i>Apply filters</button>
+                                </aside>
                             </div>
 
                             <!-- Search results dropdown -->
@@ -168,7 +378,7 @@
                             <div class="row mt-3">
                                 <div class="col">
                                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                        <span id="resultCount" class="text-muted small">Loading studies...</span>
+                                        <span id="resultCount" class="study-count" aria-live="polite">Loading studies...</span>
                                         <div class="d-flex gap-2">
                                             <div class="dropdown" id="downloadReportDropdown" style="display: none;">
                                                 <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -194,7 +404,7 @@
         <!-- Evidence Collections -->
         <section class="bg-white" style="padding-bottom: 6rem; padding-top: 1rem;">
             <div class="container" style="position: relative; max-width: 1000px;">
-                <h2 class="fw-semibold mb-4 signika" style="font-size: 1.35rem;">Available Collections</h2>
+                <h2 id="available-evidence-collections" class="fw-semibold mb-4 signika" style="font-size: 1.35rem;">Available Evidence Collections</h2>
             </div>
             <div id="databases"></div>
         </section>
@@ -231,6 +441,9 @@
     <!-- jsPDF for report export -->
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+    <!-- Equal Earth world map -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
     <!-- Evidence search JS-->
     <script src="/js/evidenceSearch.js"></script>
     <!-- Databases JS-->

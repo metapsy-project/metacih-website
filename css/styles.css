@@ -11308,6 +11308,27 @@ html {
   color: #6c757d;
 }
 
+.year-thumb-labels {
+  position: relative;
+  height: 0.95rem;
+  margin-top: 0.45rem;
+}
+
+.year-thumb-labels.is-stacked {
+  height: 1.85rem;
+}
+
+.year-thumb-label {
+  position: absolute;
+  top: 0;
+  color: var(--dgps-boreal);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
 .year-range-wrapper {
   padding: 0.15rem 0.5rem 0.5rem;
 }
@@ -11389,9 +11410,667 @@ html {
   border: none;
 }
 
+.evidence-aux-filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem 2rem;
+  align-items: start;
+}
+
+.evidence-aux-filters .year-filter-controls {
+  max-width: 100%;
+}
+
+.sample-range-wrapper {
+  margin-top: 0.35rem;
+}
+
+.year-range-values {
+  display: flex;
+  align-items: center;
+}
+
+.filter-number-input {
+  width: 5.75rem;
+  height: 32px;
+  padding: 0 0.4rem;
+  text-align: center;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background: #fff;
+  color: #212529;
+}
+
+.filter-number-input:focus {
+  border-color: var(--dgps-boreal);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(13, 134, 112, 0.25);
+}
+
+.filter-include-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.35rem 0 0;
+  font-size: 0.68rem;
+  font-style: italic;
+  font-weight: 400;
+  color: #212529;
+  cursor: pointer;
+}
+
+.filter-include-option input,
+.filter-check-option input,
+.filter-check-heading input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1rem;
+  height: 1rem;
+  margin: 0.15rem 0 0;
+  border: 1.5px solid #9aabb0;
+  border-radius: 0.2rem;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 0.72rem 0.72rem;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.filter-include-option input:checked,
+.filter-check-option input:checked,
+.filter-check-heading input:checked {
+  background-color: var(--dgps-boreal);
+  border-color: var(--dgps-boreal);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+.filter-check-option input:indeterminate,
+.filter-check-heading input:indeterminate {
+  background-color: var(--dgps-boreal);
+  border-color: var(--dgps-boreal);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
+}
+
+.filter-include-option input:focus-visible,
+.filter-check-option input:focus-visible,
+.filter-check-heading input:focus-visible {
+  outline: 2px solid var(--dgps-boreal);
+  outline-offset: 2px;
+}
+
+.filter-include-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+}
+
+.filter-check-toggle {
+  border-radius: 4px;
+  text-align: left;
+}
+
+.filter-check-toggle > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.evidence-map-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 0.75rem 1.25rem;
+  align-items: start;
+}
+
+.evidence-map-main {
+  grid-column: 1;
+}
+
+.evidence-filter-rail {
+  grid-column: 2;
+}
+
+.evidence-map-main {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-width: 0;
+}
+
+.evidence-view-tabs {
+  display: flex;
+  gap: 0.15rem;
+  margin: 0 0 0.85rem;
+  border-bottom: 1px solid #d5dee2;
+}
+
+.evidence-view-tab {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #5c6b70;
+  cursor: pointer;
+}
+
+.evidence-view-tab.is-active {
+  color: var(--dgps-boreal);
+  border-bottom-color: var(--dgps-boreal);
+}
+
+.evidence-view-tab:hover {
+  color: var(--dgps-boreal-dark);
+}
+
+.evidence-view-tab:focus-visible {
+  outline: 2px solid var(--dgps-boreal);
+  outline-offset: 2px;
+}
+
+.evidence-view-panel {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.evidence-map-main .country-map-layout {
+  width: 100%;
+  margin-inline: auto;
+}
+
+.year-beeswarm {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.year-beeswarm-axis line,
+.year-beeswarm-axis path {
+  fill: none;
+  stroke: #c5d0d4;
+}
+
+.year-beeswarm-axis text {
+  fill: #495057;
+  font-size: 12px;
+}
+
+.year-beeswarm-dot {
+  fill: var(--dgps-boreal);
+  stroke: #ffffff;
+  stroke-width: 1.25;
+  cursor: pointer;
+}
+
+.year-beeswarm-dot.is-active {
+  fill: var(--dgps-boreal-dark);
+  stroke: #0c332e;
+  stroke-width: 1.6;
+}
+
+.beeswarm-tooltip {
+  position: absolute;
+  z-index: 6;
+  max-width: 280px;
+  padding: 0.4rem 0.6rem;
+  background: #0c332e;
+  color: #fff;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  border-radius: 6px;
+  pointer-events: none;
+  box-shadow: 0 4px 14px rgba(12, 51, 46, 0.22);
+}
+
+.evidence-filter-rail {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  align-self: start;
+}
+
+.filter-rail-title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  box-sizing: border-box;
+  height: calc(0.45rem + 0.92rem * 1.5 + 0.45rem + 1px);
+  margin: 0 0 0.85rem;
+  border-bottom: 1px solid #d5dee2;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #212529;
+}
+
+.filter-rail-title i {
+  color: var(--dgps-boreal);
+  font-size: 0.85rem;
+}
+
+.filter-accordion {
+  border-bottom: 1px solid #dbe3e6;
+}
+
+.filter-accordion-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+  margin: 0;
+  padding: 0.42rem 0;
+  border: 0;
+  background: transparent;
+  color: #212529;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+}
+
+.filter-accordion-toggle > span:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.filter-pico-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.85rem 0 0.1rem;
+  padding: 0.15rem 0 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--dgps-boreal-dark);
+}
+
+.filter-pico-heading i {
+  flex: 0 0 auto;
+  width: 0.95rem;
+  text-align: center;
+  color: var(--dgps-boreal);
+  font-size: 0.82rem;
+}
+
+.filter-accordion-summary {
+  margin-left: auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+  color: var(--dgps-boreal);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.filter-accordion-toggle .fa-chevron-down {
+  flex: 0 0 auto;
+  font-size: 0.62rem;
+  color: #6c757d;
+  transition: transform 0.15s ease;
+}
+
+.filter-accordion-toggle.is-open .fa-chevron-down {
+  transform: rotate(180deg);
+}
+
+.filter-accordion-toggle:focus-visible {
+  outline: 2px solid var(--dgps-boreal);
+  outline-offset: 2px;
+}
+
+.filter-accordion-panel {
+  padding: 0 0 0.5rem;
+}
+
+.filter-apply-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+}
+
+.evidence-filter-rail .pubmed-section-label {
+  font-size: 0.78rem;
+  margin-bottom: 0.2rem;
+}
+
+.evidence-filter-rail .filter-check-toggle {
+  font-size: 0.78rem;
+  padding: 0.2rem 0.45rem;
+  min-height: 0;
+}
+
+.evidence-filter-rail .filter-include-option {
+  display: flex;
+  font-size: 0.62rem;
+  font-style: italic;
+  font-weight: 400;
+  margin-top: 0.22rem;
+  line-height: 1.2;
+}
+
+.evidence-filter-rail .filter-include-option input {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-size: 0.55rem 0.55rem;
+}
+
+.evidence-filter-rail .year-filter-controls {
+  max-width: 100%;
+}
+
+.evidence-filter-rail .year-range-values {
+  gap: 0.25rem;
+  font-size: 0.68rem;
+}
+
+.evidence-filter-rail .filter-number-input {
+  width: 3.6rem;
+  height: 24px;
+  padding: 0 0.15rem;
+  font-size: 0.72rem;
+}
+
+.evidence-filter-rail .year-histogram {
+  height: 48px;
+  padding: 0 9px;
+}
+
+.evidence-filter-rail .year-range-wrapper {
+  padding: 0 0 0.15rem;
+}
+
+.evidence-filter-rail .year-range-slider,
+.evidence-filter-rail .year-range-input {
+  height: 22px;
+}
+
+.evidence-filter-rail .year-range-input::-webkit-slider-thumb {
+  width: 14px;
+  height: 14px;
+}
+
+.evidence-filter-rail .year-range-input::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+}
+
+.evidence-filter-rail .filter-rail-note {
+  margin: 0 0 0.3rem;
+  font-size: 0.62rem;
+  line-height: 1.25;
+  color: #6c757d;
+}
+
+.evidence-filter-rail .country-check-dropdown {
+  max-width: none;
+}
+
+.evidence-filter-rail .filter-check-menu {
+  position: static;
+  display: block;
+  width: 100%;
+  max-height: 180px;
+  margin-top: 0.15rem;
+  border: 1px solid #e4eaec;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: none;
+  font-size: 0.78rem;
+}
+
+.evidence-filter-rail .filter-check-option {
+  font-size: 0.78rem;
+}
+
+.evidence-filter-rail .filter-check-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.4rem 0 0.05rem;
+  padding: 0.2rem 0.85rem 0.05rem;
+  font-size: 0.72rem;
+  font-weight: 650;
+  line-height: 1.3;
+  color: var(--dgps-boreal-dark);
+  cursor: pointer;
+}
+
+.evidence-filter-rail .filter-check-heading input {
+  margin: 0;
+}
+
+.search-filter-container .dropdown-menu,
+.search-filter-container .dropdown-item {
+  font-size: 0.95rem;
+}
+
+.search-studies-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.search-collections-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--dgps-boreal);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.search-collections-link:hover,
+.search-collections-link:focus-visible {
+  color: var(--dgps-boreal-dark);
+  text-decoration: none;
+}
+
+.search-collections-link:focus-visible {
+  outline: 2px solid var(--dgps-boreal);
+  outline-offset: 3px;
+}
+
+#available-evidence-collections {
+  scroll-margin-top: 1.25rem;
+  color: var(--dgps-boreal);
+}
+
+.study-count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  color: #495057;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.study-count-number {
+  color: var(--dgps-boreal);
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.filter-check-menu {
+  max-height: 260px;
+  overflow-y: auto;
+  padding: 0.35rem 0;
+}
+
+.filter-check-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0.3rem 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.filter-check-option:hover {
+  background: #f1f5f4;
+}
+
+.country-map-country.is-excluded {
+  fill: #e4e7ea !important;
+  cursor: pointer;
+}
+
+.country-map-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.country-map {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.country-map-ocean {
+  fill: #f3f6f7;
+  stroke: #c5d0d4;
+  stroke-width: 0.6;
+}
+
+.country-map-graticule {
+  fill: none;
+  stroke: #d5dee2;
+  stroke-width: 0.35;
+  pointer-events: none;
+}
+
+.country-map-country {
+  stroke: #ffffff;
+  stroke-width: 0.45;
+  stroke-linejoin: round;
+}
+
+.country-map-country.has-studies {
+  cursor: pointer;
+}
+
+.country-map-country.is-selected {
+  stroke: #0c332e;
+  stroke-width: 1.4;
+}
+
+.country-map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem 1rem;
+  width: min(100%, 420px);
+  font-size: 0.75rem;
+  color: #495057;
+}
+
+.country-legend-caption {
+  font-weight: 600;
+  margin-bottom: 0;
+  color: #212529;
+}
+
+.country-legend-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0;
+}
+
+.country-legend-scale {
+  flex: 1 1 140px;
+  min-width: 120px;
+  max-width: 180px;
+}
+
+.country-legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid #ced4da;
+  flex: 0 0 auto;
+}
+
+.country-legend-swatch.is-empty {
+  background: #e4e7ea;
+}
+
+.country-legend-bar {
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(to right, #8ec9bc, #0c332e);
+}
+
+.country-legend-ticks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.2rem;
+}
+
+@media (max-width: 991px) {
+  .evidence-map-row {
+    grid-template-columns: 1fr;
+  }
+
+  .evidence-map-main,
+  .evidence-filter-rail {
+    grid-column: auto;
+  }
+
+  .filter-rail-title {
+    height: auto;
+    margin-bottom: 0.35rem;
+  }
+}
+
 @media (max-width: 767px) {
-  .year-filter-controls {
+  .year-filter-controls,
+  .evidence-aux-filters .year-filter-controls {
     max-width: 100%;
+  }
+
+  .evidence-aux-filters {
+    grid-template-columns: 1fr;
+  }
+
+
+  .country-map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .country-legend-scale {
+    width: 140px;
   }
 }
 
@@ -11854,4 +12533,56 @@ ul.list li::before {
 .dropdown-menu > li.dropdown-documentation-entry > .dropdown-item.dropdown-item-documentation:active {
   background-color: var(--dgps-boreal-dark) !important;
   color: #fff !important;
+}
+
+.evidence-collections-menu {
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.evidence-collections-menu > li {
+  list-style: none;
+}
+
+.evidence-collections-menu .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  color: #212529;
+}
+
+.evidence-collections-menu .dropdown-item i {
+  flex: 0 0 auto;
+  width: 1.15rem;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.evidence-collections-overview > .dropdown-item {
+  background-color: #cae1db;
+}
+
+.evidence-collections-overview > .dropdown-item i {
+  color: var(--dgps-boreal);
+}
+
+.evidence-collections-overview > .dropdown-item:hover,
+.evidence-collections-overview > .dropdown-item:focus {
+  background-color: #b7d4cb;
+  color: #212529;
+}
+
+.evidence-collections-mbi > .dropdown-item {
+  background-color: #fffbef;
+}
+
+.evidence-collections-mbi > .dropdown-item i {
+  color: var(--dgps-sand);
+}
+
+.evidence-collections-mbi > .dropdown-item:hover,
+.evidence-collections-mbi > .dropdown-item:focus {
+  background-color: #f4e7c0;
+  color: #212529;
 }

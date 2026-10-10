@@ -10,6 +10,16 @@ let lastHighlightTerms = [];
 let lastSearchResults = [];
 let lastSearchQuery = "";
 let lastSearchYearRange = null;
+let lastSearchSampleRange = null;
+let sampleBounds = { min: null, max: null };
+let defaultSampleRange = { min: null, max: null };
+let sampleHistogramDrag = null;
+let countryCounts = new Map();
+let countryFeatures = [];
+const SAMPLE_BIN_WIDTH = 10;
+const COUNTRY_COLOR_LOW = "#8ec9bc";
+const COUNTRY_COLOR_HIGH = "#0c332e";
+const COUNTRY_COLOR_EMPTY = "#e9ecef";
 
 function escapeHtml(text) {
   return String(text ?? "")
@@ -197,8 +207,17 @@ function parseQuery(query) {
   return parseExpression(tokens, { index: 0 });
 }
 
+function bibliographicColumns() {
+  const group = columnGroups.find((entry) => entry.label.replace(/^S1-/, "") === "Bibliographic");
+  const names = group ? group.columns : ["study_id", "authors", "title", "abstract", "year", "journal"];
+  return names.filter((column) => !columns.length || columns.includes(column));
+}
+
 function getSearchFields(fieldName) {
-  if (!fieldName || fieldName === "__all__" || fieldName === "All Fields") return columns;
+  const bibliographic = bibliographicColumns();
+  if (!fieldName || fieldName === "__all__" || fieldName === "All Fields") {
+    return bibliographic.length ? bibliographic : columns;
+  }
   return columns.includes(fieldName) ? [fieldName] : [fieldName];
 }
 
@@ -228,11 +247,22 @@ function evaluateNode(node, study, searchFields = columns) {
   return false;
 }
 
-function matchesYear(study, yearFrom, yearTo) {
+function isNotReportedValue(value) {
+  return /^not reported$/i.test(String(value ?? "").trim());
+}
+
+function studyYearMissing(study) {
+  if (isNotReportedValue(study.year)) return true;
   const yearValue = study.year;
-  if (yearValue == null || yearValue === "") return false;
+  if (yearValue == null || String(yearValue).trim() === "") return true;
   const year = typeof yearValue === "number" ? yearValue : parseInt(yearValue, 10);
-  if (Number.isNaN(year)) return false;
+  return Number.isNaN(year);
+}
+
+function matchesYear(study, yearFrom, yearTo) {
+  if (studyYearMissing(study)) return isNotReportedIncluded("yearNotReported");
+  const yearValue = study.year;
+  const year = typeof yearValue === "number" ? yearValue : parseInt(yearValue, 10);
   if (yearFrom != null && year < yearFrom) return false;
   if (yearTo != null && year > yearTo) return false;
   return true;
@@ -253,27 +283,14 @@ function populateColumnSelect() {
   allOption.textContent = "All Fields";
   select.appendChild(allOption);
 
-  if (columnGroups.length) {
-    columnGroups.forEach((group) => {
-      const optgroup = document.createElement("optgroup");
-      optgroup.label = group.label.replace(/^S1-/, "");
-      group.columns.forEach((column) => {
-        const option = document.createElement("option");
-        option.value = column;
-        option.textContent = column;
-        optgroup.appendChild(option);
-      });
-      select.appendChild(optgroup);
+  bibliographicColumns()
+    .filter((column) => column !== "study_id")
+    .forEach((column) => {
+      const option = document.createElement("option");
+      option.value = column;
+      option.textContent = column;
+      select.appendChild(option);
     });
-    return;
-  }
-
-  columns.forEach((column) => {
-    const option = document.createElement("option");
-    option.value = column;
-    option.textContent = column;
-    select.appendChild(option);
-  });
 }
 
 function buildYearCounts() {
@@ -310,6 +327,7 @@ function setYearRange(minYear, maxYear) {
   document.getElementById("yearMin").value = minValue;
   document.getElementById("yearMax").value = maxValue;
   updateYearLabels();
+  updateLiveStudyCount();
 }
 
 function initYearSlider() {
@@ -328,8 +346,6 @@ function initYearSlider() {
   maxSlider.value = yearBounds.max;
 
   defaultYearRange = { min: yearBounds.min, max: yearBounds.max };
-  document.getElementById("yearAxisMin").textContent = yearBounds.min;
-  document.getElementById("yearAxisMax").textContent = yearBounds.max;
   buildYearCounts();
   renderYearHistogram();
   updateYearLabels();
@@ -357,12 +373,14 @@ function renderYearHistogram() {
 }
 
 function updateYearSelectionStyles() {
+  const histogram = document.getElementById("yearHistogram");
+  if (!histogram) return;
   const { min: selectedMin, max: selectedMax } = getSelectedYearRange();
-  document.querySelectorAll(".year-histogram-bar").forEach((bar) => {
+  histogram.querySelectorAll(".year-histogram-bar").forEach((bar) => {
     const year = parseInt(bar.dataset.year, 10);
     const selected = year >= selectedMin && year <= selectedMax;
     bar.classList.toggle("is-selected", selected);
-    bar.setAttribute("aria-pressed", selected);
+    bar.setAttribute("aria-pressed", selected ? "true" : "false");
   });
 }
 
@@ -384,11 +402,19 @@ function updateYearLabels() {
 
   document.getElementById("yearMinLabel").textContent = minValue;
   document.getElementById("yearMaxLabel").textContent = maxValue;
+  const summary = document.getElementById("yearAccordionSummary");
+  if (summary) summary.textContent = `${minValue}–${maxValue}`;
   updateYearSelectionStyles();
 
   const range = yearBounds.max - yearBounds.min;
   const minPercent = range ? ((minValue - yearBounds.min) / range) * 100 : 0;
   const maxPercent = range ? ((maxValue - yearBounds.min) / range) * 100 : 100;
+  placeThumbPair(
+    document.getElementById("yearMinLabel"),
+    document.getElementById("yearMaxLabel"),
+    minPercent,
+    maxPercent
+  );
   const track = document.getElementById("yearRangeTrack");
   if (track) {
     track.style.left = `${minPercent}%`;
@@ -439,11 +465,6 @@ function getSelectedYearRange() {
   const minValue = parseInt(document.getElementById("yearMin").value, 10);
   const maxValue = parseInt(document.getElementById("yearMax").value, 10);
   return { min: minValue, max: maxValue };
-}
-
-function isYearFilterActive() {
-  const { min, max } = getSelectedYearRange();
-  return min !== defaultYearRange.min || max !== defaultYearRange.max;
 }
 
 function formatClause(term, column) {
@@ -654,7 +675,7 @@ async function downloadReportPdf() {
   if (!lastSearchResults.length) return;
 
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+  const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
 
   if (typeof doc.autoTable !== "function") {
     window.alert("PDF export is unavailable. Please try CSV download instead.");
@@ -705,17 +726,20 @@ async function downloadReportPdf() {
 
   doc.autoTable({
     startY: y,
-    head: [["#", "Authors", "Title"]],
+    head: [["#", "Authors", "Year", "Title", "Abstract", "Journal"]],
     body: lastSearchResults.map((study, index) => [
       String(index + 1),
       sanitizePdfText(study.authors || "Unknown authors"),
+      sanitizePdfText(study.year ? String(study.year) : ""),
       sanitizePdfText(study.title || "Untitled"),
+      sanitizePdfText(study.abstract || ""),
+      sanitizePdfText(study.journal || ""),
     ]),
     margin: { top: headerBottom + 8, left: margin, right: margin },
     styles: {
       font: "helvetica",
-      fontSize: 9,
-      cellPadding: 2.5,
+      fontSize: 8,
+      cellPadding: 2,
       overflow: "linebreak",
       valign: "top",
     },
@@ -725,9 +749,12 @@ async function downloadReportPdf() {
       fontStyle: "bold",
     },
     columnStyles: {
-      0: { cellWidth: 10 },
-      1: { cellWidth: 55 },
-      2: { cellWidth: contentWidth - 65 },
+      0: { cellWidth: 8 },
+      1: { cellWidth: 32 },
+      2: { cellWidth: 14 },
+      3: { cellWidth: 40 },
+      4: { cellWidth: contentWidth - 122 },
+      5: { cellWidth: 28 },
     },
     didDrawPage: (data) => {
       if (data.pageNumber > 1) {
@@ -757,11 +784,14 @@ function downloadReportCsv() {
     ["Publication year filter", yearInfo],
     ["Studies found", studyCount],
     [],
-    ["#", "Authors", "Title"],
+    ["#", "Authors", "Year", "Title", "Abstract", "Journal"],
     ...lastSearchResults.map((study, index) => [
       index + 1,
       study.authors || "Unknown authors",
+      study.year ? String(study.year) : "",
       study.title || "Untitled",
+      study.abstract || "",
+      study.journal || "",
     ]),
   ];
 
@@ -792,102 +822,939 @@ function updateSearchResultsDropdown(results) {
       : `${results.length} studies found — click to view`;
 }
 
+function placeYearThumbLabel(label, percent, edge) {
+  if (!label) return;
+  label.style.left = `${percent}%`;
+  label.style.top = "0";
+  if (edge === "min" && percent < 14) label.style.transform = "translateX(0)";
+  else if (edge === "max" && percent > 86) label.style.transform = "translateX(-100%)";
+  else label.style.transform = "translateX(-50%)";
+}
+
+function placeThumbPair(minLabel, maxLabel, minPercent, maxPercent) {
+  if (!minLabel || !maxLabel) return;
+  const container = minLabel.parentElement;
+  placeYearThumbLabel(minLabel, minPercent, "min");
+  placeYearThumbLabel(maxLabel, maxPercent, "max");
+  if (container) container.classList.remove("is-stacked");
+  maxLabel.style.top = "0";
+  const minBox = minLabel.getBoundingClientRect();
+  const maxBox = maxLabel.getBoundingClientRect();
+  if (minBox.width && maxBox.width && minBox.right + 4 > maxBox.left) {
+    placeYearThumbLabel(minLabel, minPercent, "min");
+    placeYearThumbLabel(maxLabel, maxPercent, "max");
+    maxLabel.style.top = "0.85rem";
+    if (container) container.classList.add("is-stacked");
+  }
+}
+
+function notReportedOption(checkboxId) {
+  const box = document.getElementById(checkboxId);
+  return box ? box.closest(".filter-include-option") : null;
+}
+
+function setNotReportedVisible(checkboxId, visible) {
+  const option = notReportedOption(checkboxId);
+  const box = document.getElementById(checkboxId);
+  if (!option || !box) return;
+  option.hidden = !visible;
+  if (!visible) box.checked = true;
+}
+
+function isNotReportedOptionVisible(checkboxId) {
+  const option = notReportedOption(checkboxId);
+  return Boolean(option && !option.hidden);
+}
+
+function isNotReportedIncluded(checkboxId) {
+  const box = document.getElementById(checkboxId);
+  return !box || box.checked;
+}
+
+function fieldHasBlankOrNotReported(field) {
+  return allStudies.some((study) => {
+    const raw = String(study[field] ?? "").trim();
+    if (!raw) return true;
+    return categoryTokens(study[field]).some((token) => isNotReportedValue(token));
+  });
+}
+
+function categoryTokens(value) {
+  return String(value ?? "")
+    .split("|")
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
+function studySampleSize(study) {
+  const match = String(study.total_n ?? "").match(/\d+/);
+  return match ? parseInt(match[0], 10) : null;
+}
+
+function sampleMissing(study) {
+  return studySampleSize(study) == null;
+}
+
+function initSampleSlider() {
+  const sizes = allStudies.map(studySampleSize).filter((value) => value != null);
+  if (!sizes.length) return;
+  sampleBounds = { min: Math.min(...sizes), max: Math.max(...sizes) };
+  defaultSampleRange = { min: sampleBounds.min, max: sampleBounds.max };
+  const minSlider = document.getElementById("sampleMin");
+  const maxSlider = document.getElementById("sampleMax");
+  if (!minSlider || !maxSlider) return;
+  minSlider.min = sampleBounds.min;
+  minSlider.max = sampleBounds.max;
+  minSlider.value = sampleBounds.min;
+  maxSlider.min = sampleBounds.min;
+  maxSlider.max = sampleBounds.max;
+  maxSlider.value = sampleBounds.max;
+  renderSampleHistogram();
+  updateSampleLabels();
+  bindSampleHistogramEvents();
+  if (minSlider.dataset.bound === "true") return;
+  minSlider.dataset.bound = "true";
+  minSlider.addEventListener("input", updateSampleLabels);
+  maxSlider.addEventListener("input", updateSampleLabels);
+}
+
+function sampleBins() {
+  const bins = [];
+  for (let start = sampleBounds.min; start <= sampleBounds.max; start += SAMPLE_BIN_WIDTH) {
+    bins.push({
+      min: start,
+      max: Math.min(sampleBounds.max, start + SAMPLE_BIN_WIDTH - 1),
+    });
+  }
+  return bins;
+}
+
+function renderSampleHistogram() {
+  const histogram = document.getElementById("sampleHistogram");
+  if (!histogram || sampleBounds.min == null) return;
+  const bins = sampleBins();
+  const counts = bins.map((bin) => allStudies.filter((study) => {
+    const size = studySampleSize(study);
+    return size != null && size >= bin.min && size <= bin.max;
+  }).length);
+  const maxCount = Math.max(1, ...counts);
+  histogram.innerHTML = bins.map((bin, index) => {
+    const count = counts[index];
+    const height = count ? Math.max(8, (count / maxCount) * 100) : 2;
+    const label = `${bin.min}–${bin.max}: ${count} ${count === 1 ? "study" : "studies"}`;
+    return `<button type="button" class="year-histogram-bar${count ? "" : " is-empty"}" data-sample-min="${bin.min}" data-sample-max="${bin.max}" style="height: ${height}%;" title="${label}" aria-label="${label}"></button>`;
+  }).join("");
+  updateSampleSelectionStyles();
+}
+
+function getSelectedSampleRange() {
+  const minSlider = document.getElementById("sampleMin");
+  const maxSlider = document.getElementById("sampleMax");
+  if (!minSlider || !maxSlider) return { min: null, max: null };
+  return {
+    min: parseInt(minSlider.value, 10),
+    max: parseInt(maxSlider.value, 10),
+  };
+}
+
+function updateSampleSelectionStyles() {
+  const histogram = document.getElementById("sampleHistogram");
+  if (!histogram) return;
+  const { min, max } = getSelectedSampleRange();
+  histogram.querySelectorAll(".year-histogram-bar").forEach((bar) => {
+    const binMin = parseInt(bar.dataset.sampleMin, 10);
+    const binMax = parseInt(bar.dataset.sampleMax, 10);
+    const selected = binMax >= min && binMin <= max;
+    bar.classList.toggle("is-selected", selected);
+    bar.setAttribute("aria-pressed", selected ? "true" : "false");
+  });
+}
+
+function updateSampleLabels() {
+  const minSlider = document.getElementById("sampleMin");
+  const maxSlider = document.getElementById("sampleMax");
+  if (!minSlider || !maxSlider || sampleBounds.min == null) return;
+  let minValue = parseInt(minSlider.value, 10);
+  let maxValue = parseInt(maxSlider.value, 10);
+  if (minValue > maxValue) {
+    if (document.activeElement === minSlider) {
+      maxValue = minValue;
+      maxSlider.value = maxValue;
+    } else {
+      minValue = maxValue;
+      minSlider.value = minValue;
+    }
+  }
+  document.getElementById("sampleMinLabel").textContent = minValue;
+  document.getElementById("sampleMaxLabel").textContent = maxValue;
+  const summary = document.getElementById("sampleAccordionSummary");
+  if (summary) summary.textContent = `${minValue}–${maxValue}`;
+  updateSampleSelectionStyles();
+  const range = sampleBounds.max - sampleBounds.min;
+  const minPercent = range ? ((minValue - sampleBounds.min) / range) * 100 : 0;
+  const maxPercent = range ? ((maxValue - sampleBounds.min) / range) * 100 : 100;
+  placeThumbPair(
+    document.getElementById("sampleMinLabel"),
+    document.getElementById("sampleMaxLabel"),
+    minPercent,
+    maxPercent
+  );
+  const track = document.getElementById("sampleRangeTrack");
+  if (track) {
+    track.style.left = `${minPercent}%`;
+    track.style.width = `${Math.max(0, maxPercent - minPercent)}%`;
+  }
+}
+
+function setSampleRange(minValue, maxValue) {
+  const minSlider = document.getElementById("sampleMin");
+  const maxSlider = document.getElementById("sampleMax");
+  if (!minSlider || !maxSlider) return;
+  minSlider.value = Math.max(sampleBounds.min, Math.min(sampleBounds.max, Math.min(minValue, maxValue)));
+  maxSlider.value = Math.max(sampleBounds.min, Math.min(sampleBounds.max, Math.max(minValue, maxValue)));
+  updateSampleLabels();
+  updateLiveStudyCount();
+}
+
+function sampleBinFromHistogramEvent(event) {
+  const histogram = document.getElementById("sampleHistogram");
+  const bar = event.target.closest(".year-histogram-bar");
+  if (bar) return { min: parseInt(bar.dataset.sampleMin, 10), max: parseInt(bar.dataset.sampleMax, 10) };
+  const bins = sampleBins();
+  const rect = histogram.getBoundingClientRect();
+  const ratio = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
+  const index = Math.min(bins.length - 1, Math.floor(ratio * bins.length));
+  return bins[index];
+}
+
+function bindSampleHistogramEvents() {
+  const histogram = document.getElementById("sampleHistogram");
+  if (!histogram || histogram.dataset.bound === "true") return;
+  histogram.dataset.bound = "true";
+  histogram.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    const bin = sampleBinFromHistogramEvent(event);
+    if (!bin) return;
+    sampleHistogramDrag = { start: bin, pointerId: event.pointerId };
+    histogram.setPointerCapture(event.pointerId);
+    setSampleRange(bin.min, bin.max);
+  });
+  histogram.addEventListener("pointermove", (event) => {
+    if (!sampleHistogramDrag) return;
+    const bin = sampleBinFromHistogramEvent(event);
+    if (!bin) return;
+    setSampleRange(
+      Math.min(sampleHistogramDrag.start.min, bin.min),
+      Math.max(sampleHistogramDrag.start.max, bin.max)
+    );
+  });
+  const endDrag = () => { sampleHistogramDrag = null; };
+  histogram.addEventListener("pointerup", endDrag);
+  histogram.addEventListener("pointercancel", endDrag);
+}
+
+function matchesSampleSize(study, sampleFrom, sampleTo) {
+  const size = studySampleSize(study);
+  if (size == null) return isNotReportedIncluded("sampleNotReported");
+  if (sampleFrom != null && size < sampleFrom) return false;
+  if (sampleTo != null && size > sampleTo) return false;
+  return true;
+}
+
+function isSampleSizeFilterActive() {
+  if (defaultSampleRange.min == null) return false;
+  const { min, max } = getSelectedSampleRange();
+  const narrowed = min !== defaultSampleRange.min || max !== defaultSampleRange.max;
+  const missingOff = isNotReportedOptionVisible("sampleNotReported") && !isNotReportedIncluded("sampleNotReported");
+  return narrowed || missingOff;
+}
+
+function menuOptionInputs(menuId) {
+  return [...document.querySelectorAll(`#${menuId} input[data-option="true"]`)];
+}
+
+function checkedOptionValues(menuId) {
+  return new Set(menuOptionInputs(menuId).filter((box) => box.checked).map((box) => box.value));
+}
+
+function allOptionsChecked(menuId) {
+  const boxes = menuOptionInputs(menuId);
+  return boxes.length > 0 && boxes.every((box) => box.checked);
+}
+
+function updateCheckSummary(menu) {
+  const summary = document.getElementById(menu.dataset.summary);
+  if (!summary) return;
+  const boxes = [...menu.querySelectorAll('input[data-option="true"]')];
+  const checked = boxes.filter((box) => box.checked);
+  const selectAll = menu.querySelector('input[data-select-all="true"]');
+  if (selectAll) {
+    selectAll.checked = boxes.length > 0 && checked.length === boxes.length;
+    selectAll.indeterminate = checked.length > 0 && checked.length < boxes.length;
+  }
+  menu.querySelectorAll("input[data-group-toggle]").forEach((toggle) => {
+    const groupBoxes = [...menu.querySelectorAll(`input[data-option="true"][data-group="${toggle.dataset.groupToggle}"]`)];
+    const checkedCount = groupBoxes.filter((box) => box.checked).length;
+    toggle.checked = groupBoxes.length > 0 && checkedCount === groupBoxes.length;
+    toggle.indeterminate = checkedCount > 0 && checkedCount < groupBoxes.length;
+  });
+  if (!boxes.length || checked.length === boxes.length) summary.textContent = "All";
+  else if (!checked.length) summary.textContent = "None";
+  else if (checked.length <= 2) summary.textContent = checked.map((box) => box.dataset.label).join(", ");
+  else summary.textContent = `${checked.length} selected`;
+}
+
+function appendFilterOption(menu, option) {
+  const label = document.createElement("label");
+  label.className = "filter-check-option";
+  const input = document.createElement("input");
+  input.type = "checkbox";
+  input.checked = true;
+  input.value = option.value;
+  input.dataset.option = "true";
+  input.dataset.label = option.summaryLabel || option.label;
+  if (option.group) input.dataset.group = option.group;
+  const text = document.createElement("span");
+  text.textContent = `${option.label} (${option.count})`;
+  label.appendChild(input);
+  label.appendChild(text);
+  menu.appendChild(label);
+  input.addEventListener("change", () => updateCheckSummary(menu));
+}
+
+function appendFilterHeading(menu, text, groupKey) {
+  const heading = document.createElement("label");
+  heading.className = "filter-check-heading";
+  if (groupKey) {
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = true;
+    input.dataset.groupToggle = groupKey;
+    input.setAttribute("aria-label", `Select all ${text}`);
+    const label = document.createElement("span");
+    label.textContent = text;
+    heading.appendChild(input);
+    heading.appendChild(label);
+    input.addEventListener("change", () => {
+      menu.querySelectorAll(`input[data-option="true"][data-group="${groupKey}"]`).forEach((box) => {
+        box.checked = input.checked;
+      });
+      updateCheckSummary(menu);
+    });
+  } else {
+    heading.textContent = text;
+  }
+  menu.appendChild(heading);
+}
+
+function controlConditionGroups(options) {
+  const active = [];
+  const passive = [];
+  const other = [];
+  options.forEach((option) => {
+    const activeMatch = option.label.match(/^active-(.+)$/i);
+    const passiveMatch = option.label.match(/^passive-(.+)$/i);
+    if (activeMatch) active.push({ ...option, label: activeMatch[1], summaryLabel: option.label, group: "active" });
+    else if (passiveMatch) passive.push({ ...option, label: passiveMatch[1], summaryLabel: option.label, group: "passive" });
+    else other.push(option);
+  });
+  return [
+    ["Active", "active", active],
+    ["Passive", "passive", passive],
+    ["", "", other],
+  ].filter(([, , group]) => group.length);
+}
+
+function fillCheckMenu(menuId, options) {
+  const menu = document.getElementById(menuId);
+  if (!menu) return;
+  menu.innerHTML = "";
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.className = "filter-check-option";
+  const selectAll = document.createElement("input");
+  selectAll.type = "checkbox";
+  selectAll.checked = true;
+  selectAll.dataset.selectAll = "true";
+  const selectAllText = document.createElement("span");
+  selectAllText.textContent = "Select all";
+  selectAllLabel.appendChild(selectAll);
+  selectAllLabel.appendChild(selectAllText);
+  menu.appendChild(selectAllLabel);
+
+  const groups = menuId === "controlMenu" ? controlConditionGroups(options) : [["", "", options]];
+  groups.forEach(([heading, groupKey, group]) => {
+    if (heading) appendFilterHeading(menu, heading, groupKey);
+    group.forEach((option) => appendFilterOption(menu, option));
+  });
+
+  selectAll.addEventListener("change", () => {
+    menuOptionInputs(menuId).forEach((box) => { box.checked = selectAll.checked; });
+    updateCheckSummary(menu);
+    if (menuId === "countryMenu") updateCountrySelection();
+  });
+  updateCheckSummary(menu);
+}
+
+function resetCheckMenu(menuId) {
+  const menu = document.getElementById(menuId);
+  if (!menu) return;
+  menu.querySelectorAll('input[type="checkbox"]').forEach((box) => { box.checked = true; });
+  updateCheckSummary(menu);
+}
+
+function collectCategoryOptions(field, emptyLabel) {
+  const counts = new Map();
+  let emptyCount = 0;
+  allStudies.forEach((study) => {
+    const raw = String(study[field] ?? "").trim();
+    if (!raw) {
+      emptyCount += 1;
+      return;
+    }
+    categoryTokens(study[field]).forEach((token) => {
+      if (isNotReportedValue(token)) return;
+      counts.set(token, (counts.get(token) || 0) + 1);
+    });
+  });
+  const options = [...counts.entries()]
+    .map(([value, count]) => ({ value, label: value, count }))
+    .sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: "base" }));
+  if (emptyLabel && emptyCount > 0) options.unshift({ value: "__none__", label: emptyLabel, count: emptyCount });
+  return options;
+}
+
+function matchesCategorical(study, field, menuId, notReportedId) {
+  const tokens = categoryTokens(study[field]);
+  const reported = tokens.filter((token) => !isNotReportedValue(token));
+  const missing = !String(study[field] ?? "").trim() || tokens.some((token) => isNotReportedValue(token));
+  const checked = checkedOptionValues(menuId);
+  if (reported.some((token) => checked.has(token))) return true;
+  if (!missing) return false;
+  if (checked.has("__none__")) return true;
+  if (isNotReportedOptionVisible(notReportedId)) return isNotReportedIncluded(notReportedId);
+  return allOptionsChecked(menuId);
+}
+
+function isCategoricalFilterActive(menuId, notReportedId) {
+  const missingOff = isNotReportedOptionVisible(notReportedId) && !isNotReportedIncluded(notReportedId);
+  return !allOptionsChecked(menuId) || missingOff;
+}
+
+const CATEGORICAL_FILTERS = [
+  { field: "categories_confidence", menuId: "confidenceMenu", notReportedId: "confidenceNotReported", label: "Confidence" },
+  { field: "age_group", menuId: "ageGroupMenu", notReportedId: "ageGroupNotReported", label: "Age group" },
+  { field: "setting", menuId: "settingMenu", notReportedId: "settingNotReported", label: "Setting" },
+  { field: "vulnerable_type", menuId: "vulnerableMenu", notReportedId: "vulnerableNotReported", label: "Vulnerable population", emptyLabel: "None" },
+  { field: "protocol_name", menuId: "interventionMenu", notReportedId: "interventionNotReported", label: "Intervention type" },
+  { field: "delivery_format", menuId: "deliveryMenu", notReportedId: "deliveryNotReported", label: "Intervention delivery" },
+  { field: "control_conditions", menuId: "controlMenu", notReportedId: "controlNotReported", label: "Control group" },
+  { field: "outcomes_coded", menuId: "outcomesMenu", notReportedId: "outcomesNotReported", label: "Outcomes" },
+];
+
+function initCategoricalFilters() {
+  CATEGORICAL_FILTERS.forEach((filter) => {
+    fillCheckMenu(filter.menuId, collectCategoryOptions(filter.field, filter.emptyLabel));
+  });
+}
+
+function syncNotReportedOptions() {
+  setNotReportedVisible("yearNotReported", allStudies.some(studyYearMissing));
+  setNotReportedVisible("sampleNotReported", allStudies.some(sampleMissing));
+  setNotReportedVisible("countryNotReported", allStudies.some((study) => !String(study.country ?? "").trim() || isNotReportedValue(study.country)));
+  CATEGORICAL_FILTERS.forEach((filter) => {
+    setNotReportedVisible(filter.notReportedId, !filter.emptyLabel && fieldHasBlankOrNotReported(filter.field));
+  });
+}
+
+function canonicalCountry(raw) {
+  let value = String(raw ?? "").trim().replace(/^inferred\s*:\s*/i, "");
+  if (!value || isNotReportedValue(value)) return "";
+  const aliases = {
+    usa: "United States",
+    "united states": "United States",
+    "united states of america": "United States",
+    uk: "United Kingdom",
+    "united kingdom": "United Kingdom",
+    "united kingdom of great britain and northern ireland": "United Kingdom",
+    "netherlands, kingdom of the": "Netherlands",
+    "south korea": "South Korea",
+    "korea, republic of": "South Korea",
+    "republic of korea": "South Korea",
+    "iran, islamic republic of": "Iran",
+    "taiwan, province of china": "Taiwan",
+  };
+  return aliases[value.toLowerCase()] || value;
+}
+
+function isInferredCountry(value) {
+  return /inferred\s*:/i.test(String(value ?? ""));
+}
+
+function buildCountryCounts() {
+  countryCounts = new Map();
+  allStudies.forEach((study) => {
+    const name = canonicalCountry(study.country);
+    if (!name) return;
+    const current = countryCounts.get(name) || { value: name, label: name, count: 0 };
+    current.count += 1;
+    countryCounts.set(name, current);
+  });
+}
+
+function populateCountrySelect() {
+  const options = [...countryCounts.values()]
+    .sort((a, b) => a.label.localeCompare(b.label))
+    .map((country) => ({ value: country.value, label: country.label, count: country.count }));
+  fillCheckMenu("countryMenu", options);
+  menuOptionInputs("countryMenu").forEach((box) => {
+    box.addEventListener("change", updateCountrySelection);
+  });
+}
+
+function isCountryFilterActive() {
+  const inferred = document.getElementById("countryInferred");
+  const missingOff = isNotReportedOptionVisible("countryNotReported") && !isNotReportedIncluded("countryNotReported");
+  return !allOptionsChecked("countryMenu") || missingOff || (inferred && !inferred.checked);
+}
+
+function matchesCountry(study) {
+  const raw = String(study.country ?? "").trim();
+  if (isInferredCountry(raw) && !document.getElementById("countryInferred").checked) return false;
+  if (!raw || isNotReportedValue(raw)) {
+    if (isNotReportedOptionVisible("countryNotReported")) return isNotReportedIncluded("countryNotReported");
+    return allOptionsChecked("countryMenu");
+  }
+  const name = canonicalCountry(raw);
+  if (!name) return allOptionsChecked("countryMenu");
+  return checkedOptionValues("countryMenu").has(name);
+}
+
+function mixHex(from, to, amount) {
+  const channel = (hex, offset) => parseInt(hex.slice(offset, offset + 2), 16);
+  const mixed = [1, 3, 5].map((offset) => Math.round(channel(from, offset) + (channel(to, offset) - channel(from, offset)) * amount));
+  return `#${mixed.map((value) => value.toString(16).padStart(2, "0")).join("")}`;
+}
+
+function countryFill(count, maxCount) {
+  if (!count) return COUNTRY_COLOR_EMPTY;
+  if (maxCount <= 1) return COUNTRY_COLOR_HIGH;
+  return mixHex(COUNTRY_COLOR_LOW, COUNTRY_COLOR_HIGH, (count - 1) / (maxCount - 1));
+}
+
+function updateCountrySelection() {
+  const checked = checkedOptionValues("countryMenu");
+  const filtering = !allOptionsChecked("countryMenu");
+  countryFeatures.forEach((feature) => {
+    const name = feature.properties.canonical;
+    const included = !name || !countryCounts.has(name) || !filtering || checked.has(name);
+    feature.properties.path.classList.toggle("is-excluded", Boolean(name && countryCounts.has(name) && filtering && !checked.has(name)));
+    feature.properties.path.classList.toggle("is-selected", Boolean(name && countryCounts.has(name) && filtering && included));
+  });
+  updateLiveStudyCount();
+}
+
+function initCountryFilter() {
+  buildCountryCounts();
+  populateCountrySelect();
+  const inferred = document.getElementById("countryInferred");
+  if (inferred && inferred.dataset.bound !== "true") {
+    inferred.dataset.bound = "true";
+    inferred.addEventListener("change", updateLiveStudyCount);
+  }
+  renderCountryMap();
+}
+
+async function renderCountryMap() {
+  const svgEl = document.getElementById("countryMap");
+  const fallback = document.getElementById("countryMapFallback");
+  if (!svgEl || !window.d3 || !window.topojson) return;
+  const d3 = window.d3;
+  try {
+    const topology = await fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json").then((response) => {
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
+    });
+    const namesResponse = await fetch("https://cdn.jsdelivr.net/gh/lukes/ISO-3166-Countries-with-Regional-Codes@master/all/all.json");
+    const nameRows = namesResponse.ok ? await namesResponse.json() : [];
+    const names = new Map(nameRows.map((row) => [String(parseInt(row["country-code"], 10)), canonicalCountry(row.name)]));
+    const countries = window.topojson.feature(topology, topology.objects.countries);
+    const width = 960;
+    const height = 460;
+    const svg = d3.select(svgEl);
+    svg.selectAll("*").remove();
+    svgEl.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    const projection = d3.geoEqualEarth().fitExtent([[10, 8], [width - 10, height - 8]], { type: "Sphere" });
+    const path = d3.geoPath(projection);
+    svg.append("path").attr("class", "country-map-ocean").attr("d", path({ type: "Sphere" }));
+    svg.append("path").attr("class", "country-map-graticule").attr("d", path(d3.geoGraticule10()));
+    const maxCount = Math.max(1, ...[...countryCounts.values()].map((country) => country.count));
+    const legendMax = document.getElementById("countryLegendMax");
+    if (legendMax) legendMax.textContent = String(maxCount);
+    countryFeatures = countries.features.map((feature) => {
+      const name = names.get(String(parseInt(feature.id, 10))) || "";
+      const count = name ? (countryCounts.get(name)?.count || 0) : 0;
+      const node = svg.append("path")
+        .attr("class", `country-map-country${count ? " has-studies" : ""}`)
+        .attr("d", path(feature))
+        .attr("fill", countryFill(count, maxCount))
+        .attr("data-country", name)
+        .attr("role", count ? "button" : null)
+        .attr("aria-label", name ? `${name}: ${count} ${count === 1 ? "study" : "studies"}` : null);
+      if (count) {
+        node.on("click", () => {
+          const box = menuOptionInputs("countryMenu").find((input) => input.value === name);
+          if (!box) return;
+          box.checked = !box.checked;
+          box.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+      }
+      return { ...feature, properties: { canonical: name, path: node.node() } };
+    });
+    if (fallback) fallback.hidden = true;
+    updateCountrySelection();
+  } catch (error) {
+    console.error("Error loading world map:", error);
+    if (fallback) fallback.hidden = false;
+  }
+}
+
+function studyPublicationYear(study) {
+  if (studyYearMissing(study)) return null;
+  const year = typeof study.year === "number" ? study.year : parseInt(study.year, 10);
+  return Number.isNaN(year) ? null : year;
+}
+
+function hideBeeswarmTooltip() {
+  const tip = document.getElementById("beeswarmTooltip");
+  if (!tip) return;
+  tip.hidden = true;
+  tip.textContent = "";
+}
+
+function placeBeeswarmTooltip(event, text) {
+  const tip = document.getElementById("beeswarmTooltip");
+  const panel = document.getElementById("beeswarmPanel");
+  if (!tip || !panel) return;
+  const bounds = panel.getBoundingClientRect();
+  tip.textContent = text;
+  tip.hidden = false;
+  let x = event.clientX - bounds.left + 14;
+  let y = event.clientY - bounds.top + 14;
+  tip.style.left = `${x}px`;
+  tip.style.top = `${y}px`;
+  const tipBox = tip.getBoundingClientRect();
+  if (tipBox.right > bounds.right - 6) tip.style.left = `${event.clientX - bounds.left - tipBox.width - 14}px`;
+  if (tipBox.bottom > window.innerHeight - 8) tip.style.top = `${Math.max(4, event.clientY - bounds.top - tipBox.height - 12)}px`;
+}
+
+function renderYearBeeswarm(results) {
+  const svgEl = document.getElementById("yearBeeswarm");
+  const note = document.getElementById("yearBeeswarmNote");
+  if (!svgEl || !window.d3) return;
+  const source = hasSearched ? (results || []) : allStudies;
+  const plotted = [];
+  let missingYear = 0;
+  source.forEach((study) => {
+    const year = studyPublicationYear(study);
+    if (year == null) {
+      missingYear += 1;
+      return;
+    }
+    plotted.push({ year, authors: (study.authors || "Unknown authors").trim() || "Unknown authors" });
+  });
+  const d3 = window.d3;
+  const svg = d3.select(svgEl);
+  svg.selectAll("*").remove();
+  hideBeeswarmTooltip();
+  const width = 960;
+  const height = 300;
+  const margin = { top: 24, right: 28, bottom: 40, left: 28 };
+  svgEl.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  const yearMin = yearBounds.min ?? d3.min(plotted, (d) => d.year);
+  const yearMax = yearBounds.max ?? d3.max(plotted, (d) => d.year);
+  if (!plotted.length || yearMin == null || yearMax == null) {
+    if (note) {
+      note.hidden = false;
+      note.textContent = hasSearched
+        ? "No studies with a publication year match the current search."
+        : "No studies with a publication year are available.";
+    }
+    return;
+  }
+  const x = d3.scaleLinear().domain([yearMin, yearMax]).range([margin.left, width - margin.right]);
+  const radius = 6.5;
+  const nodes = plotted.map((point) => ({ ...point, x: x(point.year), y: (margin.top + height - margin.bottom) / 2 }));
+  const simulation = d3.forceSimulation(nodes)
+    .force("x", d3.forceX((d) => x(d.year)).strength(1))
+    .force("y", d3.forceY((margin.top + height - margin.bottom) / 2).strength(0.12))
+    .force("collide", d3.forceCollide(radius + 1.4))
+    .stop();
+  for (let tick = 0; tick < 160; tick += 1) simulation.tick();
+  const yMin = margin.top + radius;
+  const yMax = height - margin.bottom - radius;
+  nodes.forEach((node) => { node.y = Math.max(yMin, Math.min(yMax, node.y)); });
+  const span = Math.max(1, yearMax - yearMin);
+  const step = span > 30 ? 5 : span > 16 ? 2 : 1;
+  const tickValues = [];
+  for (let year = yearMin; year <= yearMax; year += 1) {
+    if (year === yearMin || year === yearMax || year % step === 0) tickValues.push(year);
+  }
+  svg.append("g")
+    .attr("class", "year-beeswarm-axis")
+    .attr("transform", `translate(0, ${height - margin.bottom})`)
+    .call(d3.axisBottom(x).tickValues(tickValues).tickFormat(d3.format("d")));
+  svg.selectAll("circle")
+    .data(nodes)
+    .join("circle")
+    .attr("class", "year-beeswarm-dot")
+    .attr("cx", (d) => d.x)
+    .attr("cy", (d) => d.y)
+    .attr("r", radius)
+    .attr("tabindex", "0")
+    .attr("role", "img")
+    .attr("aria-label", (d) => `${d.authors} (${d.year})`)
+    .on("mouseenter", function onEnter(event, d) {
+      d3.select(this).classed("is-active", true).attr("r", radius + 2);
+      placeBeeswarmTooltip(event, `${d.authors} (${d.year})`);
+    })
+    .on("mousemove", (event, d) => placeBeeswarmTooltip(event, `${d.authors} (${d.year})`))
+    .on("mouseleave", function onLeave() {
+      d3.select(this).classed("is-active", false).attr("r", radius);
+      hideBeeswarmTooltip();
+    });
+  if (note) {
+    if (missingYear > 0) {
+      const studyWord = missingYear === 1 ? "study" : "studies";
+      const verb = missingYear === 1 ? "is" : "are";
+      note.hidden = false;
+      note.textContent = `Note: ${missingYear} ${studyWord} with no reported publication year ${verb} omitted.`;
+    } else {
+      note.hidden = true;
+      note.textContent = "";
+    }
+  }
+}
+
+function showEvidenceView(view) {
+  const views = ["map", "beeswarm"];
+  const panels = { map: "mapPanel", beeswarm: "beeswarmPanel" };
+  const tabs = { map: "mapTab", beeswarm: "beeswarmTab" };
+  if (!views.includes(view)) return;
+  views.forEach((name) => {
+    const panel = document.getElementById(panels[name]);
+    const tab = document.getElementById(tabs[name]);
+    const active = name === view;
+    if (panel) panel.hidden = !active;
+    if (tab) {
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-selected", active ? "true" : "false");
+      tab.tabIndex = active ? 0 : -1;
+    }
+  });
+  if (view !== "beeswarm") hideBeeswarmTooltip();
+}
+
+function initEvidenceViews() {
+  const mapTab = document.getElementById("mapTab");
+  const beeswarmTab = document.getElementById("beeswarmTab");
+  if (!mapTab || !beeswarmTab) return;
+  const tabs = [
+    { button: mapTab, view: "map" },
+    { button: beeswarmTab, view: "beeswarm" },
+  ];
+  tabs.forEach((tab) => tab.button.addEventListener("click", () => showEvidenceView(tab.view)));
+  mapTab.parentElement.addEventListener("keydown", (event) => {
+    const current = tabs.findIndex((tab) => tab.button.classList.contains("is-active"));
+    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+    event.preventDefault();
+    const next = event.key === "ArrowRight"
+      ? (current + 1) % tabs.length
+      : (current - 1 + tabs.length) % tabs.length;
+    showEvidenceView(tabs[next].view);
+    tabs[next].button.focus();
+  });
+}
+
+function initFilterAccordion() {
+  document.querySelectorAll(".filter-accordion-toggle").forEach((button) => {
+    button.addEventListener("click", () => {
+      const panel = document.getElementById(button.getAttribute("aria-controls"));
+      const willOpen = button.getAttribute("aria-expanded") !== "true";
+      button.setAttribute("aria-expanded", willOpen ? "true" : "false");
+      button.classList.toggle("is-open", willOpen);
+      if (panel) panel.hidden = !willOpen;
+    });
+  });
+  const applyButton = document.getElementById("applyFiltersBtn");
+  if (applyButton) applyButton.addEventListener("click", () => runSearch({ fromFilters: true }));
+}
+
+function isYearFilterActive() {
+  const { min, max } = getSelectedYearRange();
+  const narrowed = min !== defaultYearRange.min || max !== defaultYearRange.max;
+  const missingOff = isNotReportedOptionVisible("yearNotReported") && !isNotReportedIncluded("yearNotReported");
+  return narrowed || missingOff;
+}
+
+function filterStudies(studies) {
+  let results = studies;
+  if (isYearFilterActive()) {
+    const { min, max } = getSelectedYearRange();
+    results = results.filter((study) => matchesYear(study, min, max));
+  }
+  if (isSampleSizeFilterActive()) {
+    const { min, max } = getSelectedSampleRange();
+    results = results.filter((study) => matchesSampleSize(study, min, max));
+  }
+  if (isCountryFilterActive()) results = results.filter((study) => matchesCountry(study));
+  CATEGORICAL_FILTERS.forEach((filter) => {
+    if (!isCategoricalFilterActive(filter.menuId, filter.notReportedId)) return;
+    results = results.filter((study) => matchesCategorical(study, filter.field, filter.menuId, filter.notReportedId));
+  });
+  return results;
+}
+
+function currentMatchingStudies() {
+  let results = filterStudies(allStudies);
+  const query = document.getElementById("queryBox").value.trim();
+  if (!query) return results;
+  try {
+    const ast = parseQuery(query);
+    if (ast) results = results.filter((study) => evaluateNode(ast, study, bibliographicColumns()));
+  } catch (error) {
+    return results;
+  }
+  return results;
+}
+
+function updateLiveStudyCount() {
+  const countEl = document.getElementById("resultCount");
+  if (!countEl || !allStudies.length) return;
+  const count = currentMatchingStudies().length;
+  if (!hasSearched) {
+    countEl.textContent = count === 1 ? "1 study" : `${count} studies`;
+    return;
+  }
+  countEl.textContent = count === 1 ? "1 study found" : `${count} studies found`;
+}
+
+function bindLiveStudyCount() {
+  const queryBox = document.getElementById("queryBox");
+  if (queryBox) queryBox.addEventListener("input", updateLiveStudyCount);
+  const rail = document.querySelector(".evidence-filter-rail");
+  if (!rail) return;
+  rail.addEventListener("input", updateLiveStudyCount);
+  rail.addEventListener("change", updateLiveStudyCount);
+}
+
 function renderResults(results) {
   const resultsDiv = document.getElementById("searchResults");
-  const resultCount = document.getElementById("resultCount");
-
+  updateLiveStudyCount();
   if (!hasSearched) {
-    resultCount.textContent = `${allStudies.length} studies loaded. Build a query and click Search.`;
     resultsDiv.innerHTML = "";
     updateSearchResultsDropdown([]);
     updateReportButton([]);
+    renderYearBeeswarm(allStudies);
     return;
   }
-
-  resultCount.textContent =
-    results.length === 1 ? "1 study found" : `${results.length} studies found`;
-
   if (!results.length) {
     resultsDiv.innerHTML = "";
     updateSearchResultsDropdown([]);
     updateReportButton([]);
+    renderYearBeeswarm([]);
     return;
   }
-
   resultsDiv.innerHTML =
     results.map((study) => createStudyHTML(study, lastHighlightTerms)).join("") +
     '<div class="evidence-results-footer-stripe" aria-hidden="true"></div>';
   updateSearchResultsDropdown(results);
   updateReportButton(results);
+  renderYearBeeswarm(results);
 }
 
-function runSearch() {
+function runSearch(options) {
+  const fromFilters = Boolean(options && options.fromFilters);
   const query = document.getElementById("queryBox").value.trim();
-  const { min: yearFrom, max: yearTo } = getSelectedYearRange();
   const clearBtn = document.getElementById("clearFilters");
-
-  hasSearched = Boolean(query || isYearFilterActive());
+  hasSearched = Boolean(query || filtersAreActive() || fromFilters);
   clearBtn.style.display = hasSearched ? "inline-block" : "none";
-
-  let results = allStudies;
-
-  if (isYearFilterActive()) {
-    results = results.filter((study) => matchesYear(study, yearFrom, yearTo));
-  }
-
+  let results = filterStudies(allStudies);
   if (query) {
     lastHighlightTerms = extractHighlightTerms(query);
     try {
       const ast = parseQuery(query);
-      if (ast) {
-        results = results.filter((study) => evaluateNode(ast, study));
-      }
+      if (ast) results = results.filter((study) => evaluateNode(ast, study, bibliographicColumns()));
     } catch (error) {
       lastSearchResults = [];
       lastSearchQuery = query;
-      lastSearchYearRange = isYearFilterActive() ? getSelectedYearRange() : null;
       document.getElementById("resultCount").textContent = "Invalid search query.";
       document.getElementById("searchResults").innerHTML = "";
       updateSearchResultsDropdown([]);
       updateReportButton([]);
+      renderYearBeeswarm([]);
       return;
     }
   } else {
     lastHighlightTerms = [];
   }
-
   lastSearchResults = results;
   lastSearchQuery = query;
   lastSearchYearRange = isYearFilterActive() ? getSelectedYearRange() : null;
-
   renderResults(results);
+}
+
+function filtersAreActive() {
+  return isYearFilterActive()
+    || isSampleSizeFilterActive()
+    || isCountryFilterActive()
+    || CATEGORICAL_FILTERS.some((filter) => isCategoricalFilterActive(filter.menuId, filter.notReportedId));
 }
 
 function clearFilters() {
   document.getElementById("queryInput").value = "";
   document.getElementById("queryBox").value = "";
   document.getElementById("columnSelect").value = "__all__";
-  setYearRange(defaultYearRange.min, defaultYearRange.max);
+  if (defaultYearRange.min != null) setYearRange(defaultYearRange.min, defaultYearRange.max);
+  if (defaultSampleRange.min != null) setSampleRange(defaultSampleRange.min, defaultSampleRange.max);
+  [
+    "yearNotReported",
+    "sampleNotReported",
+    "countryNotReported",
+    "countryInferred",
+    "interventionNotReported",
+    "controlNotReported",
+    "deliveryNotReported",
+    "settingNotReported",
+    "ageGroupNotReported",
+    "confidenceNotReported",
+    "vulnerableNotReported",
+    "outcomesNotReported",
+  ].forEach((id) => {
+    const box = document.getElementById(id);
+    if (box) box.checked = true;
+  });
+  ["interventionMenu", "controlMenu", "deliveryMenu", "settingMenu", "ageGroupMenu", "confidenceMenu", "countryMenu", "vulnerableMenu", "outcomesMenu"].forEach(resetCheckMenu);
+  updateCountrySelection();
   lastHighlightTerms = [];
   lastSearchResults = [];
   lastSearchQuery = "";
   lastSearchYearRange = null;
   hasSearched = false;
   document.getElementById("clearFilters").style.display = "none";
-  updateReportButton([]);
   renderResults([]);
 }
 
 function initEvidenceSearch() {
-  document.getElementById("searchBtn").addEventListener("click", runSearch);
+  initEvidenceViews();
+  initFilterAccordion();
+  bindLiveStudyCount();
+  document.getElementById("searchBtn").addEventListener("click", () => runSearch());
   document.getElementById("clearFilters").addEventListener("click", clearFilters);
   document.getElementById("downloadReportPdfBtn").addEventListener("click", downloadReportPdf);
   document.getElementById("downloadReportCsvBtn").addEventListener("click", downloadReportCsv);
 
   document.querySelectorAll(".add-query-option").forEach((button) => {
-    button.addEventListener("click", () => {
-      addTermToQueryBox(button.dataset.operator);
-    });
+    button.addEventListener("click", () => addTermToQueryBox(button.dataset.operator));
   });
 
   document.getElementById("clearTermInput").addEventListener("click", () => {
@@ -898,6 +1765,7 @@ function initEvidenceSearch() {
   document.getElementById("clearQueryBox").addEventListener("click", () => {
     document.getElementById("queryBox").value = "";
     document.getElementById("queryBox").focus();
+    updateLiveStudyCount();
   });
 
   document.getElementById("queryInput").addEventListener("keydown", (event) => {
@@ -918,8 +1786,13 @@ function initEvidenceSearch() {
       allStudies = data.studies || [];
       yearBounds = { min: data.yearMin, max: data.yearMax };
       populateColumnSelect();
+      syncNotReportedOptions();
       initYearSlider();
-      renderResults([]);
+      initSampleSlider();
+      initCategoricalFilters();
+      initCountryFilter();
+      renderYearBeeswarm(allStudies);
+      updateLiveStudyCount();
     })
     .catch((error) => {
       console.error("Error loading studies:", error);
