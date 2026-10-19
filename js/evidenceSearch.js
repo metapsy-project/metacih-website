@@ -1202,7 +1202,15 @@ function resetCheckMenu(menuId) {
   updateCheckSummary(menu);
 }
 
-function collectCategoryOptions(field, emptyLabel) {
+function isUnclearToken(token) {
+  return /^unclear$/i.test(String(token ?? "").trim());
+}
+
+function fieldHasUnclear(field) {
+  return allStudies.some((study) => categoryTokens(study[field]).some((token) => isUnclearToken(token)));
+}
+
+function collectCategoryOptions(field, emptyLabel, omitUnclear) {
   const counts = new Map();
   let emptyCount = 0;
   allStudies.forEach((study) => {
@@ -1212,7 +1220,7 @@ function collectCategoryOptions(field, emptyLabel) {
       return;
     }
     categoryTokens(study[field]).forEach((token) => {
-      if (isNotReportedValue(token)) return;
+      if (isNotReportedValue(token) || (omitUnclear && isUnclearToken(token))) return;
       counts.set(token, (counts.get(token) || 0) + 1);
     });
   });
@@ -1223,21 +1231,28 @@ function collectCategoryOptions(field, emptyLabel) {
   return options;
 }
 
-function matchesCategorical(study, field, menuId, notReportedId) {
+function matchesCategorical(study, field, menuId, notReportedId, includeUnclearId) {
   const tokens = categoryTokens(study[field]);
-  const reported = tokens.filter((token) => !isNotReportedValue(token));
+  const reported = tokens.filter((token) => !isNotReportedValue(token) && !(includeUnclearId && isUnclearToken(token)));
   const missing = !String(study[field] ?? "").trim() || tokens.some((token) => isNotReportedValue(token));
+  const unclear = Boolean(includeUnclearId) && tokens.some((token) => isUnclearToken(token));
   const checked = checkedOptionValues(menuId);
   if (reported.some((token) => checked.has(token))) return true;
+  if (reported.length) return false;
+  if (unclear) {
+    if (!isNotReportedIncluded(includeUnclearId)) return false;
+    if (!missing) return true;
+  }
   if (!missing) return false;
   if (checked.has("__none__")) return true;
   if (isNotReportedOptionVisible(notReportedId)) return isNotReportedIncluded(notReportedId);
   return allOptionsChecked(menuId);
 }
 
-function isCategoricalFilterActive(menuId, notReportedId) {
+function isCategoricalFilterActive(menuId, notReportedId, includeUnclearId) {
   const missingOff = isNotReportedOptionVisible(notReportedId) && !isNotReportedIncluded(notReportedId);
-  return !allOptionsChecked(menuId) || missingOff;
+  const unclearOff = Boolean(includeUnclearId) && isNotReportedOptionVisible(includeUnclearId) && !isNotReportedIncluded(includeUnclearId);
+  return !allOptionsChecked(menuId) || missingOff || unclearOff;
 }
 
 const CATEGORICAL_FILTERS = [
@@ -1245,7 +1260,7 @@ const CATEGORICAL_FILTERS = [
   { field: "age_group", menuId: "ageGroupMenu", notReportedId: "ageGroupNotReported", label: "Age group" },
   { field: "setting", menuId: "settingMenu", notReportedId: "settingNotReported", label: "Setting" },
   { field: "vulnerable_type", menuId: "vulnerableMenu", notReportedId: "vulnerableNotReported", label: "Vulnerable population", emptyLabel: "None" },
-  { field: "protocol_name", menuId: "interventionMenu", notReportedId: "interventionNotReported", label: "Intervention type" },
+  { field: "protocol_name", menuId: "interventionMenu", notReportedId: "interventionNotReported", includeUnclearId: "interventionUnclear", label: "Intervention type" },
   { field: "delivery_format", menuId: "deliveryMenu", notReportedId: "deliveryNotReported", label: "Intervention delivery" },
   { field: "control_conditions", menuId: "controlMenu", notReportedId: "controlNotReported", label: "Control group" },
   { field: "outcomes_coded", menuId: "outcomesMenu", notReportedId: "outcomesNotReported", label: "Outcomes" },
@@ -1253,7 +1268,7 @@ const CATEGORICAL_FILTERS = [
 
 function initCategoricalFilters() {
   CATEGORICAL_FILTERS.forEach((filter) => {
-    fillCheckMenu(filter.menuId, collectCategoryOptions(filter.field, filter.emptyLabel));
+    fillCheckMenu(filter.menuId, collectCategoryOptions(filter.field, filter.emptyLabel, Boolean(filter.includeUnclearId)));
   });
 }
 
@@ -1263,6 +1278,7 @@ function syncNotReportedOptions() {
   setNotReportedVisible("countryNotReported", allStudies.some((study) => !String(study.country ?? "").trim() || isNotReportedValue(study.country)));
   CATEGORICAL_FILTERS.forEach((filter) => {
     setNotReportedVisible(filter.notReportedId, !filter.emptyLabel && fieldHasBlankOrNotReported(filter.field));
+    if (filter.includeUnclearId) setNotReportedVisible(filter.includeUnclearId, fieldHasUnclear(filter.field));
   });
 }
 
@@ -1608,8 +1624,8 @@ function filterStudies(studies) {
   }
   if (isCountryFilterActive()) results = results.filter((study) => matchesCountry(study));
   CATEGORICAL_FILTERS.forEach((filter) => {
-    if (!isCategoricalFilterActive(filter.menuId, filter.notReportedId)) return;
-    results = results.filter((study) => matchesCategorical(study, filter.field, filter.menuId, filter.notReportedId));
+    if (!isCategoricalFilterActive(filter.menuId, filter.notReportedId, filter.includeUnclearId)) return;
+    results = results.filter((study) => matchesCategorical(study, filter.field, filter.menuId, filter.notReportedId, filter.includeUnclearId));
   });
   return results;
 }
@@ -1707,7 +1723,7 @@ function filtersAreActive() {
   return isYearFilterActive()
     || isSampleSizeFilterActive()
     || isCountryFilterActive()
-    || CATEGORICAL_FILTERS.some((filter) => isCategoricalFilterActive(filter.menuId, filter.notReportedId));
+    || CATEGORICAL_FILTERS.some((filter) => isCategoricalFilterActive(filter.menuId, filter.notReportedId, filter.includeUnclearId));
 }
 
 function clearFilters() {
@@ -1722,6 +1738,7 @@ function clearFilters() {
     "countryNotReported",
     "countryInferred",
     "interventionNotReported",
+    "interventionUnclear",
     "controlNotReported",
     "deliveryNotReported",
     "settingNotReported",
