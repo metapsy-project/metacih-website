@@ -12541,6 +12541,10 @@ ul.list li::before {
   overflow: hidden;
 }
 
+.evidence-collections-menu > li.dropdown-documentation-entry {
+  margin-bottom: 0;
+}
+
 .evidence-collections-menu > li {
   list-style: none;
 }

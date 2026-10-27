@@ -158,7 +158,7 @@
                                     </div>
                                     <div id="beeswarmPanel" class="evidence-view-panel" role="tabpanel" aria-labelledby="beeswarmTab" hidden>
                                         <svg id="yearBeeswarm" class="year-beeswarm" role="img" aria-label="Beeswarm plot of studies by publication year. Hover a point to see the authors."></svg>
-                                        <p id="yearBeeswarmNote" class="text-muted small mb-0 mt-2" hidden>Note: 1 study with no reported publication year is omitted.</p>
+                                        <p id="yearBeeswarmNote" class="text-muted small mb-0 mt-2" hidden>Note: 1 study with unclear publication year is omitted.</p>
                                         <div id="beeswarmTooltip" class="beeswarm-tooltip" role="tooltip" hidden></div>
                                     </div>
                                 </div>
@@ -217,20 +217,6 @@
                                             </div>
                                             <label class="filter-include-option">
                                                 <input type="checkbox" id="yearNotReported" checked>
-                                                <em>not reported</em>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="filter-accordion" id="confidenceFilter">
-                                        <button type="button" class="filter-accordion-toggle" aria-expanded="false" aria-controls="confidencePanel">
-                                            <span>Confidence</span>
-                                            <span id="confidenceSummary" class="filter-accordion-summary">All</span>
-                                            <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-                                        </button>
-                                        <div id="confidencePanel" class="filter-accordion-panel" hidden>
-                                            <div class="filter-check-menu" id="confidenceMenu" data-summary="confidenceSummary"></div>
-                                            <label class="filter-include-option">
-                                                <input type="checkbox" id="confidenceNotReported" checked>
                                                 <em>not reported</em>
                                             </label>
                                         </div>
@@ -297,7 +283,7 @@
                                             </label>
                                             <label class="filter-include-option">
                                                 <input type="checkbox" id="interventionUnclear" checked>
-                                                <em>include unclear interventions</em>
+                                                <em>include unclear &amp; unnamed interventions</em>
                                             </label>
                                         </div>
                                     </div>
@@ -365,7 +351,7 @@
 
                             <!-- Search results dropdown -->
                             <div class="pubmed-builder-block mb-3" id="searchResultsDropdownWrap" style="display: none;">
-                                <label class="pubmed-section-label">Search results</label>
+                                <label class="pubmed-section-label" id="searchResultsLabel">Studies</label>
                                 <div class="dropdown w-100">
                                     <button class="btn btn-outline-secondary w-100 d-flex justify-content-between align-items-center evidence-results-toggle"
                                             type="button" id="searchResultsToggle" data-bs-toggle="dropdown"
@@ -382,7 +368,7 @@
                             <div class="row mt-3">
                                 <div class="col">
                                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                        <span id="resultCount" class="study-count" aria-live="polite">Loading studies...</span>
+                                        <span id="resultCount" class="study-count" aria-live="polite" hidden></span>
                                         <div class="d-flex gap-2">
                                             <div class="dropdown" id="downloadReportDropdown" style="display: none;">
                                                 <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

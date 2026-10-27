@@ -563,19 +563,83 @@ function formatReportDate(date = new Date()) {
   });
 }
 
+function studiesForReport() {
+  return hasSearched ? lastSearchResults : allStudies;
+}
+
 function updateReportButton(results) {
   const downloadDropdown = document.getElementById("downloadReportDropdown");
-  downloadDropdown.style.display = hasSearched && results.length > 0 ? "block" : "none";
+  downloadDropdown.style.display = results.length > 0 ? "block" : "none";
+}
+
+function reportQueryValue() {
+  const query = document.getElementById("queryBox");
+  const text = query ? query.value.trim() : "";
+  return text || "Not applied";
+}
+
+function describeCheckedMenu(menuId) {
+  const boxes = menuOptionInputs(menuId);
+  const checked = boxes.filter((box) => box.checked);
+  if (!boxes.length || checked.length === boxes.length) return "All";
+  if (!checked.length) return "None";
+  return checked.map((box) => box.dataset.label || box.value).join(", ");
+}
+
+function optionState(checkboxId, includedLabel, excludedLabel) {
+  if (!isNotReportedOptionVisible(checkboxId)) return "";
+  return isNotReportedIncluded(checkboxId) ? includedLabel : excludedLabel;
+}
+
+function joinFilterValue(parts) {
+  return parts.filter(Boolean).join("; ");
+}
+
+function studyFilterRows() {
+  const sample = getSelectedSampleRange();
+  const year = getSelectedYearRange();
+  const rows = [
+    ["Sample size", joinFilterValue([
+      sample.min == null || Number.isNaN(sample.min) ? "Not applied" : `${sample.min}–${sample.max}`,
+      optionState("sampleNotReported", "not reported included", "not reported excluded"),
+    ])],
+    ["Publication year", joinFilterValue([
+      Number.isNaN(year.min) ? "Not applied" : `${year.min}–${year.max}`,
+      optionState("yearNotReported", "not reported included", "not reported excluded"),
+    ])],
+    ["Country", joinFilterValue([
+      describeCheckedMenu("countryMenu"),
+      optionState("countryNotReported", "not reported included", "not reported excluded"),
+      optionState("countryInferred", "inferred country included", "inferred country excluded"),
+    ])],
+  ];
+  [
+    { label: "Age group", menuId: "ageGroupMenu", notReportedId: "ageGroupNotReported" },
+    { label: "Vulnerable population", menuId: "vulnerableMenu", notReportedId: "vulnerableNotReported" },
+    { label: "Intervention type", menuId: "interventionMenu", notReportedId: "interventionNotReported", includeUnclearId: "interventionUnclear" },
+    { label: "Intervention format & delivery", menuId: "deliveryMenu", notReportedId: "deliveryNotReported" },
+    { label: "Setting", menuId: "settingMenu", notReportedId: "settingNotReported" },
+    { label: "Control group", menuId: "controlMenu", notReportedId: "controlNotReported" },
+    { label: "Outcomes", menuId: "outcomesMenu", notReportedId: "outcomesNotReported" },
+  ].forEach((filter) => {
+    rows.push([filter.label, joinFilterValue([
+      describeCheckedMenu(filter.menuId),
+      optionState(filter.notReportedId, "not reported included", "not reported excluded"),
+      filter.includeUnclearId
+        ? optionState(filter.includeUnclearId, "unclear and unnamed included", "unclear and unnamed excluded")
+        : "",
+    ])]);
+  });
+  return rows;
 }
 
 function getReportMetadata() {
+  const studies = studiesForReport();
   return {
     searchDate: formatReportDate(),
-    queryDisplay: lastSearchQuery || "(no text query — year filter only)",
-    yearInfo: lastSearchYearRange
-      ? `${lastSearchYearRange.min} – ${lastSearchYearRange.max}`
-      : "Not applied",
-    studyCount: lastSearchResults.length,
+    query: reportQueryValue(),
+    studyFilters: studyFilterRows(),
+    studyCount: studies.length,
   };
 }
 
@@ -672,7 +736,8 @@ function drawReportHeader(doc, logoData, gradientData) {
 }
 
 async function downloadReportPdf() {
-  if (!lastSearchResults.length) return;
+  const studies = studiesForReport();
+  if (!studies.length) return;
 
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
@@ -692,12 +757,48 @@ async function downloadReportPdf() {
   }
 
   const gradientData = getReportGradientPng();
-  const { searchDate, queryDisplay, yearInfo, studyCount } = getReportMetadata();
+  const { searchDate, query, studyFilters, studyCount } = getReportMetadata();
   const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 14;
   const contentWidth = pageWidth - margin * 2;
   const headerBottom = drawReportHeader(doc, logoData, gradientData);
   let y = headerBottom + 10;
+
+  const continueReport = () => {
+    doc.addPage();
+    const nextHeader = drawReportHeader(doc, logoData, gradientData);
+    doc.setFontSize(10);
+    doc.setTextColor(33, 37, 41);
+    return nextHeader + 10;
+  };
+  const ensureSpace = (needed) => {
+    if (y + needed > pageHeight - 14) y = continueReport();
+  };
+  const drawSectionTitle = (title) => {
+    ensureSpace(8);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.setTextColor(13, 134, 112);
+    doc.text(title, margin, y);
+    y += 7;
+    doc.setFontSize(10);
+    doc.setTextColor(33, 37, 41);
+  };
+  const drawLabeledValue = (label, value) => {
+    doc.setFont("helvetica", "bold");
+    const labelText = `${label}: `;
+    const labelWidth = doc.getTextWidth(labelText);
+    const valueWidth = Math.max(20, contentWidth - labelWidth);
+    const lines = doc.splitTextToSize(sanitizePdfText(value), valueWidth);
+    ensureSpace(lines.length * 5 + 2);
+    doc.setFont("helvetica", "bold");
+    doc.text(labelText, margin, y);
+    doc.setFont("helvetica", "normal");
+    if (lines.length) doc.text(lines[0], margin + labelWidth, y);
+    if (lines.length > 1) doc.text(lines.slice(1), margin, y + 5);
+    y += Math.max(1, lines.length) * 5 + 1.5;
+  };
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(16);
@@ -709,25 +810,24 @@ async function downloadReportPdf() {
   doc.setTextColor(33, 37, 41);
   y += 10;
   doc.text(`Search date: ${searchDate}`, margin, y);
-
   y += 8;
-  doc.setFont("helvetica", "bold");
-  doc.text("Query:", margin, y);
-  doc.setFont("helvetica", "normal");
-  y += 5;
-  const queryLines = doc.splitTextToSize(sanitizePdfText(queryDisplay), contentWidth);
-  doc.text(queryLines, margin, y);
-  y += queryLines.length * 5 + 4;
 
-  doc.text(`Publication year filter: ${yearInfo}`, margin, y);
-  y += 6;
+  drawSectionTitle("Search query");
+  drawLabeledValue("Query", query);
+  y += 2;
+  drawSectionTitle("Filter studies");
+  studyFilters.forEach(([label, value]) => drawLabeledValue(label, value));
+  y += 2;
+  ensureSpace(8);
+  doc.setFont("helvetica", "bold");
   doc.text(`Studies found: ${studyCount}`, margin, y);
+  doc.setFont("helvetica", "normal");
   y += 8;
 
   doc.autoTable({
     startY: y,
     head: [["#", "Authors", "Year", "Title", "Abstract", "Journal"]],
-    body: lastSearchResults.map((study, index) => [
+    body: studies.map((study, index) => [
       String(index + 1),
       sanitizePdfText(study.authors || "Unknown authors"),
       sanitizePdfText(study.year ? String(study.year) : ""),
@@ -772,20 +872,26 @@ async function downloadReportPdf() {
 }
 
 function downloadReportCsv() {
-  if (!lastSearchResults.length) return;
+  const studies = studiesForReport();
+  if (!studies.length) return;
 
-  const { searchDate, queryDisplay, yearInfo, studyCount } = getReportMetadata();
+  const { searchDate, query, studyFilters, studyCount } = getReportMetadata();
 
   const escapeCsv = (value) => `"${String(value ?? "").replace(/"/g, '""')}"`;
 
   const lines = [
     ["Search date", searchDate],
-    ["Query", queryDisplay],
-    ["Publication year filter", yearInfo],
+    [],
+    ["Search query"],
+    ["Query", query],
+    [],
+    ["Filter studies"],
+    ...studyFilters,
+    [],
     ["Studies found", studyCount],
     [],
     ["#", "Authors", "Year", "Title", "Abstract", "Journal"],
-    ...lastSearchResults.map((study, index) => [
+    ...studies.map((study, index) => [
       index + 1,
       study.authors || "Unknown authors",
       study.year ? String(study.year) : "",
@@ -808,18 +914,20 @@ function closeSearchResultsDropdown() {
 function updateSearchResultsDropdown(results) {
   const wrap = document.getElementById("searchResultsDropdownWrap");
   const toggleText = document.getElementById("searchResultsToggleText");
+  const label = document.getElementById("searchResultsLabel");
 
-  if (!hasSearched || !results.length) {
+  if (!results.length) {
     wrap.style.display = "none";
     closeSearchResultsDropdown();
     return;
   }
 
   wrap.style.display = "block";
-  toggleText.textContent =
-    results.length === 1
-      ? "1 study found — click to view"
-      : `${results.length} studies found — click to view`;
+  const noun = results.length === 1 ? "1 study" : `${results.length} studies`;
+  if (label) label.textContent = hasSearched ? "Search results" : "Studies";
+  toggleText.textContent = hasSearched
+    ? `${noun} found — click to view`
+    : `${noun} — click to view`;
 }
 
 function placeYearThumbLabel(label, percent, edge) {
@@ -1202,12 +1310,44 @@ function resetCheckMenu(menuId) {
   updateCheckSummary(menu);
 }
 
-function isUnclearToken(token) {
-  return /^unclear$/i.test(String(token ?? "").trim());
+function isUnclearOrUnnamedToken(token) {
+  return /^(unclear|unnamed)$/i.test(String(token ?? "").trim());
 }
 
 function fieldHasUnclear(field) {
-  return allStudies.some((study) => categoryTokens(study[field]).some((token) => isUnclearToken(token)));
+  return allStudies.some((study) => categoryTokens(study[field]).some((token) => isUnclearOrUnnamedToken(token)));
+}
+
+const AGE_GROUP_ORDER = [
+  "Adolescents (12-19)",
+  "Young adults (18-25, such as college students)",
+  "Adults general (18+)",
+  "Older adults (60+)",
+];
+
+function sortCategoryOptions(field, options) {
+  const byLabel = (a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: "base" });
+  if (field === "vulnerable_type") {
+    options.sort((a, b) => {
+      const aOther = /^other vulnerable$/i.test(a.label);
+      const bOther = /^other vulnerable$/i.test(b.label);
+      if (aOther !== bOther) return aOther ? 1 : -1;
+      return byLabel(a, b);
+    });
+    return;
+  }
+  if (field !== "age_group") {
+    options.sort(byLabel);
+    return;
+  }
+  options.sort((a, b) => {
+    const aIndex = AGE_GROUP_ORDER.indexOf(a.label);
+    const bIndex = AGE_GROUP_ORDER.indexOf(b.label);
+    if (aIndex === -1 && bIndex === -1) return byLabel(a, b);
+    if (aIndex === -1) return 1;
+    if (bIndex === -1) return -1;
+    return aIndex - bIndex;
+  });
 }
 
 function collectCategoryOptions(field, emptyLabel, omitUnclear) {
@@ -1220,22 +1360,22 @@ function collectCategoryOptions(field, emptyLabel, omitUnclear) {
       return;
     }
     categoryTokens(study[field]).forEach((token) => {
-      if (isNotReportedValue(token) || (omitUnclear && isUnclearToken(token))) return;
+      if (isNotReportedValue(token) || (omitUnclear && isUnclearOrUnnamedToken(token))) return;
       counts.set(token, (counts.get(token) || 0) + 1);
     });
   });
   const options = [...counts.entries()]
-    .map(([value, count]) => ({ value, label: value, count }))
-    .sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: "base" }));
+    .map(([value, count]) => ({ value, label: value, count }));
+  sortCategoryOptions(field, options);
   if (emptyLabel && emptyCount > 0) options.unshift({ value: "__none__", label: emptyLabel, count: emptyCount });
   return options;
 }
 
 function matchesCategorical(study, field, menuId, notReportedId, includeUnclearId) {
   const tokens = categoryTokens(study[field]);
-  const reported = tokens.filter((token) => !isNotReportedValue(token) && !(includeUnclearId && isUnclearToken(token)));
+  const reported = tokens.filter((token) => !isNotReportedValue(token) && !(includeUnclearId && isUnclearOrUnnamedToken(token)));
   const missing = !String(study[field] ?? "").trim() || tokens.some((token) => isNotReportedValue(token));
-  const unclear = Boolean(includeUnclearId) && tokens.some((token) => isUnclearToken(token));
+  const unclear = Boolean(includeUnclearId) && tokens.some((token) => isUnclearOrUnnamedToken(token));
   const checked = checkedOptionValues(menuId);
   if (reported.some((token) => checked.has(token))) return true;
   if (reported.length) return false;
@@ -1256,7 +1396,6 @@ function isCategoricalFilterActive(menuId, notReportedId, includeUnclearId) {
 }
 
 const CATEGORICAL_FILTERS = [
-  { field: "categories_confidence", menuId: "confidenceMenu", notReportedId: "confidenceNotReported", label: "Confidence" },
   { field: "age_group", menuId: "ageGroupMenu", notReportedId: "ageGroupNotReported", label: "Age group" },
   { field: "setting", menuId: "settingMenu", notReportedId: "settingNotReported", label: "Setting" },
   { field: "vulnerable_type", menuId: "vulnerableMenu", notReportedId: "vulnerableNotReported", label: "Vulnerable population", emptyLabel: "None" },
@@ -1543,7 +1682,7 @@ function renderYearBeeswarm(results) {
       const studyWord = missingYear === 1 ? "study" : "studies";
       const verb = missingYear === 1 ? "is" : "are";
       note.hidden = false;
-      note.textContent = `Note: ${missingYear} ${studyWord} with no reported publication year ${verb} omitted.`;
+      note.textContent = `Note: ${missingYear} ${studyWord} with unclear publication year ${verb} omitted.`;
     } else {
       note.hidden = true;
       note.textContent = "";
@@ -1630,28 +1769,16 @@ function filterStudies(studies) {
   return results;
 }
 
-function currentMatchingStudies() {
-  let results = filterStudies(allStudies);
-  const query = document.getElementById("queryBox").value.trim();
-  if (!query) return results;
-  try {
-    const ast = parseQuery(query);
-    if (ast) results = results.filter((study) => evaluateNode(ast, study, bibliographicColumns()));
-  } catch (error) {
-    return results;
-  }
-  return results;
+function setResultMessage(message) {
+  const countEl = document.getElementById("resultCount");
+  if (!countEl) return;
+  const text = message || "";
+  countEl.textContent = text;
+  countEl.hidden = !text;
 }
 
 function updateLiveStudyCount() {
-  const countEl = document.getElementById("resultCount");
-  if (!countEl || !allStudies.length) return;
-  const count = currentMatchingStudies().length;
-  if (!hasSearched) {
-    countEl.textContent = count === 1 ? "1 study" : `${count} studies`;
-    return;
-  }
-  countEl.textContent = count === 1 ? "1 study found" : `${count} studies found`;
+  setResultMessage("");
 }
 
 function bindLiveStudyCount() {
@@ -1666,26 +1793,20 @@ function bindLiveStudyCount() {
 function renderResults(results) {
   const resultsDiv = document.getElementById("searchResults");
   updateLiveStudyCount();
-  if (!hasSearched) {
+  const visible = hasSearched ? results : allStudies;
+  if (!visible.length) {
     resultsDiv.innerHTML = "";
     updateSearchResultsDropdown([]);
     updateReportButton([]);
-    renderYearBeeswarm(allStudies);
-    return;
-  }
-  if (!results.length) {
-    resultsDiv.innerHTML = "";
-    updateSearchResultsDropdown([]);
-    updateReportButton([]);
-    renderYearBeeswarm([]);
+    renderYearBeeswarm(hasSearched ? [] : allStudies);
     return;
   }
   resultsDiv.innerHTML =
-    results.map((study) => createStudyHTML(study, lastHighlightTerms)).join("") +
+    visible.map((study) => createStudyHTML(study, lastHighlightTerms)).join("") +
     '<div class="evidence-results-footer-stripe" aria-hidden="true"></div>';
-  updateSearchResultsDropdown(results);
-  updateReportButton(results);
-  renderYearBeeswarm(results);
+  updateSearchResultsDropdown(visible);
+  updateReportButton(visible);
+  renderYearBeeswarm(hasSearched ? visible : allStudies);
 }
 
 function runSearch(options) {
@@ -1703,7 +1824,7 @@ function runSearch(options) {
     } catch (error) {
       lastSearchResults = [];
       lastSearchQuery = query;
-      document.getElementById("resultCount").textContent = "Invalid search query.";
+      setResultMessage("Invalid search query.");
       document.getElementById("searchResults").innerHTML = "";
       updateSearchResultsDropdown([]);
       updateReportButton([]);
@@ -1743,14 +1864,13 @@ function clearFilters() {
     "deliveryNotReported",
     "settingNotReported",
     "ageGroupNotReported",
-    "confidenceNotReported",
     "vulnerableNotReported",
     "outcomesNotReported",
   ].forEach((id) => {
     const box = document.getElementById(id);
     if (box) box.checked = true;
   });
-  ["interventionMenu", "controlMenu", "deliveryMenu", "settingMenu", "ageGroupMenu", "confidenceMenu", "countryMenu", "vulnerableMenu", "outcomesMenu"].forEach(resetCheckMenu);
+  ["interventionMenu", "controlMenu", "deliveryMenu", "settingMenu", "ageGroupMenu", "countryMenu", "vulnerableMenu", "outcomesMenu"].forEach(resetCheckMenu);
   updateCountrySelection();
   lastHighlightTerms = [];
   lastSearchResults = [];
@@ -1808,12 +1928,11 @@ function initEvidenceSearch() {
       initSampleSlider();
       initCategoricalFilters();
       initCountryFilter();
-      renderYearBeeswarm(allStudies);
-      updateLiveStudyCount();
+      renderResults(allStudies);
     })
     .catch((error) => {
       console.error("Error loading studies:", error);
-      document.getElementById("resultCount").textContent = "Could not load study database.";
+      setResultMessage("Could not load study database.");
     });
 }
 
