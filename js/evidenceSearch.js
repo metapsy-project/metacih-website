@@ -650,7 +650,43 @@ function sanitizePdfText(text) {
     .replace(/[\u201C\u201D]/g, '"')
     .replace(/\u00A0/g, " ")
     .replace(/\u2026/g, "...")
+    .replace(/\u2022/g, "- ")
+    .replace(/\u2264/g, "<=")
+    .replace(/\u2265/g, ">=")
+    .replace(/\u0160/g, "S")
+    .replace(/\u0161/g, "s")
+    .replace(/[^\u0009\u000A\u000D\u0020-\u007E\u00A0-\u00FF]/g, "")
     .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "");
+}
+
+function breakPdfLine(doc, line, maxWidth) {
+  if (!line) return [""];
+  if (doc.getTextWidth(line) <= maxWidth) return [line];
+  const lines = [];
+  let current = "";
+  for (const ch of line) {
+    const next = current + ch;
+    if (current && doc.getTextWidth(next) > maxWidth) {
+      lines.push(current);
+      current = ch === " " ? "" : ch;
+    } else {
+      current = next;
+    }
+  }
+  if (current) lines.push(current);
+  return lines.length ? lines : [""];
+}
+
+function wrapPdfCellText(doc, text, maxWidth) {
+  const width = Math.max(Number(maxWidth) || 0, 4);
+  const source = sanitizePdfText(Array.isArray(text) ? text.join("\n") : text);
+  const lines = [];
+  source.split(/\r\n|\r|\n/).forEach((paragraph) => {
+    const wrapped = paragraph ? doc.splitTextToSize(paragraph, width) : [""];
+    const parts = Array.isArray(wrapped) ? wrapped : [String(wrapped)];
+    parts.forEach((line) => lines.push(...breakPdfLine(doc, String(line), width)));
+  });
+  return lines.length ? lines : [""];
 }
 
 function getDateStamp() {
@@ -799,6 +835,15 @@ async function downloadReportPdf() {
     if (lines.length > 1) doc.text(lines.slice(1), margin, y + 5);
     y += Math.max(1, lines.length) * 5 + 1.5;
   };
+  const drawPlainValue = (value) => {
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(33, 37, 41);
+    const lines = doc.splitTextToSize(sanitizePdfText(value), contentWidth);
+    ensureSpace(lines.length * 5 + 2);
+    doc.text(lines, margin, y);
+    y += Math.max(1, lines.length) * 5 + 1.5;
+  };
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(16);
@@ -813,15 +858,19 @@ async function downloadReportPdf() {
   y += 8;
 
   drawSectionTitle("Search query");
-  drawLabeledValue("Query", query);
+  drawPlainValue(query);
   y += 2;
-  drawSectionTitle("Filter studies");
+  drawSectionTitle("Study filter");
   studyFilters.forEach(([label, value]) => drawLabeledValue(label, value));
-  y += 2;
+  y += 3;
   ensureSpace(8);
   doc.setFont("helvetica", "bold");
-  doc.text(`Studies found: ${studyCount}`, margin, y);
+  doc.setFontSize(10);
+  doc.setTextColor(13, 134, 112);
+  doc.text(`Identified studies: ${studyCount}`, margin, y);
   doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(33, 37, 41);
   y += 8;
 
   doc.autoTable({
@@ -835,12 +884,13 @@ async function downloadReportPdf() {
       sanitizePdfText(study.abstract || ""),
       sanitizePdfText(study.journal || ""),
     ]),
+    tableWidth: contentWidth,
     margin: { top: headerBottom + 8, left: margin, right: margin },
     styles: {
       font: "helvetica",
       fontSize: 8,
       cellPadding: 2,
-      overflow: "linebreak",
+      overflow: (text, width) => wrapPdfCellText(doc, text, width),
       valign: "top",
     },
     headStyles: {
@@ -883,12 +933,12 @@ function downloadReportCsv() {
     ["Search date", searchDate],
     [],
     ["Search query"],
-    ["Query", query],
+    [query],
     [],
-    ["Filter studies"],
+    ["Study filter"],
     ...studyFilters,
     [],
-    ["Studies found", studyCount],
+    ["Identified studies", studyCount],
     [],
     ["#", "Authors", "Year", "Title", "Abstract", "Journal"],
     ...studies.map((study, index) => [
