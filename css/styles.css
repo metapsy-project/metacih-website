@@ -651,6 +651,16 @@ progress {
   }
 }
 
+.team-section-title {
+  font-size: calc(1.2rem + 1.15vw);
+  line-height: 1.2;
+}
+@media (min-width: 1200px) {
+  .team-section-title {
+    font-size: 2.25rem;
+  }
+}
+
 .list-unstyled {
   padding-left: 0;
   list-style: none;
