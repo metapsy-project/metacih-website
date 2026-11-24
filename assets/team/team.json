@@ -29,20 +29,6 @@
         "image": "/assets/team/pim.webp"
     },
     {
-        "name": "Eirini Karyotaki",
-        "affiliation": "Universiteit van Amsterdam",
-        "position": "Consultant",
-        "url": "https://www.uva.nl/en/profile/k/a/e.karyotaki/e.karyotaki.html",
-        "image": "/assets/team/eirini.webp"
-    },
-    {
-        "name": "Clara Miguel Sanz",
-        "affiliation": "Vrije Universiteit Amsterdam",
-        "position": "Consultant",
-        "url": "https://research.vu.nl/en/persons/clara-miguel-sanz-2",
-        "image": "/assets/team/clara.png"
-    },
-    {
         "name": "Mathias Harrer",
         "affiliation": "Vrije Universiteit Amsterdam",
         "position": "Consultant",
@@ -77,4 +63,4 @@
         "url": "https://sites.brown.edu/mheal/team/#vedha",
         "image": "/assets/team/vedha.webp"
     }
-]
+] 
